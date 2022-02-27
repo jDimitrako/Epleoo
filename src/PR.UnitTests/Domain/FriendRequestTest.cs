@@ -26,6 +26,10 @@ public class FriendRequestTest
 		result.IsEqualTo(senderIdentityGuid, receiverIdentityGuid).Should().BeTrue();
 		result.SenderIdentityGuid.Should().Be(senderIdentityGuid);
 		result.ReceiverIdentityGuid.Should().Be(receiverIdentityGuid);
+		result.CreatorIdentityGuid.Should().Be(senderIdentityGuid);
+		result.Modifier.Should().Be(senderIdentityGuid);
+		result.CreateDate.Should().Subject.Should().NotBeNull();
+		result.ModifyDate.Should().Subject.Should().NotBeNull();
 	}
 	
 	[Fact]

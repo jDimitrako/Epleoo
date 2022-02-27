@@ -7,10 +7,10 @@ public class FriendRequest : Entity
 {
 	public string SenderIdentityGuid { get; }
 	public string ReceiverIdentityGuid { get; }
-	private string _creatorIdentityGuid;
-	private DateTimeOffset _createDate;
-	private string _modifier;
-	private DateTimeOffset? _modifyDate;
+	public string CreatorIdentityGuid { get; }
+	public DateTimeOffset CreateDate { get; }
+	public string Modifier { get; }
+	public DateTimeOffset? ModifyDate { get; }
 
 	public FriendRequest(string senderIdentityGuid, string receiverIdentityGuid)
 	{
@@ -20,14 +20,14 @@ public class FriendRequest : Entity
 		ReceiverIdentityGuid = !string.IsNullOrEmpty(receiverIdentityGuid)
 			? receiverIdentityGuid
 			: throw new PRDomainException(nameof(receiverIdentityGuid));
-		_creatorIdentityGuid = !string.IsNullOrEmpty(senderIdentityGuid)
+		CreatorIdentityGuid = !string.IsNullOrEmpty(senderIdentityGuid)
 			? senderIdentityGuid
 			: throw new PRDomainException(nameof(senderIdentityGuid));
-		_createDate = DateTimeOffset.Now;
-		_modifier = !string.IsNullOrEmpty(senderIdentityGuid)
+		CreateDate = DateTimeOffset.Now;
+		Modifier = !string.IsNullOrEmpty(senderIdentityGuid)
 			? senderIdentityGuid
 			: throw new PRDomainException(nameof(senderIdentityGuid));
-		_modifyDate = DateTimeOffset.Now;
+		ModifyDate = DateTimeOffset.Now;
 	}
 
 	public bool IsEqualTo(string senderId, string receiverId)
