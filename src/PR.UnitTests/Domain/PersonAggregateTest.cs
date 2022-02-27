@@ -29,5 +29,6 @@ public class PersonAggregateTest
 		result.Should().NotBeNull();
 		result.IsEqualTo(senderIdentityGuid, receiverIdentityGuid).Should().BeTrue();
 		fakePerson.FriendRequests.Count().Should().BeGreaterThan(fakePersonFriendRequestsCount);
+		fakePerson.FriendRequests.Count().Should().Be(fakePersonFriendRequestsCount + 1);
 	}
 }

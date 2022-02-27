@@ -5,8 +5,8 @@ namespace PR.Domain.AggregatesModel.PersonAggregate;
 
 public class FriendRequest : Entity
 {
-	private readonly string _senderIdentityGuid;
-	private readonly string _receiverIdentityGuid;
+	public string SenderIdentityGuid { get; }
+	public string ReceiverIdentityGuid { get; }
 	private string _creatorIdentityGuid;
 	private DateTimeOffset _createDate;
 	private string _modifier;
@@ -14,10 +14,10 @@ public class FriendRequest : Entity
 
 	public FriendRequest(string senderIdentityGuid, string receiverIdentityGuid)
 	{
-		_senderIdentityGuid = !string.IsNullOrEmpty(senderIdentityGuid)
+		SenderIdentityGuid = !string.IsNullOrEmpty(senderIdentityGuid)
 			? senderIdentityGuid
 			: throw new PRDomainException(nameof(senderIdentityGuid));
-		_receiverIdentityGuid = !string.IsNullOrEmpty(receiverIdentityGuid)
+		ReceiverIdentityGuid = !string.IsNullOrEmpty(receiverIdentityGuid)
 			? receiverIdentityGuid
 			: throw new PRDomainException(nameof(receiverIdentityGuid));
 		_creatorIdentityGuid = !string.IsNullOrEmpty(senderIdentityGuid)
@@ -32,7 +32,7 @@ public class FriendRequest : Entity
 
 	public bool IsEqualTo(string senderId, string receiverId)
 	{
-		return _senderIdentityGuid == senderId
-		       && _receiverIdentityGuid == receiverId;
+		return SenderIdentityGuid == senderId
+		       && ReceiverIdentityGuid == receiverId;
 	}
 }
