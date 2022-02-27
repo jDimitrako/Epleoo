@@ -12,7 +12,7 @@ public class FriendRequest : Entity
 	private string _modifier;
 	private DateTimeOffset? _modifyDate;
 
-	public FriendRequest(string senderIdentityGuid, string receiverIdentityGuid, string creatorIdentityGuid)
+	public FriendRequest(string senderIdentityGuid, string receiverIdentityGuid)
 	{
 		_senderIdentityGuid = !string.IsNullOrEmpty(senderIdentityGuid)
 			? senderIdentityGuid
@@ -20,13 +20,13 @@ public class FriendRequest : Entity
 		_receiverIdentityGuid = !string.IsNullOrEmpty(receiverIdentityGuid)
 			? receiverIdentityGuid
 			: throw new PRDomainException(nameof(receiverIdentityGuid));
-		_creatorIdentityGuid = !string.IsNullOrEmpty(creatorIdentityGuid)
-			? creatorIdentityGuid
-			: throw new PRDomainException(nameof(creatorIdentityGuid));
+		_creatorIdentityGuid = !string.IsNullOrEmpty(senderIdentityGuid)
+			? senderIdentityGuid
+			: throw new PRDomainException(nameof(senderIdentityGuid));
 		_createDate = DateTimeOffset.Now;
-		_modifier = !string.IsNullOrEmpty(creatorIdentityGuid)
-			? creatorIdentityGuid
-			: throw new PRDomainException(nameof(creatorIdentityGuid));
+		_modifier = !string.IsNullOrEmpty(senderIdentityGuid)
+			? senderIdentityGuid
+			: throw new PRDomainException(nameof(senderIdentityGuid));
 		_modifyDate = DateTimeOffset.Now;
 	}
 
