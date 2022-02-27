@@ -5,6 +5,7 @@ namespace PR.Domain.AggregatesModel.PersonAggregate;
 
 public class FriendRequest : Entity
 {
+	public string IdentityGuid { get; set; }
 	public string SenderIdentityGuid { get; }
 	public string ReceiverIdentityGuid { get; }
 	public string CreatorIdentityGuid { get; }

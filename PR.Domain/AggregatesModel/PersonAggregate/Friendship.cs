@@ -2,6 +2,6 @@
 
 namespace PR.Domain.AggregatesModel.PersonAggregate;
 
-public class Friend : Entity
+public class Friendship : Entity
 {
 }

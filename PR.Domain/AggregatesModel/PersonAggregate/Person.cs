@@ -1,4 +1,5 @@
-﻿using PR.Domain.SeedWork;
+﻿using Microsoft.eShopOnContainers.Services.Ordering.Domain.Exceptions;
+using PR.Domain.SeedWork;
 
 namespace PR.Domain.AggregatesModel.PersonAggregate;
 
@@ -9,15 +10,15 @@ public class Person : Entity, IAggregateRoot
 	public string FirstName { get; }
 	public string LastName { get; }
 
-	private readonly List<Friend> _friends;
+	private readonly List<Friendship> _friends;
 	private readonly List<FriendRequest> _friendRequests;
 
-	public IEnumerable<Friend> Friends => _friends.AsReadOnly();
+	public IEnumerable<Friendship> Friends => _friends.AsReadOnly();
 	public IEnumerable<FriendRequest> FriendRequests => _friendRequests.AsReadOnly();
 
-	protected Person()
+	private Person()
 	{
-		_friends = new List<Friend>();
+		_friends = new List<Friendship>();
 		_friendRequests = new List<FriendRequest>();
 	}
 
@@ -48,5 +49,14 @@ public class Person : Entity, IAggregateRoot
 		//TODO: Add domain event
 
 		return friendRequest;
+	}
+
+	public Friendship? AcceptFriendRequest(int friendRequestId)
+	{
+		var friendRequest = _friendRequests.SingleOrDefault(f => f.Id == friendRequestId && f.ReceiverIdentityGuid == IdentityGuid);
+		
+		if (friendRequest == null) throw new PRDomainException(nameof(friendRequestId));
+
+		return new Friendship();
 	}
 }
