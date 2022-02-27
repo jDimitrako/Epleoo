@@ -45,6 +45,5 @@ public class Person : Entity, IAggregateRoot
 		//TODO: Add domain event
 
 		return friendRequest;
-
 	}
 }
