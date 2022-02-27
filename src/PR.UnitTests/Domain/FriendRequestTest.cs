@@ -8,9 +8,6 @@ namespace PR.UnitTests.Domain;
 
 public class FriendRequestTest
 {
-	public FriendRequestTest()
-	{ }
-	
 	[Fact]
 	public void Create_FriendRequest_Success()
 	{
@@ -42,7 +39,7 @@ public class FriendRequestTest
 		//Act
 		Action act = () =>
 		{
-			var friendRequest = new FriendRequest(senderIdentityGuid, receiverIdentityGuid);
+			var unused = new FriendRequest(senderIdentityGuid, receiverIdentityGuid);
 		}; 
 		
 		//Assert
@@ -60,7 +57,7 @@ public class FriendRequestTest
 		//Act
 		Action act = () =>
 		{
-			var friendRequest = new FriendRequest(senderIdentityGuid, receiverIdentityGuid);
+			var unused = new FriendRequest(senderIdentityGuid, receiverIdentityGuid);
 		}; 
 		
 		//Assert

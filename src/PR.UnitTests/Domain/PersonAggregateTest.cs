@@ -8,9 +8,6 @@ namespace PR.UnitTests.Domain;
 
 public class PersonAggregateTest
 {
-	public PersonAggregateTest()
-	{ }
-
 	[Fact]
 	public void Create_Person_Success()
 	{
@@ -41,9 +38,9 @@ public class PersonAggregateTest
 		var username = "Adven";
 
 		//Act
-		Action act = () =>
+		var act = () =>
 		{
-			var friendRequest = new Person(identityGuid, username, firstName, lastName);
+			var unused = new Person(identityGuid, username, firstName, lastName);
 		}; 
 		
 		//Assert
@@ -63,7 +60,7 @@ public class PersonAggregateTest
 		//Act
 		Action act = () =>
 		{
-			var friendRequest = new Person(identityGuid, username, firstName, lastName);
+			var unused = new Person(identityGuid, username, firstName, lastName);
 		}; 
 		
 		//Assert
@@ -83,7 +80,7 @@ public class PersonAggregateTest
 		//Act
 		Action act = () =>
 		{
-			var friendRequest = new Person(identityGuid, username, firstName, lastName);
+			var unused = new Person(identityGuid, username, firstName, lastName);
 		}; 
 		
 		//Assert
@@ -103,7 +100,7 @@ public class PersonAggregateTest
 		//Act
 		Action act = () =>
 		{
-			var friendRequest = new Person(identityGuid, username, firstName, lastName);
+			var unused = new Person(identityGuid, username, firstName, lastName);
 		}; 
 		
 		//Assert

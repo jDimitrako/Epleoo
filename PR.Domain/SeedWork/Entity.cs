@@ -4,7 +4,7 @@ namespace PR.Domain.SeedWork;
 
 public class Entity
 {
-	int? _requestedHashCode;
+	private int? _requestedHashCode;
 	private int _id;
 
 	public virtual int Id
@@ -39,7 +39,7 @@ public class Entity
 		return Id == default(Int32);
 	}
 
-	public override bool Equals(object obj)
+	public override bool Equals(object? obj)
 	{
 		if (obj == null || !(obj is Entity))
 			return false;
