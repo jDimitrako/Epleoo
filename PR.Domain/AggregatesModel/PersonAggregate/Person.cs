@@ -4,9 +4,10 @@ namespace PR.Domain.AggregatesModel.PersonAggregate;
 
 public class Person : Entity, IAggregateRoot
 {
-	public string IdentityGuid { get; private set; }
-	public string FirstName { get; private set; }
-	public string LastName { get; private set; }
+	public string IdentityGuid { get; }
+	public string Username { get; }
+	public string FirstName { get; }
+	public string LastName { get; }
 
 	private readonly List<Friend> _friends;
 	private readonly List<FriendRequest> _friendRequests;
@@ -20,11 +21,13 @@ public class Person : Entity, IAggregateRoot
 		_friendRequests = new List<FriendRequest>();
 	}
 
-	public Person(string identity, string firstName, string lastName) : this()
+	public Person(string identityGuid, string username, string firstName, string lastName) : this()
 	{
-		IdentityGuid = !string.IsNullOrEmpty(identity) ? identity : throw new ArgumentNullException(nameof(identity));
+		IdentityGuid = !string.IsNullOrEmpty(identityGuid) ? identityGuid : throw new ArgumentNullException(nameof(identityGuid));
+		Username = !string.IsNullOrEmpty(username) ? username : throw new ArgumentNullException(nameof(username));
 		FirstName = !string.IsNullOrEmpty(firstName) ? firstName : throw new ArgumentNullException(nameof(firstName));
 		LastName = !string.IsNullOrEmpty(lastName) ? lastName : throw new ArgumentNullException(nameof(lastName));
+
 	}
 
 	public FriendRequest SendFriendRequest(string receiverIdentityGuid)
