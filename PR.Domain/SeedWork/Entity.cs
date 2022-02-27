@@ -73,7 +73,7 @@ public class Entity
 			return base.GetHashCode();
 	}
 
-	public static bool operator ==(Entity left, Entity right)
+	public static bool operator ==(Entity? left, Entity right)
 	{
 		if (Object.Equals(left, null))
 			return (Object.Equals(right, null)) ? true : false;
@@ -81,7 +81,7 @@ public class Entity
 			return left.Equals(right);
 	}
 
-	public static bool operator !=(Entity left, Entity right)
+	public static bool operator !=(Entity? left, Entity right)
 	{
 		return !(left == right);
 	}
