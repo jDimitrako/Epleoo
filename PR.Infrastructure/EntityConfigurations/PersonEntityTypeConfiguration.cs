@@ -8,14 +8,14 @@ public class PersonEntityTypeConfiguration : IEntityTypeConfiguration<Person>
 {
 	public void Configure(EntityTypeBuilder<Person> builder)
 	{
-		builder.ToTable("persons", PRDbContext.DEFAULT_SCHEMA);
+		builder.ToTable("persons", PrDbContext.DEFAULT_SCHEMA);
 
 		builder.HasKey(p => p.Id);
 
 		builder.Ignore(p => p.DomainEvents);
 
 		builder.Property(p => p.Id)
-			.UseHiLo("personseq", PRDbContext.DEFAULT_SCHEMA);
+			.UseHiLo("personseq", PrDbContext.DEFAULT_SCHEMA);
 
 		builder.Property(p => p.IdentityGuid)
 			.HasMaxLength(200)
@@ -28,13 +28,9 @@ public class PersonEntityTypeConfiguration : IEntityTypeConfiguration<Person>
 		builder.Property(p => p.LastName);
 		builder.Property(p => p.Username);
 
-		builder.HasMany(p => p.FriendRequests)
-			.WithOne()
-			.HasForeignKey("PersonId")
-			.OnDelete(DeleteBehavior.Cascade);
 
-		var navigation = builder.Metadata.FindNavigation(nameof(Person.FriendRequests));
+		//var navigation = builder.Metadata.FindNavigation(nameof(Person.FriendRequests));
 
-		navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+		//navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
 	}
 }

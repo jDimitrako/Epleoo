@@ -1,7 +1,7 @@
 ﻿using Microsoft.eShopOnContainers.Services.Ordering.Domain.Exceptions;
 using PR.Domain.SeedWork;
 
-namespace PR.Domain.AggregatesModel.PersonAggregate;
+namespace PR.Domain.AggregatesModel.FriendshipAggregate;
 
 public class FriendRequest : Entity
 {

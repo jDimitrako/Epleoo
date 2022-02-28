@@ -27,7 +27,9 @@ using Microsoft.OpenApi.Models;
 using PR.API.Application.IntegrationEvents;
 using PR.API.Controllers;
 using PR.API.Infrastructure.Filters;
+using PR.Domain.AggregatesModel.FriendshipAggregate;
 using PR.Infrastructure;
+using PR.Infrastructure.Repositories;
 using RabbitMQ.Client;
 
 namespace PR.API;
@@ -73,7 +75,7 @@ public class Startup
 
 		var pathBase = Configuration["PATH_BASE"];
 		
-		app.UseHttpsRedirection();
+		//app.UseHttpsRedirection();
 		
 		app.UseSwagger()
 			.UseSwaggerUI(c =>
@@ -84,6 +86,8 @@ public class Startup
 				c.OAuthClientId("prswaggerui");
 				c.OAuthAppName("PR Swagger UI");
 			});
+
+		app.UseRouting();
 		
 		app.UseCors("CorsPolicy");
 		ConfigureAuth(app);
@@ -196,7 +200,7 @@ static class CustomExtensionsMethods
 
 	public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
 	{
-		services.AddDbContext<PRDbContext>(options =>
+		services.AddDbContext<PrDbContext>(options =>
 			{
 				options.UseSqlServer(configuration["ConnectionString"],
 					sqlServerOptionsAction: sqlOptions =>
@@ -269,6 +273,7 @@ static class CustomExtensionsMethods
 
 		services.AddTransient<IPrIntegrationEventService, PrIntegrationEventService>();
 
+		services.AddScoped<IFriendshipRepository, FriendshipRepository>();
 
 		services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
 		{

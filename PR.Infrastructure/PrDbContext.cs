@@ -2,17 +2,20 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using PR.Domain.AggregatesModel.FriendshipAggregate;
 using PR.Domain.AggregatesModel.PersonAggregate;
 using PR.Domain.SeedWork;
 using PR.Infrastructure.EntityConfigurations;
 
 namespace PR.Infrastructure;
 
-public class PRDbContext : DbContext, IUnitOfWork
+public class PrDbContext : DbContext, IUnitOfWork
 {
 	public const string DEFAULT_SCHEMA = "pr.service";
 
+	public DbSet<Friendship> Friendships { get; set; }
 	public DbSet<Person> Persons { get; set; }
+
 	
 	private readonly IMediator _mediator;
 	private IDbContextTransaction _currentTransaction;
@@ -20,11 +23,11 @@ public class PRDbContext : DbContext, IUnitOfWork
 
 	public bool HasActiveTransaction => _currentTransaction != null;
 
-	public PRDbContext(DbContextOptions<PRDbContext> options) : base(options)
+	public PrDbContext(DbContextOptions<PrDbContext> options) : base(options)
 	{
 	}
 
-	public PRDbContext(DbContextOptions<PRDbContext> options, IMediator mediator) : base(options)
+	public PrDbContext(DbContextOptions<PrDbContext> options, IMediator mediator) : base(options)
 	{
 		_mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
@@ -34,6 +37,7 @@ public class PRDbContext : DbContext, IUnitOfWork
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.ApplyConfiguration(new PersonEntityTypeConfiguration());
+		modelBuilder.ApplyConfiguration(new FriendshipEntityTypeConfiguration());
 	}
 	
 	public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))

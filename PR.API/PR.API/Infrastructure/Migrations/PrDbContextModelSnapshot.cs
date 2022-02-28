@@ -10,8 +10,8 @@ using PR.Infrastructure;
 
 namespace PR.API.Infrastructure.Migrations
 {
-    [DbContext(typeof(PRDbContext))]
-    partial class PRDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PrDbContext))]
+    partial class PrDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -22,10 +22,13 @@ namespace PR.API.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.HasSequence("friendshipseq", "pr.service")
+                .IncrementsBy(10);
+
             modelBuilder.HasSequence("personseq", "pr.service")
                 .IncrementsBy(10);
 
-            modelBuilder.Entity("PR.Domain.AggregatesModel.PersonAggregate.FriendRequest", b =>
+            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendshipAggregate.FriendRequest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,32 +36,35 @@ namespace PR.API.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("PersonId")
+                    b.Property<int?>("FriendshipId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("FriendshipId");
 
                     b.ToTable("FriendRequest");
                 });
 
-            modelBuilder.Entity("PR.Domain.AggregatesModel.PersonAggregate.Friendship", b =>
+            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendshipAggregate.Friendship", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "friendshipseq", "pr.service");
 
-                    b.Property<int?>("PersonId")
-                        .HasColumnType("int");
+                    b.Property<string>("ReceiverIdentityGuid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderIdentityGuid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
-
-                    b.ToTable("Friendship");
+                    b.ToTable("friendships", "pr.service");
                 });
 
             modelBuilder.Entity("PR.Domain.AggregatesModel.PersonAggregate.Person", b =>
@@ -94,26 +100,16 @@ namespace PR.API.Infrastructure.Migrations
                     b.ToTable("persons", "pr.service");
                 });
 
-            modelBuilder.Entity("PR.Domain.AggregatesModel.PersonAggregate.FriendRequest", b =>
+            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendshipAggregate.FriendRequest", b =>
                 {
-                    b.HasOne("PR.Domain.AggregatesModel.PersonAggregate.Person", null)
+                    b.HasOne("PR.Domain.AggregatesModel.FriendshipAggregate.Friendship", null)
                         .WithMany("FriendRequests")
-                        .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FriendshipId");
                 });
 
-            modelBuilder.Entity("PR.Domain.AggregatesModel.PersonAggregate.Friendship", b =>
-                {
-                    b.HasOne("PR.Domain.AggregatesModel.PersonAggregate.Person", null)
-                        .WithMany("Friends")
-                        .HasForeignKey("PersonId");
-                });
-
-            modelBuilder.Entity("PR.Domain.AggregatesModel.PersonAggregate.Person", b =>
+            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendshipAggregate.Friendship", b =>
                 {
                     b.Navigation("FriendRequests");
-
-                    b.Navigation("Friends");
                 });
 #pragma warning restore 612, 618
         }

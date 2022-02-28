@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using FluentAssertions;
 using PR.Domain.AggregatesModel.PersonAggregate;
 using Xunit;
@@ -108,25 +107,5 @@ public class PersonAggregateTest
 			.WithMessage(new ArgumentNullException(nameof(lastName)).Message);
 	}
 	
-	[Fact]
-	public void Create_FriendRequest_Success()
-	{
-		//Arrange
-		var senderIdentityGuid = Guid.NewGuid().ToString();
-		var receiverIdentityGuid = Guid.NewGuid().ToString();
-		var personFirstName = "Dimitris";
-		var personLastName = "Dimitrako";
-		var username = "Adven";
-		var fakePerson = new Person(senderIdentityGuid, username, personFirstName, personLastName);
-		var fakePersonFriendRequestsCount = fakePerson.FriendRequests.Count();
-		
-		//Act
-		var result = fakePerson.SendFriendRequest(receiverIdentityGuid);
-		
-		//Assert
-		result.Should().NotBeNull();
-		result.IsEqualTo(senderIdentityGuid, receiverIdentityGuid).Should().BeTrue();
-		fakePerson.FriendRequests.Count().Should().BeGreaterThan(fakePersonFriendRequestsCount);
-		fakePerson.FriendRequests.Count().Should().Be(fakePersonFriendRequestsCount + 1);
-	}
+	
 }

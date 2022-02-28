@@ -12,9 +12,28 @@ namespace PR.API.Infrastructure.Migrations
                 name: "pr.service");
 
             migrationBuilder.CreateSequence(
+                name: "friendshipseq",
+                schema: "pr.service",
+                incrementBy: 10);
+
+            migrationBuilder.CreateSequence(
                 name: "personseq",
                 schema: "pr.service",
                 incrementBy: 10);
+
+            migrationBuilder.CreateTable(
+                name: "friendships",
+                schema: "pr.service",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    SenderIdentityGuid = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReceiverIdentityGuid = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_friendships", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "persons",
@@ -38,48 +57,23 @@ namespace PR.API.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PersonId = table.Column<int>(type: "int", nullable: true)
+                    FriendshipId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FriendRequest", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FriendRequest_persons_PersonId",
-                        column: x => x.PersonId,
+                        name: "FK_FriendRequest_friendships_FriendshipId",
+                        column: x => x.FriendshipId,
                         principalSchema: "pr.service",
-                        principalTable: "persons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Friendship",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PersonId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Friendship", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Friendship_persons_PersonId",
-                        column: x => x.PersonId,
-                        principalSchema: "pr.service",
-                        principalTable: "persons",
+                        principalTable: "friendships",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_FriendRequest_PersonId",
+                name: "IX_FriendRequest_FriendshipId",
                 table: "FriendRequest",
-                column: "PersonId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Friendship_PersonId",
-                table: "Friendship",
-                column: "PersonId");
+                column: "FriendshipId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_persons_IdentityGuid",
@@ -95,10 +89,15 @@ namespace PR.API.Infrastructure.Migrations
                 name: "FriendRequest");
 
             migrationBuilder.DropTable(
-                name: "Friendship");
+                name: "persons",
+                schema: "pr.service");
 
             migrationBuilder.DropTable(
-                name: "persons",
+                name: "friendships",
+                schema: "pr.service");
+
+            migrationBuilder.DropSequence(
+                name: "friendshipseq",
                 schema: "pr.service");
 
             migrationBuilder.DropSequence(

@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Microsoft.eShopOnContainers.Services.Ordering.Domain.Exceptions;
-using PR.Domain.AggregatesModel.PersonAggregate;
+using PR.Domain.AggregatesModel.FriendshipAggregate;
 using Xunit;
 
 namespace PR.UnitTests.Domain;

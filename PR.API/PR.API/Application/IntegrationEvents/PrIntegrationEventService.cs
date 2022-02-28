@@ -17,12 +17,12 @@ public class PrIntegrationEventService : IPrIntegrationEventService
 {
     private readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
     private readonly IEventBus _eventBus;
-    private readonly PRDbContext _prDbContext;
+    private readonly PrDbContext _prDbContext;
     private readonly IIntegrationEventLogService _eventLogService;
     private readonly ILogger<PrIntegrationEventService> _logger;
 
     public PrIntegrationEventService(IEventBus eventBus,
-        PRDbContext orderingDbContext,
+        PrDbContext orderingDbContext,
         IntegrationEventLogContext eventLogContext,
         Func<DbConnection, IIntegrationEventLogService> integrationEventLogServiceFactory,
         ILogger<PrIntegrationEventService> logger)
