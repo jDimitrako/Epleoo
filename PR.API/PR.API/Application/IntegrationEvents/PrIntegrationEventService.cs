@@ -17,20 +17,20 @@ public class PrIntegrationEventService : IPrIntegrationEventService
 {
     private readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
     private readonly IEventBus _eventBus;
-    private readonly PRContext _prContext;
+    private readonly PRDbContext _prDbContext;
     private readonly IIntegrationEventLogService _eventLogService;
     private readonly ILogger<PrIntegrationEventService> _logger;
 
     public PrIntegrationEventService(IEventBus eventBus,
-        PRContext orderingContext,
+        PRDbContext orderingDbContext,
         IntegrationEventLogContext eventLogContext,
         Func<DbConnection, IIntegrationEventLogService> integrationEventLogServiceFactory,
         ILogger<PrIntegrationEventService> logger)
     {
-        _prContext = orderingContext ?? throw new ArgumentNullException(nameof(orderingContext));
+        _prDbContext = orderingDbContext ?? throw new ArgumentNullException(nameof(orderingDbContext));
         _integrationEventLogServiceFactory = integrationEventLogServiceFactory ?? throw new ArgumentNullException(nameof(integrationEventLogServiceFactory));
         _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-        _eventLogService = _integrationEventLogServiceFactory(_prContext.Database.GetDbConnection());
+        _eventLogService = _integrationEventLogServiceFactory(_prDbContext.Database.GetDbConnection());
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -61,6 +61,6 @@ public class PrIntegrationEventService : IPrIntegrationEventService
     {
         _logger.LogInformation("----- Enqueuing integration event {IntegrationEventId} to repository ({@IntegrationEvent})", evt.Id, evt);
 
-        await _eventLogService.SaveEventAsync(evt, _prContext.GetCurrentTransaction());
+        await _eventLogService.SaveEventAsync(evt, _prDbContext.GetCurrentTransaction());
     }
 }

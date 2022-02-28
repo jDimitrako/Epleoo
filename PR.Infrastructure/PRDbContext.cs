@@ -8,7 +8,7 @@ using PR.Infrastructure.EntityConfigurations;
 
 namespace PR.Infrastructure;
 
-public class PRContext : DbContext, IUnitOfWork
+public class PRDbContext : DbContext, IUnitOfWork
 {
 	public const string DEFAULT_SCHEMA = "pr.service";
 
@@ -20,11 +20,11 @@ public class PRContext : DbContext, IUnitOfWork
 
 	public bool HasActiveTransaction => _currentTransaction != null;
 
-	public PRContext(DbContextOptions<PRContext> options) : base(options)
+	public PRDbContext(DbContextOptions<PRDbContext> options) : base(options)
 	{
 	}
 
-	public PRContext(DbContextOptions<PRContext> options, IMediator mediator) : base(options)
+	public PRDbContext(DbContextOptions<PRDbContext> options, IMediator mediator) : base(options)
 	{
 		_mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 

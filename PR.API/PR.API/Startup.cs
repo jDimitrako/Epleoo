@@ -80,7 +80,7 @@ public class Startup
 			{
 				c.SwaggerEndpoint(
 					$"{(!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty)}/swagger/v1/swagger.json",
-					"Ordering.API V1");
+					"PR.API V1");
 				c.OAuthClientId("prswaggerui");
 				c.OAuthAppName("PR Swagger UI");
 			});
@@ -196,7 +196,7 @@ static class CustomExtensionsMethods
 
 	public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
 	{
-		services.AddDbContext<PRContext>(options =>
+		services.AddDbContext<PRDbContext>(options =>
 			{
 				options.UseSqlServer(configuration["ConnectionString"],
 					sqlServerOptionsAction: sqlOptions =>

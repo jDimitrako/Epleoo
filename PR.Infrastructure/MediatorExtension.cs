@@ -5,7 +5,7 @@ namespace PR.Infrastructure;
 
 static class MediatorExtension
 {
-    public static async Task DispatchDomainEventsAsync(this IMediator mediator, PRContext ctx)
+    public static async Task DispatchDomainEventsAsync(this IMediator mediator, PRDbContext ctx)
     {
         var domainEntities = ctx.ChangeTracker
             .Entries<Entity>()

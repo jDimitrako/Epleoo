@@ -8,14 +8,14 @@ public class PersonEntityTypeConfiguration : IEntityTypeConfiguration<Person>
 {
 	public void Configure(EntityTypeBuilder<Person> builder)
 	{
-		builder.ToTable("persons", PRContext.DEFAULT_SCHEMA);
+		builder.ToTable("persons", PRDbContext.DEFAULT_SCHEMA);
 
 		builder.HasKey(p => p.Id);
 
 		builder.Ignore(p => p.DomainEvents);
 
 		builder.Property(p => p.Id)
-			.UseHiLo("personseq", PRContext.DEFAULT_SCHEMA);
+			.UseHiLo("personseq", PRDbContext.DEFAULT_SCHEMA);
 
 		builder.Property(p => p.IdentityGuid)
 			.HasMaxLength(200)
