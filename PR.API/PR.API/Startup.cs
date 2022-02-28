@@ -8,9 +8,11 @@ using EventBus;
 using EventBus.Abstractions;
 using EventBusRabbitMQ;
 using EventBusServiceBus;
+using HealthChecks.UI.Client;
 using IntegrationEventLogEF;
 using IntegrationEventLogEF.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -48,11 +50,11 @@ public class Startup
 			.AddCustomMvc()
 			.AddHealthChecks(Configuration)
 			.AddCustomDbContext(Configuration)
-			.AddCustomSwagger(Configuration)
+			//.AddCustomSwagger(Configuration)
 			.AddCustomIntegrations(Configuration)
 			.AddCustomConfiguration(Configuration)
 			.AddEventBus(Configuration)
-			.AddCustomAuthentication(Configuration);
+			; //.AddCustomAuthentication(Configuration);
 
 
 		services.AddControllers();
@@ -69,14 +71,74 @@ public class Startup
 			app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PR.API v1"));
 		}
 
+		var pathBase = Configuration["PATH_BASE"];
+		
 		app.UseHttpsRedirection();
+		
+		app.UseSwagger()
+			.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint(
+					$"{(!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty)}/swagger/v1/swagger.json",
+					"Ordering.API V1");
+				c.OAuthClientId("prswaggerui");
+				c.OAuthAppName("PR Swagger UI");
+			});
+		
+		app.UseCors("CorsPolicy");
+		ConfigureAuth(app);
 
-		app.UseRouting();
+		app.UseEndpoints(endpoints =>
+		{
+			//endpoints.MapGrpcService<PRServic>();
+			endpoints.MapDefaultControllerRoute();
+			endpoints.MapControllers();
+			/*endpoints.MapGet("/_proto/", async ctx =>
+			{
+				ctx.Response.ContentType = "text/plain";
+				using var fs = new FileStream(Path.Combine(env.ContentRootPath, "Proto", "basket.proto"), FileMode.Open, FileAccess.Read);
+				using var sr = new StreamReader(fs);
+				while (!sr.EndOfStream)
+				{
+					var line = await sr.ReadLineAsync();
+					if (line != "/* >>" || line != "<< #1#")
+					{
+						await ctx.Response.WriteAsync(line);
+					}
+				}
+			});*/
+			endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+			{
+				Predicate = _ => true,
+				ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+			});
+			endpoints.MapHealthChecks("/liveness", new HealthCheckOptions
+			{
+				Predicate = r => r.Name.Contains("self")
+			});
+		});
 
-		app.UseAuthorization();
-
-		app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+		ConfigureEventBus(app);
 	}
+	
+	private void ConfigureEventBus(IApplicationBuilder app)
+	{
+		var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+
+		/*eventBus.Subscribe<UserCheckoutAcceptedIntegrationEvent, IIntegrationEventHandler<UserCheckoutAcceptedIntegrationEvent>>();
+		eventBus.Subscribe<GracePeriodConfirmedIntegrationEvent, IIntegrationEventHandler<GracePeriodConfirmedIntegrationEvent>>();
+		eventBus.Subscribe<OrderStockConfirmedIntegrationEvent, IIntegrationEventHandler<OrderStockConfirmedIntegrationEvent>>();
+		eventBus.Subscribe<OrderStockRejectedIntegrationEvent, IIntegrationEventHandler<OrderStockRejectedIntegrationEvent>>();
+		eventBus.Subscribe<OrderPaymentFailedIntegrationEvent, IIntegrationEventHandler<OrderPaymentFailedIntegrationEvent>>();
+		eventBus.Subscribe<OrderPaymentSucceededIntegrationEvent, IIntegrationEventHandler<OrderPaymentSucceededIntegrationEvent>>();*/
+	}
+	
+	protected virtual void ConfigureAuth(IApplicationBuilder app)
+	{
+		app.UseAuthentication();
+		app.UseAuthorization();
+	}
+	
 }
 
 static class CustomExtensionsMethods
@@ -126,7 +188,7 @@ static class CustomExtensionsMethods
 		hcBuilder
 			.AddRabbitMQ(
 				$"amqp://{configuration["EventBusConnection"]}",
-				name: "ordering-rabbitmqbus-check",
+				name: "pr-rabbitmqbus-check",
 				tags: new string[] { "rabbitmqbus" });
 
 		return services;
@@ -319,9 +381,10 @@ static class CustomExtensionsMethods
 
 		services.AddAuthentication(options =>
 		{
-			options.DefaultAuthenticateScheme = 
+			options.DefaultAuthenticateScheme =
 				Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme;
-			options.DefaultChallengeScheme = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme;
+			options.DefaultChallengeScheme =
+				Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme;
 		}).AddJwtBearer(options =>
 		{
 			options.Authority = identityUrl;
@@ -331,4 +394,5 @@ static class CustomExtensionsMethods
 
 		return services;
 	}
+	
 }
