@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace PR.API;
 
-public class Program
+public partial class Program
 {
 	public static void Main(string[] args)
 	{
@@ -13,4 +13,10 @@ public class Program
 	public static IHostBuilder CreateHostBuilder(string[] args) =>
 		Host.CreateDefaultBuilder(args)
 			.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+}
+
+public partial class Program
+{
+	public static string Namespace = typeof(Startup).Namespace;
+	public static string AppName = Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
 }
