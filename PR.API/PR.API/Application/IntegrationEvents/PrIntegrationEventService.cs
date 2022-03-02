@@ -7,11 +7,9 @@ using IntegrationEventLogEF;
 using IntegrationEventLogEF.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PR.API;
-using PR.API.Application.IntegrationEvents;
 using PR.Infrastructure;
 
-namespace Microsoft.eShopOnContainers.Services.Ordering.API.Application.IntegrationEvents;
+namespace PR.API.Application.IntegrationEvents;
 
 public class PrIntegrationEventService : IPrIntegrationEventService
 {

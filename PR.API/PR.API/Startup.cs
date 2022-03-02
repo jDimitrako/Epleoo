@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using EventBus;
 using EventBus.Abstractions;
 using EventBusRabbitMQ;
@@ -17,7 +18,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.eShopOnContainers.Services.Ordering.API.Application.IntegrationEvents;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -26,6 +26,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PR.API.Application.IntegrationEvents;
 using PR.API.Controllers;
+using PR.API.Infrastructure.AutofacModules;
 using PR.API.Infrastructure.Filters;
 using PR.Domain.AggregatesModel.FriendshipAggregate;
 using PR.Infrastructure;
@@ -44,7 +45,7 @@ public class Startup
 	public IConfiguration Configuration { get; }
 
 	// This method gets called by the runtime. Use this method to add services to the container.
-	public void ConfigureServices(IServiceCollection services)
+	public virtual IServiceProvider ConfigureServices(IServiceCollection services)
 	{
 		services
 			.AddGrpc(options => { options.EnableDetailedErrors = true; })
@@ -52,15 +53,21 @@ public class Startup
 			.AddCustomMvc()
 			.AddHealthChecks(Configuration)
 			.AddCustomDbContext(Configuration)
-			//.AddCustomSwagger(Configuration)
+			.AddCustomSwagger(Configuration)
 			.AddCustomIntegrations(Configuration)
 			.AddCustomConfiguration(Configuration)
 			.AddEventBus(Configuration)
 			; //.AddCustomAuthentication(Configuration);
 
+		var container = new ContainerBuilder();
+		container.Populate(services);
+		//services.AddControllers();
+		//services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "PR.API", Version = "v1" }); });
+		container.RegisterModule(new MediatorModule());
+		container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
 
-		services.AddControllers();
-		services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "PR.API", Version = "v1" }); });
+		return new AutofacServiceProvider(container.Build());
+
 	}
 
 	// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -239,7 +246,7 @@ static class CustomExtensionsMethods
 				Version = "v1",
 				Description = "The PR(People Relation) HTTP API"
 			});
-			options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+			/*options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
 			{
 				Type = SecuritySchemeType.OAuth2,
 				Flows = new OpenApiOAuthFlows()
@@ -257,7 +264,7 @@ static class CustomExtensionsMethods
 				}
 			});
 
-			options.OperationFilter<AuthorizeCheckOperationFilter>();
+			options.OperationFilter<AuthorizeCheckOperationFilter>();*/
 		});
 
 		return services;
@@ -273,7 +280,7 @@ static class CustomExtensionsMethods
 
 		services.AddTransient<IPrIntegrationEventService, PrIntegrationEventService>();
 
-		services.AddScoped<IFriendshipRepository, FriendshipRepository>();
+		//services.AddScoped<IFriendshipRepository, FriendshipRepository>();
 
 		services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
 		{
