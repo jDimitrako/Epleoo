@@ -23,4 +23,6 @@ public class Person : Entity, IAggregateRoot
 		LastName = !string.IsNullOrEmpty(lastName) ? lastName : throw new ArgumentNullException(nameof(lastName));
 
 	}
+
+
 }

@@ -1,7 +1,8 @@
 ﻿using System;
 using FluentAssertions;
-using Microsoft.eShopOnContainers.Services.Ordering.Domain.Exceptions;
-using PR.Domain.AggregatesModel.FriendshipAggregate;
+using PR.Domain.AggregatesModel.FriendRequestAggregate;
+using PR.Domain.AggregatesModel.PersonAggregate;
+using PR.Domain.Exceptions;
 using Xunit;
 
 namespace PR.UnitTests.Domain;
@@ -25,8 +26,8 @@ public class FriendRequestTest
 		result.ReceiverIdentityGuid.Should().Be(receiverIdentityGuid);
 		result.CreatorIdentityGuid.Should().Be(senderIdentityGuid);
 		result.Modifier.Should().Be(senderIdentityGuid);
-		result.CreateDate.Should().Subject.Should().NotBeNull();
-		result.ModifyDate.Should().Subject.Should().NotBeNull();
+		result.CreatedDate.Should().Subject.Should().NotBeNull();
+		result.ModifiedDate.Should().Subject.Should().NotBeNull();
 	}
 	
 	[Fact]

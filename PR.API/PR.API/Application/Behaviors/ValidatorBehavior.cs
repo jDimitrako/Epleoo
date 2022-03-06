@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using EventBus.Extensions;
 using FluentValidation;
 using MediatR;
-using Microsoft.eShopOnContainers.Services.Ordering.Domain.Exceptions;
 using Microsoft.Extensions.Logging;
+using PR.Domain.Exceptions;
 
 namespace PR.API.Application.Behaviors;
 

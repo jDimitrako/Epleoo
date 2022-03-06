@@ -28,7 +28,6 @@ using PR.API.Application.IntegrationEvents;
 using PR.API.Controllers;
 using PR.API.Infrastructure.AutofacModules;
 using PR.API.Infrastructure.Filters;
-using PR.Domain.AggregatesModel.FriendshipAggregate;
 using PR.Infrastructure;
 using PR.Infrastructure.Repositories;
 using RabbitMQ.Client;

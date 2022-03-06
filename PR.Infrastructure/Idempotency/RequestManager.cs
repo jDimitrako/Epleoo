@@ -1,4 +1,4 @@
-﻿using Microsoft.eShopOnContainers.Services.Ordering.Domain.Exceptions;
+﻿using PR.Domain.Exceptions;
 
 namespace PR.Infrastructure.Idempotency;
 

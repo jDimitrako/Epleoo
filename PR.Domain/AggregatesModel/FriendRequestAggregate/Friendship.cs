@@ -1,9 +1,10 @@
-﻿using Microsoft.eShopOnContainers.Services.Ordering.Domain.Exceptions;
+﻿using PR.Domain.Events;
+using PR.Domain.Exceptions;
 using PR.Domain.SeedWork;
 
-namespace PR.Domain.AggregatesModel.FriendshipAggregate;
+namespace PR.Domain.AggregatesModel.FriendRequestAggregate;
 
-public class Friendship : Entity, IAggregateRoot
+public class Friendship : Entity
 {
 	public string SenderIdentityGuid { get; }
 	public string ReceiverIdentityGuid { get; }
@@ -11,7 +12,7 @@ public class Friendship : Entity, IAggregateRoot
 	private readonly List<FriendRequest> _friendRequests;
 
 	public IEnumerable<FriendRequest> FriendRequests => _friendRequests.AsReadOnly();
-
+	
 	public Friendship()
 	{
 		_friendRequests = new List<FriendRequest>();
@@ -28,6 +29,8 @@ public class Friendship : Entity, IAggregateRoot
 		var friendRequest = _friendRequests.SingleOrDefault(f => f.Id == friendRequestId);
 		
 		if (friendRequest == null) throw new PRDomainException(nameof(friendRequestId));
+		
+		
 
 		return new Friendship();
 	}
@@ -50,5 +53,13 @@ public class Friendship : Entity, IAggregateRoot
 		//TODO: Add domain event
 
 		return friendRequest;
+	}
+	
+	private void FriendshipRequestSentDomainEvent(string receiverIdentityGuid)
+	{
+		var friendshipRequestSentDomainEvent =
+			new FriendshipRequestSentDomainEvent(this.SenderIdentityGuid, receiverIdentityGuid);
+
+		this.AddDomainEvent(friendshipRequestSentDomainEvent);
 	}
 }

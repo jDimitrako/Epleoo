@@ -1,6 +1,6 @@
 ﻿using System;
 using FluentAssertions;
-using PR.Domain.AggregatesModel.FriendshipAggregate;
+using PR.Domain.AggregatesModel.FriendRequestAggregate;
 using Xunit;
 
 namespace PR.UnitTests.Domain;

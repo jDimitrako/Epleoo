@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using PR.Domain.AggregatesModel.FriendshipAggregate;
+using PR.Domain.AggregatesModel.FriendRequestAggregate;
 using PR.Domain.AggregatesModel.PersonAggregate;
 using PR.Domain.SeedWork;
 using PR.Infrastructure.EntityConfigurations;
@@ -13,8 +13,9 @@ public class PrDbContext : DbContext, IUnitOfWork
 {
 	public const string DEFAULT_SCHEMA = "pr.service";
 
-	public DbSet<Friendship> Friendships { get; set; }
+	public DbSet<FriendRequest> FriendRequests { get; set; }
 	public DbSet<Person> Persons { get; set; }
+	public DbSet<FriendRequestStatus> FriendRequestStatus { get; set; }
 
 	
 	private readonly IMediator _mediator;

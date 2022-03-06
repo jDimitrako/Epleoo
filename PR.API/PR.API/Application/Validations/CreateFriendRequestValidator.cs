@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PR.API.Application.Commands;
+using PR.API.Application.Commands.FriendRequest;
 
 namespace PR.API.Application.Validations;
 

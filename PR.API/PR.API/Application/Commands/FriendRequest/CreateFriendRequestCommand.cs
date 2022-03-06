@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using MediatR;
 
-namespace PR.API.Application.Commands;
+namespace PR.API.Application.Commands.FriendRequest;
 
 public class CreateFriendRequestCommand : IRequest<bool>
 {

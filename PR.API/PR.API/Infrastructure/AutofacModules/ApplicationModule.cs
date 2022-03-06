@@ -2,8 +2,9 @@
 using Autofac;
 using EventBus.Abstractions;
 using PR.API.Application.Commands;
+using PR.API.Application.Commands.FriendRequest;
 using PR.API.Application.Queries;
-using PR.Domain.AggregatesModel.FriendshipAggregate;
+using PR.Domain.AggregatesModel.FriendRequestAggregate;
 using PR.Infrastructure.Idempotency;
 using PR.Infrastructure.Repositories;
 
@@ -28,8 +29,8 @@ public class ApplicationModule
             .As<IFriendRequestsQuery>()
             .InstancePerLifetimeScope();
 
-        builder.RegisterType<FriendshipRepository>()
-            .As<IFriendshipRepository>()
+        builder.RegisterType<FriendRequestRepository>()
+            .As<IFriendRequestRepository>()
             .InstancePerLifetimeScope();
 
         builder.RegisterType<RequestManager>()

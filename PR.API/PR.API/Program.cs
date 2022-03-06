@@ -1,9 +1,7 @@
 using System;
 using System.IO;
-using System.Net;
 using IntegrationEventLogEF;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -20,10 +18,10 @@ Log.Logger = CreateSerilogLogger(configuration);
 
 try
 {
-    Log.Information("Configuring web host ({ApplicationContext})...", Program.AppName);
+    Log.Information("Configuring web host ({ApplicationContext})...", PR.API.Program.AppName);
     var host = BuildWebHost(configuration, args);
 
-    Log.Information("Applying migrations ({ApplicationContext})...", Program.AppName);
+    Log.Information("Applying migrations ({ApplicationContext})...", PR.API.Program.AppName);
     host.MigrateDbContext<PrDbContext>((context, services) =>
     {
         var env = services.GetService<IWebHostEnvironment>();
@@ -36,14 +34,14 @@ try
     })
     .MigrateDbContext<IntegrationEventLogContext>((_, __) => { });
 
-    Log.Information("Starting web host ({ApplicationContext})...", Program.AppName);
+    Log.Information("Starting web host ({ApplicationContext})...", PR.API.Program.AppName);
     host.Run();
 
     return 0;
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "Program terminated unexpectedly ({ApplicationContext})!", Program.AppName);
+    Log.Fatal(ex, "Program terminated unexpectedly ({ApplicationContext})!", PR.API.Program.AppName);
     return 1;
 }
 finally
@@ -80,7 +78,7 @@ Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
     var logstashUrl = configuration["Serilog:LogstashgUrl"];
     return new LoggerConfiguration()
         .MinimumLevel.Verbose()
-        .Enrich.WithProperty("ApplicationContext", Program.AppName)
+        .Enrich.WithProperty("ApplicationContext", PR.API.Program.AppName)
         .Enrich.FromLogContext()
         .WriteTo.Console()
         .WriteTo.Seq(string.IsNullOrWhiteSpace(seqServerUrl) ? "http://seq" : seqServerUrl)
@@ -119,9 +117,12 @@ IConfiguration GetConfiguration()
     return (port, grpcPort);
 }
 
-public partial class Program
+namespace PR.API
 {
+    public partial class Program
+    {
 
-    public static string Namespace = typeof(Startup).Namespace;
-    public static string AppName = Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
+        public static string Namespace = typeof(Startup).Namespace;
+        public static string AppName = Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
+    }
 }

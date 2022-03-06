@@ -2,7 +2,8 @@
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.SqlClient;
-using PR.Domain.AggregatesModel.FriendshipAggregate;
+using PR.Domain.AggregatesModel.FriendRequestAggregate;
+using PR.Domain.AggregatesModel.PersonAggregate;
 
 namespace PR.API.Application.Queries;
 

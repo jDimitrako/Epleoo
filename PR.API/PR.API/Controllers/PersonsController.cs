@@ -19,14 +19,5 @@ public class PersonsController : ControllerBase
 		_logger = logger;
 	}
 
-	[Route("FriendRequests")]
-	[HttpPost]
-	[ProducesResponseType((int)HttpStatusCode.OK)]
-	[ProducesResponseType((int)HttpStatusCode.BadRequest)]
-	public async Task<IActionResult> CreateFriendRequest()
-	{
-		//var commandResult = await _mediator.Send()
-		return Ok();
-	}
 
 }

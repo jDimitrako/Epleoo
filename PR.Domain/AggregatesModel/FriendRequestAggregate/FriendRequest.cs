@@ -1,18 +1,20 @@
-﻿using Microsoft.eShopOnContainers.Services.Ordering.Domain.Exceptions;
+﻿using PR.Domain.Exceptions;
 using PR.Domain.SeedWork;
 
-namespace PR.Domain.AggregatesModel.FriendshipAggregate;
+namespace PR.Domain.AggregatesModel.FriendRequestAggregate;
 
-public class FriendRequest : Entity
+public class FriendRequest : Entity, IAggregateRoot
 {
 	public FriendRequest()
 	{ }
 	public string SenderIdentityGuid { get; }
 	public string ReceiverIdentityGuid { get; }
 	public string CreatorIdentityGuid { get; }
-	public DateTimeOffset CreateDate { get; }
+	public DateTimeOffset CreatedDate { get; }
 	public string Modifier { get; }
-	public DateTimeOffset? ModifyDate { get; }
+	public DateTimeOffset? ModifiedDate { get; }
+	public FriendRequestStatus FriendRequestStatus { get; private set; }
+
 
 	public FriendRequest(string senderIdentityGuid, string receiverIdentityGuid)
 	{
@@ -25,11 +27,11 @@ public class FriendRequest : Entity
 		CreatorIdentityGuid = !string.IsNullOrEmpty(senderIdentityGuid)
 			? senderIdentityGuid
 			: throw new PRDomainException(nameof(senderIdentityGuid));
-		CreateDate = DateTimeOffset.Now;
+		CreatedDate = DateTimeOffset.Now;
 		Modifier = !string.IsNullOrEmpty(senderIdentityGuid)
 			? senderIdentityGuid
 			: throw new PRDomainException(nameof(senderIdentityGuid));
-		ModifyDate = DateTimeOffset.Now;
+		ModifiedDate = DateTimeOffset.Now;
 	}
 
 	public bool IsEqualTo(string senderId, string receiverId)
