@@ -28,6 +28,8 @@ try
         var settings = services.GetService<IOptions<PrSettings>>();
         var logger = services.GetService<ILogger<PrContextSeed>>();
 
+        Log.Information($"PrSettings: {settings.Value}");
+        
         new PrContextSeed()
             .SeedAsync(context, env, settings, logger)
             .Wait();
