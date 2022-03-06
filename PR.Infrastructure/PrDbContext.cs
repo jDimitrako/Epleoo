@@ -39,6 +39,8 @@ public class PrDbContext : DbContext, IUnitOfWork
 	{
 		modelBuilder.ApplyConfiguration(new PersonEntityTypeConfiguration());
 		modelBuilder.ApplyConfiguration(new FriendshipEntityTypeConfiguration());
+		modelBuilder.ApplyConfiguration(new FriendRequestEntityTypeConfiguration());
+		modelBuilder.ApplyConfiguration(new FriendRequestStatusEntityTypeConfiguration());
 	}
 	
 	public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))

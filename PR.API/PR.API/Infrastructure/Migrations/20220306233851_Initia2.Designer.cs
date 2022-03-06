@@ -12,8 +12,8 @@ using PR.Infrastructure;
 namespace PR.API.Infrastructure.Migrations
 {
     [DbContext(typeof(PrDbContext))]
-    [Migration("20220228224804_Initial")]
-    partial class Initial
+    [Migration("20220306233851_Initia2")]
+    partial class Initia2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,31 +24,78 @@ namespace PR.API.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.HasSequence("friendrequestseq", "pr.service")
+                .IncrementsBy(10);
+
             modelBuilder.HasSequence("friendshipseq", "pr.service")
                 .IncrementsBy(10);
 
             modelBuilder.HasSequence("personseq", "pr.service")
                 .IncrementsBy(10);
 
-            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendshipAggregate.FriendRequest", b =>
+            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendRequestAggregate.FriendRequest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "friendrequestseq", "pr.service");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("FriendRequestStatusId")
+                        .HasColumnType("int")
+                        .HasColumnName("FriendRequestStatusId1");
 
                     b.Property<int?>("FriendshipId")
                         .HasColumnType("int");
 
+                    b.Property<DateTimeOffset?>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Modifier")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReceiverIdentityGuid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderIdentityGuid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("_friendRequestStatusId")
+                        .HasColumnType("int")
+                        .HasColumnName("FriendRequestStatusId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("FriendRequestStatusId");
 
                     b.HasIndex("FriendshipId");
 
-                    b.ToTable("FriendRequest");
+                    b.ToTable("FriendRequests", "pr.service");
                 });
 
-            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendshipAggregate.Friendship", b =>
+            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendRequestAggregate.FriendRequestStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FriendRequestStatus", "pr.service");
+                });
+
+            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendRequestAggregate.Friendship", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,14 +149,22 @@ namespace PR.API.Infrastructure.Migrations
                     b.ToTable("persons", "pr.service");
                 });
 
-            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendshipAggregate.FriendRequest", b =>
+            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendRequestAggregate.FriendRequest", b =>
                 {
-                    b.HasOne("PR.Domain.AggregatesModel.FriendshipAggregate.Friendship", null)
+                    b.HasOne("PR.Domain.AggregatesModel.FriendRequestAggregate.FriendRequestStatus", "FriendRequestStatus")
+                        .WithMany()
+                        .HasForeignKey("FriendRequestStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PR.Domain.AggregatesModel.FriendRequestAggregate.Friendship", null)
                         .WithMany("FriendRequests")
                         .HasForeignKey("FriendshipId");
+
+                    b.Navigation("FriendRequestStatus");
                 });
 
-            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendshipAggregate.Friendship", b =>
+            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendRequestAggregate.Friendship", b =>
                 {
                     b.Navigation("FriendRequests");
                 });

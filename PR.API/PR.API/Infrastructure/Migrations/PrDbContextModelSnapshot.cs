@@ -22,6 +22,9 @@ namespace PR.API.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.HasSequence("friendrequestseq", "pr.service")
+                .IncrementsBy(10);
+
             modelBuilder.HasSequence("friendshipseq", "pr.service")
                 .IncrementsBy(10);
 
@@ -34,13 +37,36 @@ namespace PR.API.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "friendrequestseq", "pr.service");
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("FriendRequestStatusId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("FriendRequestStatusId1");
 
                     b.Property<int?>("FriendshipId")
                         .HasColumnType("int");
+
+                    b.Property<DateTimeOffset?>("ModifiedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Modifier")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReceiverIdentityGuid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderIdentityGuid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("_friendRequestStatusId")
+                        .HasColumnType("int")
+                        .HasColumnName("FriendRequestStatusId");
 
                     b.HasKey("Id");
 
@@ -48,24 +74,23 @@ namespace PR.API.Infrastructure.Migrations
 
                     b.HasIndex("FriendshipId");
 
-                    b.ToTable("FriendRequests");
+                    b.ToTable("FriendRequests", "pr.service");
                 });
 
             modelBuilder.Entity("PR.Domain.AggregatesModel.FriendRequestAggregate.FriendRequestStatus", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("FriendRequestStatus");
+                    b.ToTable("FriendRequestStatus", "pr.service");
                 });
 
             modelBuilder.Entity("PR.Domain.AggregatesModel.FriendRequestAggregate.Friendship", b =>

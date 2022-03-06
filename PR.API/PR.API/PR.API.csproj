@@ -48,8 +48,4 @@
       <ProjectReference Include="..\..\src\BuildingBlocks\WebHost.Customization\WebHost.Customization.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Infrastructure\Migrations" />
-    </ItemGroup>
-
 </Project>
