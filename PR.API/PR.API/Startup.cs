@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
@@ -29,7 +28,6 @@ using PR.API.Controllers;
 using PR.API.Infrastructure.AutofacModules;
 using PR.API.Infrastructure.Filters;
 using PR.Infrastructure;
-using PR.Infrastructure.Repositories;
 using RabbitMQ.Client;
 
 namespace PR.API;

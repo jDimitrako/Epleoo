@@ -3,7 +3,6 @@ using Autofac;
 using FluentValidation;
 using MediatR;
 using PR.API.Application.Behaviors;
-using PR.API.Application.Commands;
 using PR.API.Application.Commands.FriendRequest;
 using PR.API.Application.DomainEventHandlers.FriendshipRequestAcceptedEvent;
 using PR.API.Application.Validations;

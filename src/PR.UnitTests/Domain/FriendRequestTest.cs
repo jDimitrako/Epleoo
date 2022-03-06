@@ -1,7 +1,6 @@
 ﻿using System;
 using FluentAssertions;
 using PR.Domain.AggregatesModel.FriendRequestAggregate;
-using PR.Domain.AggregatesModel.PersonAggregate;
 using PR.Domain.Exceptions;
 using Xunit;
 

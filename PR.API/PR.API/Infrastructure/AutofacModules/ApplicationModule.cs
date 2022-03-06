@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Autofac;
 using EventBus.Abstractions;
-using PR.API.Application.Commands;
 using PR.API.Application.Commands.FriendRequest;
 using PR.API.Application.Queries;
 using PR.Domain.AggregatesModel.FriendRequestAggregate;
