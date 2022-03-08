@@ -39,7 +39,7 @@ public class CreateFriendRequestHandler : IRequestHandler<CreateFriendRequestCom
 			var friendRequest =
 				new Domain.AggregatesModel.FriendRequestAggregate.FriendRequest(request.SenderIndentityGuid,
 					request.ReceiverIndentityGuid, FriendRequestStatus.AwaitingConfirmation.Id);
-
+			
 			_logger.LogInformation("----- Creating FriendRequest - FriendRequest: {@FriendRequest}", friendRequest);
 
 			_friendRequestRepository.Add(friendRequest);

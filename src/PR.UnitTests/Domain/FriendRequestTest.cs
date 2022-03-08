@@ -14,9 +14,10 @@ public class FriendRequestTest
 		//Arrange
 		var senderIdentityGuid = Guid.NewGuid().ToString();
 		var receiverIdentityGuid = Guid.NewGuid().ToString();
+		var friendRequestStatusId = FriendRequestStatus.AwaitingConfirmation.Id;
 		
 		//Act
-		var result = new FriendRequest(senderIdentityGuid, receiverIdentityGuid);
+		var result = new FriendRequest(senderIdentityGuid, receiverIdentityGuid, friendRequestStatusId);
 		
 		//Assert
 		result.Should().NotBeNull();
@@ -34,11 +35,11 @@ public class FriendRequestTest
 		//Arrange
 		var senderIdentityGuid = string.Empty;
 		var receiverIdentityGuid = Guid.NewGuid().ToString();
-		
+		var friendRequestStatusId = FriendRequestStatus.AwaitingConfirmation.Id;
 		//Act
 		Action act = () =>
 		{
-			var unused = new FriendRequest(senderIdentityGuid, receiverIdentityGuid);
+			var unused = new FriendRequest(senderIdentityGuid, receiverIdentityGuid, friendRequestStatusId);
 		}; 
 		
 		//Assert
@@ -52,11 +53,12 @@ public class FriendRequestTest
 		//Arrange
 		var senderIdentityGuid = Guid.NewGuid().ToString();
 		var receiverIdentityGuid = string.Empty;
+		var friendRequestStatusId = FriendRequestStatus.AwaitingConfirmation.Id;
 		
 		//Act
 		Action act = () =>
 		{
-			var unused = new FriendRequest(senderIdentityGuid, receiverIdentityGuid);
+			var unused = new FriendRequest(senderIdentityGuid, receiverIdentityGuid, friendRequestStatusId);
 		}; 
 		
 		//Assert
