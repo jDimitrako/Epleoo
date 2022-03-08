@@ -36,4 +36,5 @@ public class FriendRequest : Entity, IAggregateRoot
 		return SenderIdentityGuid == senderId
 		       && ReceiverIdentityGuid == receiverId;
 	}
+	
 }

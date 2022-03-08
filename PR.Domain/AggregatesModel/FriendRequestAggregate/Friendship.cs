@@ -35,26 +35,7 @@ public class Friendship : Entity
 		return new Friendship();
 	}
 	
-	public FriendRequest SendFriendRequest(string senderIdentityGuid, string receiverIdentityGuid)
-	{
-		var existingFriendRequest =
-			_friendRequests.SingleOrDefault(f => f.IsEqualTo(senderIdentityGuid, receiverIdentityGuid));
 
-		if (existingFriendRequest != null)
-		{
-			//TODO: Add domain event
-			return existingFriendRequest;
-		}
-
-		var friendRequest = new FriendRequest(senderIdentityGuid, receiverIdentityGuid, FriendRequestStatus.AwaitingConfirmation.Id);
-		
-		_friendRequests.Add(friendRequest);
-		
-		//TODO: Add domain event
-
-		return friendRequest;
-	}
-	
 	private void FriendshipRequestSentDomainEvent(string receiverIdentityGuid)
 	{
 		var friendshipRequestSentDomainEvent =

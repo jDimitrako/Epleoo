@@ -24,8 +24,8 @@ public class ApplicationModule
     protected override void Load(ContainerBuilder builder)
     {
 
-        builder.Register(c => new FriendRequestQuery(QueriesConnectionString))
-            .As<IFriendRequestsQuery>()
+        builder.Register(c => new FriendRequestQueries(QueriesConnectionString))
+            .As<IFriendRequestsQueries>()
             .InstancePerLifetimeScope();
 
         builder.RegisterType<FriendRequestRepository>()
