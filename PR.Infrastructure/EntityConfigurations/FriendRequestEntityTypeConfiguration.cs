@@ -24,9 +24,15 @@ public class FriendRequestEntityTypeConfiguration : IEntityTypeConfiguration<Fri
 		builder.Property(f => f.ModifiedDate);
 		builder
 			.Property<int>("_friendRequestStatusId")
-			// .HasField("_orderStatusId")
+			// .HasField("_friendRequestStatusId")
 			.UsePropertyAccessMode(PropertyAccessMode.Field)
 			.HasColumnName("FriendRequestStatusId")
 			.IsRequired();
+		
+		
+		builder.HasOne(f => f.FriendRequestStatus)
+			.WithMany()
+			// .HasForeignKey("OrderStatusId");
+			.HasForeignKey("_friendRequestStatusId");
 	}
 }

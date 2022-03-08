@@ -46,7 +46,7 @@ public class Friendship : Entity
 			return existingFriendRequest;
 		}
 
-		var friendRequest = new FriendRequest(senderIdentityGuid, receiverIdentityGuid);
+		var friendRequest = new FriendRequest(senderIdentityGuid, receiverIdentityGuid, FriendRequestStatus.AwaitingConfirmation.Id);
 		
 		_friendRequests.Add(friendRequest);
 		

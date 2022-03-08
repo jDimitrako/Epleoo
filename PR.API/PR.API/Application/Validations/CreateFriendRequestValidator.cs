@@ -8,8 +8,8 @@ public class CreateFriendRequestValidator : AbstractValidator<CreateFriendReques
 {
 	public CreateFriendRequestValidator(ILogger<CreateFriendRequestValidator> logger)
 	{
-		RuleFor(createFriend => createFriend.SenderIndentityGuid).NotEmpty().WithMessage("No SenderId found");
-		RuleFor(createFriend => createFriend.ReceiverIndentityGuid).NotEmpty().WithMessage("No ReceiverId found");
+		/*RuleFor(createFriend => createFriend.SenderIndentityGuid).NotEmpty().WithMessage("No SenderId found");
+		RuleFor(createFriend => createFriend.ReceiverIndentityGuid).NotEmpty().WithMessage("No ReceiverId found");*/
 
 		logger.LogTrace("----- INSTANCE CREATED - {ClassName}", GetType().Name);
 	}

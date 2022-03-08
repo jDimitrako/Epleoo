@@ -37,10 +37,18 @@ public class FriendRequestRepository : IFriendRequestRepository
 		return friendship!;
 	}
 
-	public Task<bool> Exists(string senderIdentityGuid, string receiverIdentityGuid)
+	public async Task<bool> Exists(string senderIdentityGuid, string receiverIdentityGuid)
 	{
-		return Task.FromResult(_context.FriendRequests
-			.Any(fr => fr.IsEqualTo(senderIdentityGuid, receiverIdentityGuid)));
+		try
+		{
+			return _context.FriendRequests.Any(f =>
+				f.ReceiverIdentityGuid == receiverIdentityGuid && f.SenderIdentityGuid == senderIdentityGuid);
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			throw;
+		}
 	}
 
 	public IUnitOfWork UnitOfWork => _context;

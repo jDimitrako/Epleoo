@@ -15,7 +15,7 @@ public class FriendRequest : Entity, IAggregateRoot
 	public FriendRequestStatus FriendRequestStatus { get; private set; }
 	private int _friendRequestStatusId;
 
-	public FriendRequest(string senderIdentityGuid, string receiverIdentityGuid)
+	public FriendRequest(string senderIdentityGuid, string receiverIdentityGuid, int statusId)
 	{
 		SenderIdentityGuid = !string.IsNullOrEmpty(senderIdentityGuid)
 			? senderIdentityGuid
@@ -28,6 +28,7 @@ public class FriendRequest : Entity, IAggregateRoot
 			? senderIdentityGuid
 			: throw new PRDomainException(nameof(senderIdentityGuid));
 		ModifiedDate = DateTimeOffset.Now;
+		_friendRequestStatusId = statusId;
 	}
 
 	public bool IsEqualTo(string senderId, string receiverId)
