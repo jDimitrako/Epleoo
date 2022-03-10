@@ -1,4 +1,5 @@
-﻿using PR.Domain.Exceptions;
+﻿using PR.Domain.Events;
+using PR.Domain.Exceptions;
 using PR.Domain.SeedWork;
 
 namespace PR.Domain.AggregatesModel.FriendRequestAggregate;
@@ -6,7 +7,9 @@ namespace PR.Domain.AggregatesModel.FriendRequestAggregate;
 public class FriendRequest : Entity, IAggregateRoot
 {
 	public FriendRequest()
-	{ }
+	{
+	}
+
 	public string SenderIdentityGuid { get; }
 	public string ReceiverIdentityGuid { get; }
 	public DateTimeOffset CreatedDate { get; }
@@ -36,5 +39,21 @@ public class FriendRequest : Entity, IAggregateRoot
 		return SenderIdentityGuid == senderId
 		       && ReceiverIdentityGuid == receiverId;
 	}
-	
+
+	public void setAcceptedFriendRequestStatus()
+	{
+		if (_friendRequestStatusId != FriendRequestStatus.AwaitingConfirmation.Id)
+		{
+			StatusChangeException(FriendRequestStatus.Confirmed);
+		}
+
+		_friendRequestStatusId = FriendRequestStatus.Confirmed.Id;
+		AddDomainEvent(new FriendRequestAcceptedDomainEvent(this));
+	}
+
+	private void StatusChangeException(FriendRequestStatus friendRequestStatusToChange)
+	{
+		throw new PRDomainException(
+			$"Is not possible to change the friend request status from {FriendRequestStatus.Name} to {friendRequestStatusToChange.Name}.");
+	}
 }

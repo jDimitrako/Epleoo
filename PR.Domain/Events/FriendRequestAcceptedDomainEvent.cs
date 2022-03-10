@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using PR.Domain.AggregatesModel.FriendRequestAggregate;
 
 namespace PR.Domain.Events;
 /// <summary>
@@ -6,5 +7,10 @@ namespace PR.Domain.Events;
 /// </summary>
 public class FriendRequestAcceptedDomainEvent : INotification
 {
-	
+	public FriendRequest FriendRequest { get; }
+
+	public FriendRequestAcceptedDomainEvent(FriendRequest friendRequest)
+	{
+		FriendRequest = friendRequest;
+	}
 }

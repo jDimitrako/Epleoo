@@ -17,6 +17,7 @@ public class FriendRequestViewModel
 
 	public record FriendRequestSummary
 	{
+		public int Id { get; init; }
 		public string SenderIdentityGuid { get; init; }
 		public string ReceiverIdentityGuid { get; init; }
 		public DateTimeOffset CreatedDate { get; init; }

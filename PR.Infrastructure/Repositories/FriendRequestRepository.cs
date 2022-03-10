@@ -28,13 +28,13 @@ public class FriendRequestRepository : IFriendRequestRepository
 		return _context.FriendRequests.Update(friendRequest).Entity;
 	}
 
-	public async Task<FriendRequest> FindByIdAsync(int friendRequestId)
+	public async Task<FriendRequest?> FindByIdAsync(int friendRequestId)
 	{
 		var friendship = await _context.FriendRequests
 			.Where(f => f.Id == friendRequestId)
 			.SingleOrDefaultAsync();
 
-		return friendship!;
+		return friendship;
 	}
 
 	public Task<bool> Exists(string senderIdentityGuid, string receiverIdentityGuid)

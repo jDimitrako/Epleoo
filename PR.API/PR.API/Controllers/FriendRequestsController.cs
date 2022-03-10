@@ -36,11 +36,32 @@ public class FriendRequestsController : ControllerBase
 		_logger.LogInformation(
 			"----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
 			createFriendRequestCommand.GetGenericTypeName(),
-			nameof(createFriendRequestCommand.ReceiverIndentityGuid),
-			createFriendRequestCommand.SenderIndentityGuid,
+			nameof(createFriendRequestCommand.ReceiverIdentityGuid),
+			createFriendRequestCommand.SenderIdentityGuid,
 			createFriendRequestCommand);
 
 		var result = await _mediator.Send(createFriendRequestCommand);
+		if (result)
+			return Ok();
+
+		return BadRequest();
+	}
+
+	[Route("FriendRequests/{id}/accept")]
+	[HttpPut]
+	[ProducesResponseType((int)HttpStatusCode.OK)]
+	[ProducesResponseType((int)HttpStatusCode.BadRequest)]
+	public async Task<IActionResult> AcceptFriendRequestAsync(int friendRequestId)
+	{
+		var acceptFriendRequestCommand = new AcceptFriendRequestCommand(friendRequestId);
+		
+		_logger.LogInformation(
+			"----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
+			acceptFriendRequestCommand.GetGenericTypeName(),
+			nameof(acceptFriendRequestCommand.FriendRequestId),
+			acceptFriendRequestCommand);
+
+		var result = await _mediator.Send(acceptFriendRequestCommand);
 		if (result)
 			return Ok();
 

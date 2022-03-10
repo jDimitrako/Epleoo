@@ -23,24 +23,4 @@ public class Friendship : Entity
 		SenderIdentityGuid = senderIdentityGuid;
 		ReceiverIdentityGuid = receiverIdentityGuid;
 	}
-	
-	public Friendship? AcceptFriendRequest(int friendRequestId)
-	{
-		var friendRequest = _friendRequests.SingleOrDefault(f => f.Id == friendRequestId);
-		
-		if (friendRequest == null) throw new PRDomainException(nameof(friendRequestId));
-		
-		
-
-		return new Friendship();
-	}
-	
-
-	private void FriendshipRequestSentDomainEvent(string receiverIdentityGuid)
-	{
-		var friendshipRequestSentDomainEvent =
-			new FriendshipRequestSentDomainEvent(this.SenderIdentityGuid, receiverIdentityGuid);
-
-		this.AddDomainEvent(friendshipRequestSentDomainEvent);
-	}
 }

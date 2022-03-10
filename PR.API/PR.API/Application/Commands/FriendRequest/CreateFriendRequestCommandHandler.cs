@@ -7,13 +7,13 @@ using PR.Domain.AggregatesModel.FriendRequestAggregate;
 
 namespace PR.API.Application.Commands.FriendRequest;
 
-public class CreateFriendRequestHandler : IRequestHandler<CreateFriendRequestCommand, bool>
+public class CreateFriendRequestCommandHandler : IRequestHandler<CreateFriendRequestCommand, bool>
 {
 	private readonly IFriendRequestRepository _friendRequestRepository;
-	private readonly ILogger<CreateFriendRequestCommand> _logger;
+	private readonly ILogger<CreateFriendRequestCommandHandler> _logger;
 	private readonly IMediator _mediator;
-	public CreateFriendRequestHandler(IFriendRequestRepository friendRequestRepository,
-		ILogger<CreateFriendRequestCommand> logger, IMediator mediator)
+	public CreateFriendRequestCommandHandler(IFriendRequestRepository friendRequestRepository,
+		ILogger<CreateFriendRequestCommandHandler> logger, IMediator mediator)
 	{
 		_friendRequestRepository =
 			friendRequestRepository ?? throw new ArgumentNullException(nameof(friendRequestRepository));
@@ -32,13 +32,13 @@ public class CreateFriendRequestHandler : IRequestHandler<CreateFriendRequestCom
 	{
 		try
 		{
-			var exists = await _friendRequestRepository.Exists(request.SenderIndentityGuid, request.ReceiverIndentityGuid);
+			var exists = await _friendRequestRepository.Exists(request.SenderIdentityGuid, request.ReceiverIdentityGuid);
 			if (exists)
 				return false;
 
 			var friendRequest =
-				new Domain.AggregatesModel.FriendRequestAggregate.FriendRequest(request.SenderIndentityGuid,
-					request.ReceiverIndentityGuid, FriendRequestStatus.AwaitingConfirmation.Id);
+				new Domain.AggregatesModel.FriendRequestAggregate.FriendRequest(request.SenderIdentityGuid,
+					request.ReceiverIdentityGuid, FriendRequestStatus.AwaitingConfirmation.Id);
 			
 			_logger.LogInformation("----- Creating FriendRequest - FriendRequest: {@FriendRequest}", friendRequest);
 
