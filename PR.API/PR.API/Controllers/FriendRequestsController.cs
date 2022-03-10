@@ -48,7 +48,7 @@ public class FriendRequestsController : ControllerBase
 	}
 
 	[HttpGet("sent/{senderIdentityGuid}")]
-	[ProducesResponseType(typeof(IEnumerable<FriendRequest>), (int)HttpStatusCode.OK)]
+	[ProducesResponseType(typeof(IEnumerable<FriendRequestViewModel.FriendRequestSummary>), (int)HttpStatusCode.OK)]
 	public async Task<ActionResult<IEnumerable<FriendRequest>>> GetOrdersAsync(string senderIdentityGuid)
 	{
 		var friendRequests = await _queries.GetSentFriendRequestAsync(senderIdentityGuid);

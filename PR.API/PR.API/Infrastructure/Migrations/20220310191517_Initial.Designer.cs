@@ -12,8 +12,8 @@ using PR.Infrastructure;
 namespace PR.API.Infrastructure.Migrations
 {
     [DbContext(typeof(PrDbContext))]
-    [Migration("20220308195908_Initia3")]
-    partial class Initia3
+    [Migration("20220310191517_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,13 +24,13 @@ namespace PR.API.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.HasSequence("friendrequestseq", "pr.service")
+            modelBuilder.HasSequence("friendrequestseq")
                 .IncrementsBy(10);
 
-            modelBuilder.HasSequence("friendshipseq", "pr.service")
+            modelBuilder.HasSequence("friendshipseq")
                 .IncrementsBy(10);
 
-            modelBuilder.HasSequence("personseq", "pr.service")
+            modelBuilder.HasSequence("personseq")
                 .IncrementsBy(10);
 
             modelBuilder.Entity("PR.Domain.AggregatesModel.FriendRequestAggregate.FriendRequest", b =>
@@ -39,7 +39,7 @@ namespace PR.API.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "friendrequestseq", "pr.service");
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "friendrequestseq");
 
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("datetimeoffset");
@@ -72,7 +72,7 @@ namespace PR.API.Infrastructure.Migrations
 
                     b.HasIndex("_friendRequestStatusId");
 
-                    b.ToTable("FriendRequests", "pr.service");
+                    b.ToTable("FriendRequests", (string)null);
                 });
 
             modelBuilder.Entity("PR.Domain.AggregatesModel.FriendRequestAggregate.FriendRequestStatus", b =>
@@ -88,7 +88,7 @@ namespace PR.API.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FriendRequestStatus", "pr.service");
+                    b.ToTable("friendRequestStatus", (string)null);
                 });
 
             modelBuilder.Entity("PR.Domain.AggregatesModel.FriendRequestAggregate.Friendship", b =>
@@ -97,7 +97,7 @@ namespace PR.API.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "friendshipseq", "pr.service");
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "friendshipseq");
 
                     b.Property<string>("ReceiverIdentityGuid")
                         .IsRequired()
@@ -109,7 +109,7 @@ namespace PR.API.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("friendships", "pr.service");
+                    b.ToTable("friendships", (string)null);
                 });
 
             modelBuilder.Entity("PR.Domain.AggregatesModel.PersonAggregate.Person", b =>
@@ -118,7 +118,7 @@ namespace PR.API.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "personseq", "pr.service");
+                    SqlServerPropertyBuilderExtensions.UseHiLo(b.Property<int>("Id"), "personseq");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -142,7 +142,7 @@ namespace PR.API.Infrastructure.Migrations
                     b.HasIndex("IdentityGuid")
                         .IsUnique();
 
-                    b.ToTable("persons", "pr.service");
+                    b.ToTable("persons", (string)null);
                 });
 
             modelBuilder.Entity("PR.Domain.AggregatesModel.FriendRequestAggregate.FriendRequest", b =>

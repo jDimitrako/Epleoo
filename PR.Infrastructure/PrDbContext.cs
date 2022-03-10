@@ -11,7 +11,6 @@ namespace PR.Infrastructure;
 
 public class PrDbContext : DbContext, IUnitOfWork
 {
-	public const string DEFAULT_SCHEMA = "pr.service";
 
 	public DbSet<FriendRequest> FriendRequests { get; set; }
 	public DbSet<Person> Persons { get; set; }

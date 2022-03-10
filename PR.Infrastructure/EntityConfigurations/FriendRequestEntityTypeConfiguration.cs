@@ -8,14 +8,14 @@ public class FriendRequestEntityTypeConfiguration : IEntityTypeConfiguration<Fri
 {
 	public void Configure(EntityTypeBuilder<FriendRequest> builder)
 	{
-		builder.ToTable("FriendRequests", PrDbContext.DEFAULT_SCHEMA);
+		builder.ToTable("FriendRequests");
 
 		builder.HasKey(f => f.Id);
 
 		builder.Ignore(f => f.DomainEvents);
 		
 		builder.Property(f => f.Id)
-			.UseHiLo("friendrequestseq", PrDbContext.DEFAULT_SCHEMA);
+			.UseHiLo("friendrequestseq");
 		
 		builder.Property(f => f.SenderIdentityGuid);
 		builder.Property(f => f.ReceiverIdentityGuid);
@@ -28,7 +28,6 @@ public class FriendRequestEntityTypeConfiguration : IEntityTypeConfiguration<Fri
 			.UsePropertyAccessMode(PropertyAccessMode.Field)
 			.HasColumnName("FriendRequestStatusId")
 			.IsRequired();
-		
 		
 		builder.HasOne(f => f.FriendRequestStatus)
 			.WithMany()

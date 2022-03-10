@@ -8,7 +8,7 @@ public class FriendRequestStatusEntityTypeConfiguration : IEntityTypeConfigurati
 {
 	public void Configure(EntityTypeBuilder<FriendRequestStatus> builder)
 	{
-		builder.ToTable("FriendRequestStatus", PrDbContext.DEFAULT_SCHEMA);
+		builder.ToTable("friendRequestStatus");
 		builder.HasKey(f => f.Id);
 		builder.Property(f => f.Id)
 			.HasDefaultValue(1)

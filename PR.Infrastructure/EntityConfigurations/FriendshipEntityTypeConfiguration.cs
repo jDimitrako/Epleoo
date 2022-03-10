@@ -8,14 +8,14 @@ public class FriendshipEntityTypeConfiguration : IEntityTypeConfiguration<Friend
 {
 	public void Configure(EntityTypeBuilder<Friendship> builder)
 	{
-		builder.ToTable("friendships", PrDbContext.DEFAULT_SCHEMA);
+		builder.ToTable("friendships");
 
 		builder.HasKey(f => f.Id);
 
 		builder.Ignore(f => f.DomainEvents);
 
 		builder.Property(f => f.Id)
-			.UseHiLo("friendshipseq", PrDbContext.DEFAULT_SCHEMA);
+			.UseHiLo("friendshipseq");
 
 		builder.Property(f => f.SenderIdentityGuid);
 		builder.Property(f => f.ReceiverIdentityGuid);
