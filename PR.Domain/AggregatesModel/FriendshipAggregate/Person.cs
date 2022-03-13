@@ -1,16 +1,19 @@
-﻿using PR.Domain.SeedWork;
+﻿using PR.Domain.AggregatesModel.FriendshipAggregate;
+using PR.Domain.SeedWork;
 
 namespace PR.Domain.AggregatesModel.PersonAggregate;
 
-public class Person : Entity, IAggregateRoot
+public class Person : Entity
 {
 	public string IdentityGuid { get; }
 	public string Username { get; }
 	public string FirstName { get; }
 	public string LastName { get; }
-
-
-
+	
+	private readonly List<Friendship> _friendships;
+	
+	public IReadOnlyCollection<Friendship> Friendships => _friendships;
+	
 	private Person()
 	{
 	}

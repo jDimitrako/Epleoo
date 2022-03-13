@@ -1,6 +1,6 @@
 ﻿using System;
 using FluentAssertions;
-using PR.Domain.AggregatesModel.FriendRequestAggregate;
+using PR.Domain.AggregatesModel.FriendshipAggregate;
 using Xunit;
 
 namespace PR.UnitTests.Domain;
@@ -19,7 +19,5 @@ public class FriendshipAggregateTest
 		
 		//Assert
 		result.Should().NotBeNull();
-		result.SenderIdentityGuid.Should().NotBeNull();
-		result.ReceiverIdentityGuid.Should().NotBeNull();
 	}
 }

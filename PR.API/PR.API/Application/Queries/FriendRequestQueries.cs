@@ -28,7 +28,7 @@ public class FriendRequestQueries : IFriendRequestsQueries
 				var result =
 					await connection.QueryAsync<FriendRequestViewModel.FriendRequestSummary>(
 						@"select fr.id, fr.senderidentityguid, fr.receiveridentityguid, fr.createddate, 
-       						fr.modifier, fr.modifieddate, fr.friendshipid, fr.friendrequeststatusid, frs.Name FriendRequestStatus 
+       						fr.modifier, fr.modifieddate, fr.friendrequeststatusid, frs.Name FriendRequestStatus 
 						  	from FriendRequests fr, FriendRequestStatus frs
 						 	where fr.FriendRequestStatusId = frs.Id 
 						       and fr.SenderIdentityGuid = @userid", new { userId });

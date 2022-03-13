@@ -5,16 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PR.API.Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initial2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateSequence(
                 name: "friendrequestseq",
-                incrementBy: 10);
-
-            migrationBuilder.CreateSequence(
-                name: "friendshipseq",
                 incrementBy: 10);
 
             migrationBuilder.CreateSequence(
@@ -31,19 +27,6 @@ namespace PR.API.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_friendRequestStatus", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "friendships",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    SenderIdentityGuid = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceiverIdentityGuid = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_friendships", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,8 +54,7 @@ namespace PR.API.Infrastructure.Migrations
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     Modifier = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ModifiedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    FriendRequestStatusId = table.Column<int>(type: "int", nullable: false),
-                    FriendshipId = table.Column<int>(type: "int", nullable: true)
+                    FriendRequestStatusId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,10 +65,35 @@ namespace PR.API.Infrastructure.Migrations
                         principalTable: "friendRequestStatus",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "friendships",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SenderId = table.Column<int>(type: "int", nullable: false),
+                    ReceiverId = table.Column<int>(type: "int", nullable: false),
+                    PersonId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_friendships", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FriendRequests_friendships_FriendshipId",
-                        column: x => x.FriendshipId,
-                        principalTable: "friendships",
+                        name: "FK_friendships_persons_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "persons",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_friendships_persons_ReceiverId",
+                        column: x => x.ReceiverId,
+                        principalTable: "persons",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_friendships_persons_SenderId",
+                        column: x => x.SenderId,
+                        principalTable: "persons",
                         principalColumn: "Id");
                 });
 
@@ -96,9 +103,19 @@ namespace PR.API.Infrastructure.Migrations
                 column: "FriendRequestStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FriendRequests_FriendshipId",
-                table: "FriendRequests",
-                column: "FriendshipId");
+                name: "IX_friendships_PersonId",
+                table: "friendships",
+                column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_friendships_ReceiverId",
+                table: "friendships",
+                column: "ReceiverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_friendships_SenderId",
+                table: "friendships",
+                column: "SenderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_persons_IdentityGuid",
@@ -113,19 +130,16 @@ namespace PR.API.Infrastructure.Migrations
                 name: "FriendRequests");
 
             migrationBuilder.DropTable(
-                name: "persons");
+                name: "friendships");
 
             migrationBuilder.DropTable(
                 name: "friendRequestStatus");
 
             migrationBuilder.DropTable(
-                name: "friendships");
+                name: "persons");
 
             migrationBuilder.DropSequence(
                 name: "friendrequestseq");
-
-            migrationBuilder.DropSequence(
-                name: "friendshipseq");
 
             migrationBuilder.DropSequence(
                 name: "personseq");

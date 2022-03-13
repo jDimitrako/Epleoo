@@ -1,9 +1,10 @@
-﻿using PR.Domain.AggregatesModel.PersonAggregate;
+﻿using PR.Domain.AggregatesModel.FriendshipAggregate;
+using PR.Domain.AggregatesModel.PersonAggregate;
 using PR.Domain.SeedWork;
 
 namespace PR.Infrastructure.Repositories;
 
-public class PersonRepository : IPersonRepository
+public class FriendshipRepository : IFriendshipRepository
 {
 	//private readonly 
 	
