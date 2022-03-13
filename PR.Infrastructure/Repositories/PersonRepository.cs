@@ -1,31 +1,46 @@
-﻿using PR.Domain.AggregatesModel.FriendshipAggregate;
+﻿using Microsoft.EntityFrameworkCore;
+using PR.Domain.AggregatesModel.FriendshipAggregate;
 using PR.Domain.AggregatesModel.PersonAggregate;
 using PR.Domain.SeedWork;
 
 namespace PR.Infrastructure.Repositories;
 
-public class FriendshipRepository : IFriendshipRepository
+public class FriendshipRepository : IPersonRepository
 {
-	//private readonly 
+	private readonly PrDbContext _context;
+
+	public FriendshipRepository(PrDbContext context)
+	{
+		_context = context;
+	}
 	
 	public IUnitOfWork UnitOfWork { get; }
 	public Person Add(Person person)
 	{
-		throw new NotImplementedException();
+		if (person.IsTransient())
+		{
+			return _context.Persons.Add(person).Entity;
+		}
+
+		return person;
 	}
 
 	public Person Update(Person person)
 	{
-		throw new NotImplementedException();
+		return _context.Persons.Update(person).Entity;
 	}
 
-	public Task<Person> FindAsync(string personIdentityGuid)
+	public async Task<Person?> FindAsync(string personIdentityGuid)
 	{
-		throw new NotImplementedException();
+		var person = await _context.Persons.Where(p => p.IdentityGuid == personIdentityGuid)
+			.FirstOrDefaultAsync();
+		return person;
 	}
 
-	public Task<Person> FindByIdAsync(string id)
+	public async Task<Person?> FindByIdAsync(int id)
 	{
-		throw new NotImplementedException();
+		var person = await _context.Persons.Where(p => p.Id == id)
+			.FirstOrDefaultAsync();
+		return person;
 	}
 }

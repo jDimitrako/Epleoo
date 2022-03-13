@@ -3,7 +3,7 @@ using PR.Domain.SeedWork;
 
 namespace PR.Domain.AggregatesModel.PersonAggregate;
 
-public class Person : Entity
+public class Person : Entity, IAggregateRoot 
 {
 	public string IdentityGuid { get; }
 	public string Username { get; }
@@ -13,7 +13,7 @@ public class Person : Entity
 	private readonly List<Friendship> _friendships;
 	
 	public IReadOnlyCollection<Friendship> Friendships => _friendships;
-	
+
 	private Person()
 	{
 	}
@@ -27,5 +27,9 @@ public class Person : Entity
 
 	}
 
-
+	public void AddFriendship(string senderGuid, string receiverGuid)
+	{
+		var friendshipToAdd = new Friendship(senderGuid, receiverGuid);
+		_friendships.Add(friendshipToAdd);
+	}
 }

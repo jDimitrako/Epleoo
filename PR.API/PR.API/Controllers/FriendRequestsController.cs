@@ -47,7 +47,7 @@ public class FriendRequestsController : ControllerBase
 		return BadRequest();
 	}
 
-	[Route("FriendRequests/{id}/accept")]
+	[Route("FriendRequests/{friendRequestId}/accept")]
 	[HttpPut]
 	[ProducesResponseType((int)HttpStatusCode.OK)]
 	[ProducesResponseType((int)HttpStatusCode.BadRequest)]

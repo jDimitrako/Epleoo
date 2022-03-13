@@ -21,7 +21,7 @@ public class MediatorModule : Autofac.Module
             .AsClosedTypesOf(typeof(IRequestHandler<,>));
 
         // Register the DomainEventHandler classes (they implement INotificationHandler<>) in assembly holding the Domain Events
-        builder.RegisterAssemblyTypes(typeof(AddFriendshipAggregateWhenFriendshipRequestAcceptedEventHandler).GetTypeInfo().Assembly)
+        builder.RegisterAssemblyTypes(typeof(AddPersonFriendshipWhenFriendshipRequestAcceptedEventHandler).GetTypeInfo().Assembly)
             .AsClosedTypesOf(typeof(INotificationHandler<>));
 
         // Register the Command's Validators (Validators based on FluentValidation library)

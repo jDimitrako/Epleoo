@@ -18,12 +18,12 @@ public class FriendshipEntityTypeConfiguration : IEntityTypeConfiguration<Friend
 
 		builder.HasOne(s => s.Sender)
 			.WithMany()
-			.HasForeignKey(f => f.SenderId)
+			.HasForeignKey(f => f.Sender.Id)
 			.OnDelete(DeleteBehavior.NoAction);
 
 		builder.HasOne(s => s.Receiver)
 			.WithMany()
-			.HasForeignKey(f => f.ReceiverId)
+			.HasForeignKey(f => f.Receiver.Id)
 			.OnDelete(DeleteBehavior.NoAction);
 
 		
