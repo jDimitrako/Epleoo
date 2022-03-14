@@ -20,10 +20,10 @@ public class FriendRequest : Entity, IAggregateRoot
 
 	public FriendRequest(int senderIdentityId, int receiverIdentityId, int statusId)
 	{
-		SenderPersonId = senderIdentityId < 0
+		SenderPersonId = senderIdentityId > 0
 			? senderIdentityId
 			: throw new PRDomainException(nameof(senderIdentityId));
-		ReceiverPersonId = receiverIdentityId < 0
+		ReceiverPersonId = receiverIdentityId > 0
 			? receiverIdentityId
 			: throw new PRDomainException(nameof(receiverIdentityId));
 		CreatedDate = DateTimeOffset.Now;
@@ -38,7 +38,7 @@ public class FriendRequest : Entity, IAggregateRoot
 		       && ReceiverPersonId == receiverId;
 	}
 
-	public void setAcceptedFriendRequestStatus()
+	public void SetAcceptedFriendRequestStatus()
 	{
 		if (_friendRequestStatusId != FriendRequestStatus.AwaitingConfirmation.Id)
 		{

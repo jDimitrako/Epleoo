@@ -28,7 +28,7 @@ public class AcceptFriendRequestCommandHandler : IRequestHandler<AcceptFriendReq
 		var friendRequestToAccept = await _friendRequestRepository.FindByIdAsync(request.FriendRequestId);
 		if (friendRequestToAccept == null) return false;
 		
-		friendRequestToAccept.setAcceptedFriendRequestStatus();
+		friendRequestToAccept.SetAcceptedFriendRequestStatus();
 		return await _friendRequestRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 	}
 }

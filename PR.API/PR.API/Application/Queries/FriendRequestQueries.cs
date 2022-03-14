@@ -17,7 +17,7 @@ public class FriendRequestQueries : IFriendRequestsQueries
 			: throw new ArgumentNullException(nameof(connectionString));
 	}
 
-	public async Task<IEnumerable<FriendRequestViewModel.FriendRequestSummary>> GetSentFriendRequestAsync(string userId)
+	public async Task<IEnumerable<FriendRequestViewModel.FriendRequestSummary>> GetSentFriendRequestAsync(int personId)
 	{
 		try
 		{
@@ -27,11 +27,11 @@ public class FriendRequestQueries : IFriendRequestsQueries
 
 				var result =
 					await connection.QueryAsync<FriendRequestViewModel.FriendRequestSummary>(
-						@"select fr.id, fr.senderidentityguid, fr.receiveridentityguid, fr.createddate, 
+						@"select fr.id, fr.SenderPersonId, fr.ReceiverPersonId, fr.createddate, 
        						fr.modifier, fr.modifieddate, fr.friendrequeststatusid, frs.Name FriendRequestStatus 
 						  	from FriendRequests fr, FriendRequestStatus frs
 						 	where fr.FriendRequestStatusId = frs.Id 
-						       and fr.SenderIdentityGuid = @userid", new { userId });
+						       and fr.Id = @userid", new { userId = personId });
 
 				return result;
 			}

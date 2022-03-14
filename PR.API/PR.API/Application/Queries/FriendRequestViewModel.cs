@@ -6,8 +6,8 @@ public class FriendRequestViewModel
 {
 	public record FriendRequest
 	{
-		public string SenderIdentityGuid { get; init; }
-		public string ReceiverIdentityGuid { get; init; }
+		public string SenderPersonId { get; init; }
+		public string ReceiverPersonId { get; init; }
 		public string CreatedDate { get; init; }
 		public string Modifier { get; init; }
 		public string ModifiedDate { get; init; }
@@ -18,8 +18,8 @@ public class FriendRequestViewModel
 	public record FriendRequestSummary
 	{
 		public int Id { get; init; }
-		public string SenderIdentityGuid { get; init; }
-		public string ReceiverIdentityGuid { get; init; }
+		public int SenderPersonId { get; init; }
+		public int ReceiverPersonId { get; init; }
 		public DateTimeOffset CreatedDate { get; init; }
 		public string Modifier { get; init; }
 		public DateTimeOffset ModifiedDate { get; init; }
