@@ -36,8 +36,8 @@ public class FriendRequestsController : ControllerBase
 		_logger.LogInformation(
 			"----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
 			createFriendRequestCommand.GetGenericTypeName(),
-			nameof(createFriendRequestCommand.ReceiverIdentityGuid),
-			createFriendRequestCommand.SenderIdentityGuid,
+			nameof(createFriendRequestCommand.ReceiverPersonId),
+			createFriendRequestCommand.SenderPersonId,
 			createFriendRequestCommand);
 
 		var result = await _mediator.Send(createFriendRequestCommand);

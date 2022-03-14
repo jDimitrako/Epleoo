@@ -10,34 +10,32 @@ public class FriendRequest : Entity, IAggregateRoot
 	{
 	}
 
-	public string SenderIdentityGuid { get; }
-	public string ReceiverIdentityGuid { get; }
+	public int SenderPersonId { get; }
+	public int ReceiverPersonId { get; }
 	public DateTimeOffset CreatedDate { get; }
-	public string Modifier { get; }
+	public int Modifier { get; }
 	public DateTimeOffset? ModifiedDate { get; }
 	public FriendRequestStatus FriendRequestStatus { get; private set; }
 	private int _friendRequestStatusId;
 
-	public FriendRequest(string senderIdentityGuid, string receiverIdentityGuid, int statusId)
+	public FriendRequest(int senderIdentityId, int receiverIdentityId, int statusId)
 	{
-		SenderIdentityGuid = !string.IsNullOrEmpty(senderIdentityGuid)
-			? senderIdentityGuid
-			: throw new PRDomainException(nameof(senderIdentityGuid));
-		ReceiverIdentityGuid = !string.IsNullOrEmpty(receiverIdentityGuid)
-			? receiverIdentityGuid
-			: throw new PRDomainException(nameof(receiverIdentityGuid));
+		SenderPersonId = senderIdentityId < 0
+			? senderIdentityId
+			: throw new PRDomainException(nameof(senderIdentityId));
+		ReceiverPersonId = receiverIdentityId < 0
+			? receiverIdentityId
+			: throw new PRDomainException(nameof(receiverIdentityId));
 		CreatedDate = DateTimeOffset.Now;
-		Modifier = !string.IsNullOrEmpty(senderIdentityGuid)
-			? senderIdentityGuid
-			: throw new PRDomainException(nameof(senderIdentityGuid));
+		Modifier = senderIdentityId;
 		ModifiedDate = DateTimeOffset.Now;
 		_friendRequestStatusId = statusId;
 	}
 
-	public bool IsEqualTo(string senderId, string receiverId)
+	public bool IsEqualTo(int senderId, int receiverId)
 	{
-		return SenderIdentityGuid == senderId
-		       && ReceiverIdentityGuid == receiverId;
+		return SenderPersonId == senderId
+		       && ReceiverPersonId == receiverId;
 	}
 
 	public void setAcceptedFriendRequestStatus()

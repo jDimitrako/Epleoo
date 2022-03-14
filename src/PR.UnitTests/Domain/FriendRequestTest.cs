@@ -12,8 +12,8 @@ public class FriendRequestTest
 	public void Create_FriendRequest_Success()
 	{
 		//Arrange
-		var senderIdentityGuid = Guid.NewGuid().ToString();
-		var receiverIdentityGuid = Guid.NewGuid().ToString();
+		var senderIdentityGuid = 1;
+		var receiverIdentityGuid = 2;
 		var friendRequestStatusId = FriendRequestStatus.AwaitingConfirmation.Id;
 		
 		//Act
@@ -22,8 +22,8 @@ public class FriendRequestTest
 		//Assert
 		result.Should().NotBeNull();
 		result.IsEqualTo(senderIdentityGuid, receiverIdentityGuid).Should().BeTrue();
-		result.SenderIdentityGuid.Should().Be(senderIdentityGuid);
-		result.ReceiverIdentityGuid.Should().Be(receiverIdentityGuid);
+		result.SenderPersonId.Should().Be(senderIdentityGuid);
+		result.ReceiverPersonId.Should().Be(receiverIdentityGuid);
 		result.Modifier.Should().Be(senderIdentityGuid);
 		result.CreatedDate.Should().Subject.Should().NotBeNull();
 		result.ModifiedDate.Should().Subject.Should().NotBeNull();
@@ -33,8 +33,8 @@ public class FriendRequestTest
 	public void Create_FriendRequest_SenderGuid_Failure()
 	{
 		//Arrange
-		var senderIdentityGuid = string.Empty;
-		var receiverIdentityGuid = Guid.NewGuid().ToString();
+		var senderIdentityGuid = 0;
+		var receiverIdentityGuid = 1;
 		var friendRequestStatusId = FriendRequestStatus.AwaitingConfirmation.Id;
 		//Act
 		Action act = () =>
@@ -51,8 +51,8 @@ public class FriendRequestTest
 	public void Create_FriendRequest_ReceiverGuid_Failure()
 	{
 		//Arrange
-		var senderIdentityGuid = Guid.NewGuid().ToString();
-		var receiverIdentityGuid = string.Empty;
+		var senderIdentityGuid = 1;
+		var receiverIdentityGuid = 0;
 		var friendRequestStatusId = FriendRequestStatus.AwaitingConfirmation.Id;
 		
 		//Act

@@ -21,15 +21,15 @@ public class AddPersonFriendshipWhenFriendshipRequestAcceptedEventHandler : INot
 	
 	public async Task Handle(FriendRequestAcceptedDomainEvent notification, CancellationToken cancellationToken)
 	{
-		var sender = await _personRepository.FindAsync(notification.FriendRequest.SenderIdentityGuid);
+		var sender = await _personRepository.FindAsync(notification.FriendRequest.SenderPersonId);
 		if (sender == null) throw new ArgumentNullException(nameof(notification));
 		
-		sender.AddFriendship(notification.FriendRequest.SenderIdentityGuid, notification.FriendRequest.ReceiverIdentityGuid);
+		sender.AddFriendship(notification.FriendRequest.SenderPersonId, notification.FriendRequest.ReceiverPersonId);
 
 		 await _personRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 		 
 		 _logger.CreateLogger<AddPersonFriendshipWhenFriendshipRequestAcceptedEventHandler>()
 			 .LogTrace("Person with Id: {Id} has been successfully create a friendship with person {Id2}",
-				 notification.FriendRequest.SenderIdentityGuid, notification.FriendRequest.ReceiverIdentityGuid);
+				 notification.FriendRequest.SenderPersonId, notification.FriendRequest.ReceiverPersonId);
 	}
 }

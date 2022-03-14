@@ -37,12 +37,12 @@ public class FriendRequestRepository : IFriendRequestRepository
 		return friendship;
 	}
 
-	public Task<bool> Exists(string senderIdentityGuid, string receiverIdentityGuid)
+	public Task<bool> Exists(int senderPersonId, int receiverPersonId)
 	{
 		try
 		{
 			return Task.FromResult(_context.FriendRequests.Any(f =>
-				f.ReceiverIdentityGuid == receiverIdentityGuid && f.SenderIdentityGuid == senderIdentityGuid));
+				f.ReceiverPersonId == receiverPersonId && f.SenderPersonId == senderPersonId));
 		}
 		catch (Exception e)
 		{

@@ -9,11 +9,13 @@ public class Person : Entity, IAggregateRoot
 	public string Username { get; }
 	public string FirstName { get; }
 	public string LastName { get; }
-	
-	private readonly List<Friendship> _friendships;
-	
-	public IReadOnlyCollection<Friendship> Friendships => _friendships;
 
+	private readonly List<Friendship> _friendshipsSent;
+	private readonly List<Friendship> _friendshipsReceived;
+	
+	public IReadOnlyCollection<Friendship> FriendshipsSent => _friendshipsSent;
+	public IReadOnlyCollection<Friendship> FriendshipsReceived => _friendshipsReceived;
+	
 	private Person()
 	{
 	}
@@ -27,9 +29,9 @@ public class Person : Entity, IAggregateRoot
 
 	}
 
-	public void AddFriendship(string senderGuid, string receiverGuid)
+	public void AddFriendship(int senderGuid, int receiverGuid)
 	{
 		var friendshipToAdd = new Friendship(senderGuid, receiverGuid);
-		_friendships.Add(friendshipToAdd);
+		_friendshipsSent.Add(friendshipToAdd);
 	}
 }

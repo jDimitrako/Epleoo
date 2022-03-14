@@ -32,13 +32,13 @@ public class CreateFriendRequestCommandHandler : IRequestHandler<CreateFriendReq
 	{
 		try
 		{
-			var exists = await _friendRequestRepository.Exists(request.SenderIdentityGuid, request.ReceiverIdentityGuid);
+			var exists = await _friendRequestRepository.Exists(request.SenderPersonId, request.ReceiverPersonId);
 			if (exists)
 				return false;
 
 			var friendRequest =
-				new Domain.AggregatesModel.FriendRequestAggregate.FriendRequest(request.SenderIdentityGuid,
-					request.ReceiverIdentityGuid, FriendRequestStatus.AwaitingConfirmation.Id);
+				new Domain.AggregatesModel.FriendRequestAggregate.FriendRequest(request.SenderPersonId,
+					request.ReceiverPersonId, FriendRequestStatus.AwaitingConfirmation.Id);
 			
 			_logger.LogInformation("----- Creating FriendRequest - FriendRequest: {@FriendRequest}", friendRequest);
 

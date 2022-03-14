@@ -16,17 +16,22 @@ public class FriendshipEntityTypeConfiguration : IEntityTypeConfiguration<Friend
 
 		builder.HasKey(o => o.Id);
 
+		/*
+		builder.HasMany(f => f.Persons)
+			.WithMany(p => p.Friendships)
+			.UsingEntity(j => j.ToTable("PersonFriendships"));*/
+
 		builder.HasOne(s => s.Sender)
-			.WithMany()
-			.HasForeignKey(f => f.Sender.Id)
-			.OnDelete(DeleteBehavior.NoAction);
+			.WithMany(p => p.FriendshipsSent)
+			.HasForeignKey(f => f.SenderId)
+			.OnDelete(DeleteBehavior.Restrict);
 
 		builder.HasOne(s => s.Receiver)
-			.WithMany()
-			.HasForeignKey(f => f.Receiver.Id)
-			.OnDelete(DeleteBehavior.NoAction);
+			.WithMany(p => p.FriendshipsReceived)
+			.HasForeignKey(f => f.ReceiverId)
+			.OnDelete(DeleteBehavior.Restrict);
 
-		
+
 		//var navigation = builder.Metadata.FindNavigation(nameof(Friendship.FriendRequests));
 
 		//navigation.SetPropertyAccessMode(PropertyAccessMode.Field);

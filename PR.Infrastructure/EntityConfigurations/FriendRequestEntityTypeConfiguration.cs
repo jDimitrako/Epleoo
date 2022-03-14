@@ -17,8 +17,8 @@ public class FriendRequestEntityTypeConfiguration : IEntityTypeConfiguration<Fri
 		builder.Property(f => f.Id)
 			.UseHiLo("friendrequestseq");
 		
-		builder.Property(f => f.SenderIdentityGuid);
-		builder.Property(f => f.ReceiverIdentityGuid);
+		builder.Property(f => f.SenderPersonId);
+		builder.Property(f => f.ReceiverPersonId);
 		builder.Property(f => f.CreatedDate);
 		builder.Property(f => f.Modifier);
 		builder.Property(f => f.ModifiedDate);

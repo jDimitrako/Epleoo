@@ -30,9 +30,9 @@ public class FriendshipRepository : IPersonRepository
 		return _context.Persons.Update(person).Entity;
 	}
 
-	public async Task<Person?> FindAsync(string personIdentityGuid)
+	public async Task<Person?> FindAsync(int personIdentityGuid)
 	{
-		var person = await _context.Persons.Where(p => p.IdentityGuid == personIdentityGuid)
+		var person = await _context.Persons.Where(p => p.Id == personIdentityGuid)
 			.FirstOrDefaultAsync();
 		return person;
 	}

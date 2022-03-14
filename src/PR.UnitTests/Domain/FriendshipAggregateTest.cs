@@ -11,8 +11,8 @@ public class FriendshipAggregateTest
 	public void Create_FriendRequest_Success()
 	{
 		//Arrange
-		var senderIdentityGuid = Guid.NewGuid().ToString();
-		var receiverIdentityGuid = Guid.NewGuid().ToString();
+		var senderIdentityGuid = 1;
+		var receiverIdentityGuid = 2;
 		
 		//Act
 		var result = new Friendship(senderIdentityGuid, receiverIdentityGuid);
