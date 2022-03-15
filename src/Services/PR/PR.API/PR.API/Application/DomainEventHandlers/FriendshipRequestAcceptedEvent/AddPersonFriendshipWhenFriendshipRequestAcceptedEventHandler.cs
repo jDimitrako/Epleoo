@@ -29,8 +29,6 @@ public class AddPersonFriendshipWhenFriendshipRequestAcceptedEventHandler : INot
 		
 		sender.AddFriendship(notification.FriendRequest.SenderPersonId, notification.FriendRequest.ReceiverPersonId);
 
-		// await _personRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-		 
 		 _logger.CreateLogger<AddPersonFriendshipWhenFriendshipRequestAcceptedEventHandler>()
 			 .LogTrace("Person with Id: {Id} has been successfully create a friendship with person {Id2}",
 				 notification.FriendRequest.SenderPersonId, notification.FriendRequest.ReceiverPersonId);

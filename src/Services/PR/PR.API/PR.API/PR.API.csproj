@@ -40,12 +40,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
-      <ProjectReference Include="..\..\IntegrationEventLogEF\IntegrationEventLogEF.csproj" />
+      <ProjectReference Include="..\..\..\..\BuildingBlocks\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
+      <ProjectReference Include="..\..\..\..\BuildingBlocks\EventBusServiceBus\EventBusServiceBus.csproj" />
+      <ProjectReference Include="..\..\..\..\BuildingBlocks\IntegrationEventLogEF\IntegrationEventLogEF.csproj" />
+      <ProjectReference Include="..\..\..\..\BuildingBlocks\WebHost.Customization\WebHost.Customization.csproj" />
       <ProjectReference Include="..\..\PR.Domain\PR.Domain.csproj" />
       <ProjectReference Include="..\..\PR.Infrastructure\PR.Infrastructure.csproj" />
-      <ProjectReference Include="..\..\src\BuildingBlocks\EventBusServiceBus\EventBusServiceBus.csproj" />
-      <ProjectReference Include="..\..\src\BuildingBlocks\WebHost.Customization\WebHost.Customization.csproj" />
     </ItemGroup>
 
 </Project>
