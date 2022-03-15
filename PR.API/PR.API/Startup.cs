@@ -27,6 +27,7 @@ using PR.API.Application.IntegrationEvents;
 using PR.API.Controllers;
 using PR.API.Infrastructure.AutofacModules;
 using PR.API.Infrastructure.Filters;
+using PR.API.Middlewares;
 using PR.Infrastructure;
 using RabbitMQ.Client;
 
@@ -92,7 +93,8 @@ public class Startup
 			});
 
 		app.UseRouting();
-		
+		app.UseMiddleware<ExceptionMiddleware>();
+
 		app.UseCors("CorsPolicy");
 		ConfigureAuth(app);
 

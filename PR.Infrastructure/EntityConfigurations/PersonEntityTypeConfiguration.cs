@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PR.Domain.AggregatesModel.PersonAggregate;
+using PR.Domain.AggregatesModel.FriendshipAggregate;
 
 namespace PR.Infrastructure.EntityConfigurations;
 

@@ -25,10 +25,19 @@ public class AcceptFriendRequestCommandHandler : IRequestHandler<AcceptFriendReq
 
 	public async Task<bool> Handle(AcceptFriendRequestCommand request, CancellationToken cancellationToken)
 	{
-		var friendRequestToAccept = await _friendRequestRepository.FindByIdAsync(request.FriendRequestId);
-		if (friendRequestToAccept == null) return false;
+		try
+		{
+			var friendRequestToAccept = await _friendRequestRepository.FindByIdAsync(request.FriendRequestId);
+			if (friendRequestToAccept == null) return false;
 		
-		friendRequestToAccept.SetAcceptedFriendRequestStatus();
-		return await _friendRequestRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+			friendRequestToAccept.SetAcceptedFriendRequestStatus();
+			var result =  await _friendRequestRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+			return result;
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			throw;
+		}
 	}
 }

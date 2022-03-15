@@ -12,7 +12,7 @@ using PR.Infrastructure;
 namespace PR.API.Infrastructure.Migrations
 {
     [DbContext(typeof(PrDbContext))]
-    [Migration("20220314212453_Initial")]
+    [Migration("20220315145253_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,7 +103,7 @@ namespace PR.API.Infrastructure.Migrations
                     b.ToTable("friendships", (string)null);
                 });
 
-            modelBuilder.Entity("PR.Domain.AggregatesModel.PersonAggregate.Person", b =>
+            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendshipAggregate.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -149,13 +149,13 @@ namespace PR.API.Infrastructure.Migrations
 
             modelBuilder.Entity("PR.Domain.AggregatesModel.FriendshipAggregate.Friendship", b =>
                 {
-                    b.HasOne("PR.Domain.AggregatesModel.PersonAggregate.Person", "Receiver")
+                    b.HasOne("PR.Domain.AggregatesModel.FriendshipAggregate.Person", "Receiver")
                         .WithMany("FriendshipsReceived")
                         .HasForeignKey("ReceiverId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("PR.Domain.AggregatesModel.PersonAggregate.Person", "Sender")
+                    b.HasOne("PR.Domain.AggregatesModel.FriendshipAggregate.Person", "Sender")
                         .WithMany("FriendshipsSent")
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -166,7 +166,7 @@ namespace PR.API.Infrastructure.Migrations
                     b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("PR.Domain.AggregatesModel.PersonAggregate.Person", b =>
+            modelBuilder.Entity("PR.Domain.AggregatesModel.FriendshipAggregate.Person", b =>
                 {
                     b.Navigation("FriendshipsReceived");
 

@@ -1,5 +1,4 @@
-﻿using PR.Domain.AggregatesModel.PersonAggregate;
-using PR.Domain.SeedWork;
+﻿using PR.Domain.SeedWork;
 
 namespace PR.Domain.AggregatesModel.FriendshipAggregate;
 

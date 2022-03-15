@@ -4,6 +4,7 @@ using EventBus.Abstractions;
 using PR.API.Application.Commands.FriendRequest;
 using PR.API.Application.Queries;
 using PR.Domain.AggregatesModel.FriendRequestAggregate;
+using PR.Domain.AggregatesModel.FriendshipAggregate;
 using PR.Infrastructure.Idempotency;
 using PR.Infrastructure.Repositories;
 
@@ -32,6 +33,10 @@ public class ApplicationModule
             .As<IFriendRequestRepository>()
             .InstancePerLifetimeScope();
 
+        builder.RegisterType<PersonRepository>()
+            .As<IPersonRepository>()
+            .InstancePerLifetimeScope();
+        
         builder.RegisterType<RequestManager>()
             .As<IRequestManager>()
             .InstancePerLifetimeScope();

@@ -1,15 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PR.Domain.AggregatesModel.FriendshipAggregate;
-using PR.Domain.AggregatesModel.PersonAggregate;
 using PR.Domain.SeedWork;
 
 namespace PR.Infrastructure.Repositories;
 
-public class FriendshipRepository : IPersonRepository
+public class PersonRepository : IPersonRepository
 {
 	private readonly PrDbContext _context;
 
-	public FriendshipRepository(PrDbContext context)
+	public PersonRepository(PrDbContext context)
 	{
 		_context = context;
 	}
@@ -32,9 +31,17 @@ public class FriendshipRepository : IPersonRepository
 
 	public async Task<Person?> FindAsync(int personIdentityGuid)
 	{
-		var person = await _context.Persons.Where(p => p.Id == personIdentityGuid)
-			.FirstOrDefaultAsync();
-		return person;
+		try
+		{
+			var person = await _context.Persons.Where(p => p.Id == personIdentityGuid)
+				.FirstOrDefaultAsync();
+			return person;
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			throw;
+		}
 	}
 
 	public async Task<Person?> FindByIdAsync(int id)
