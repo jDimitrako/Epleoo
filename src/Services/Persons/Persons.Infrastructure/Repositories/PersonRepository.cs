@@ -29,11 +29,11 @@ public class PersonRepository : IPersonRepository
 		return _context.Persons.Update(person).Entity;
 	}
 
-	public async Task<Person?> FindAsync(int personIdentityGuid)
+	public async Task<Person?> FindAsync(string personIdentityGuid)
 	{
 		try
 		{
-			var person = await _context.Persons.Where(p => p.Id == personIdentityGuid)
+			var person = await _context.Persons.Where(p => p.IdentityGuid == personIdentityGuid)
 				.FirstOrDefaultAsync();
 			return person;
 		}

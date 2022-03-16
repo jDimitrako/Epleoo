@@ -8,8 +8,8 @@
       "sslPort": 44325
     }
   },
-  "personsofiles": {
-    "IIS Expersonsess": {
+  "profiles": {
+    "IIS Express": {
       "commandName": "IISExpersonsess",
       "launchBrowser": true,
       "launchUrl": "swagger",
