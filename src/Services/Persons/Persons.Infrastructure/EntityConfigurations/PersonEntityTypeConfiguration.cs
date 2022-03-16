@@ -27,6 +27,8 @@ public class PersonEntityTypeConfiguration : IEntityTypeConfiguration<Person>
 		builder.Property(p => p.FirstName);
 		builder.Property(p => p.LastName);
 		builder.Property(p => p.Username);
+		builder.Property(p => p.Bio);
+		builder.Property(p => p.KnownAs);
 
 
 		//var navigation = builder.Metadata.FindNavigation(nameof(Person.FriendRequests));

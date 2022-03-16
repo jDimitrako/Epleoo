@@ -2,15 +2,15 @@ namespace Persons.Domain.Exceptions
 {
     public class AppException
     {
-        public AppException(int statusCode, string message, string details)
+        public AppException(int statusCode, string message, string? details = null)
         {
             StatusCode = statusCode;
             Message = message;
             Details = details;
         }
 
-        public int StatusCode { get; set; }
-        public string Message { get; set; }
-        public string Details { get; set; }
+        public int StatusCode { get; }
+        public string Message { get; }
+        public string? Details { get; }
     }
 }

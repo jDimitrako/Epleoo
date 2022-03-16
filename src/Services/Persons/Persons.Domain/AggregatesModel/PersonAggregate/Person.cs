@@ -21,9 +21,8 @@ public class Person : Entity, IAggregateRoot
 	{
 	}
 
-	public Person(int id, string identityGuid, string username, string firstName, string lastName, string knownAs, string bio) : this()
+	public Person(string identityGuid, string username, string firstName, string lastName, string knownAs, string bio) : this()
 	{
-		_id = id;
 		IdentityGuid = !string.IsNullOrEmpty(identityGuid)
 			? identityGuid
 			: throw new ArgumentNullException(nameof(identityGuid));
