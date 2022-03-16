@@ -1,8 +1,9 @@
-﻿using FluentAssertions;
-using PR.Domain.AggregatesModel.FriendshipAggregate;
+﻿using System;
+using FluentAssertions;
+using Persons.Domain.AggregatesModel.FriendshipAggregate;
 using Xunit;
 
-namespace PR.UnitTests.Domain;
+namespace Persons.UnitTests.Domain;
 
 public class FriendshipAggregateTest
 {
