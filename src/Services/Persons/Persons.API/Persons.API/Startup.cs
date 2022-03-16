@@ -277,7 +277,7 @@ static class CustomExtensionsMethods
 		services.AddTransient<Func<DbConnection, IIntegrationEventLogService>>(
 			sp => (DbConnection c) => new IntegrationEventLogService(c));
 
-		services.AddTransient<IPrIntegrationEventService, PrIntegrationEventService>();
+		services.AddTransient<IPersonIntegrationEventService, PersonIntegrationEventService>();
 
 		//services.AddScoped<IFriendshipRepository, FriendshipRepository>();
 

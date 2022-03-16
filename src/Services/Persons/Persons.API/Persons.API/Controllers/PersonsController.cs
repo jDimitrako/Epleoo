@@ -25,16 +25,16 @@ public class PersonsController : ControllerBase
 	[ProducesResponseType((int)HttpStatusCode.OK)]
 	[ProducesResponseType((int)HttpStatusCode.BadRequest)]
 	public async Task<IActionResult> CreateFriendRequestAsync(
-		[FromBody] CreatePersonRequestCommand createPersonRequestCommand)
+		[FromBody] CreatePersonCommand createPersonCommand)
 	{
 		_logger.LogInformation(
 			"----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
-			createPersonRequestCommand.GetGenericTypeName(),
-			nameof(createPersonRequestCommand.IdentityGuid),
-			createPersonRequestCommand,
-			createPersonRequestCommand);
+			createPersonCommand.GetGenericTypeName(),
+			nameof(createPersonCommand.IdentityGuid),
+			createPersonCommand,
+			createPersonCommand);
 
-		var result = await _mediator.Send(createPersonRequestCommand);
+		var result = await _mediator.Send(createPersonCommand);
 		if (result)
 			return Ok();
 

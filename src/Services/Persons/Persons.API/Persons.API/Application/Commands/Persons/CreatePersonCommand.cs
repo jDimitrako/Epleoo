@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Persons.API.Application.Commands.Persons;
 
-public class CreatePersonRequestCommand : IRequest<bool>
+public class CreatePersonCommand : IRequest<bool>
 {
 	[DataMember] public string IdentityGuid { get; }
 	[DataMember] public string Username { get; }
@@ -13,7 +13,7 @@ public class CreatePersonRequestCommand : IRequest<bool>
 	[DataMember] public string KnownAs { get; }
 	[DataMember] public string Bio { get; }
 
-	public CreatePersonRequestCommand(string identityGuid, string username, string firstName, string lastName, string knownAs, string bio)
+	public CreatePersonCommand(string identityGuid, string username, string firstName, string lastName, string knownAs, string bio)
 	{
 		IdentityGuid = identityGuid;
 		Username = username;

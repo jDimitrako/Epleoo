@@ -24,8 +24,8 @@ public class ApplicationModule
     protected  override void Load(ContainerBuilder builder)
     {
 
-        builder.Register(c => new FriendRequestQueries(QueriesConnectionString))
-            .As<IFriendRequestsQueries>()
+        builder.Register(c => new PersonQueries(QueriesConnectionString))
+            .As<IPersonsQueries>()
             .InstancePerLifetimeScope();
 
         builder.RegisterType<PersonRepository>()
@@ -36,7 +36,7 @@ public class ApplicationModule
             .As<IRequestManager>()
             .InstancePerLifetimeScope();
 
-        builder.RegisterAssemblyTypes(typeof(CreatePersonRequestCommand).GetTypeInfo().Assembly)
+        builder.RegisterAssemblyTypes(typeof(CreatePersonCommand).GetTypeInfo().Assembly)
             .AsClosedTypesOf(typeof(IIntegrationEventHandler<>));
 
     }

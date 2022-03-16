@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Persons.API.Application.Queries;
 
-public interface IFriendRequestsQueries
+public interface IPersonsQueries
 {
 	Task<IEnumerable<FriendRequestViewModel.FriendRequestSummary>> GetSentFriendRequestAsync(int personId);
 }

@@ -12,10 +12,10 @@ public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
 {
     private  readonly ILogger<TransactionBehaviour<TRequest, TResponse>> _logger;
     private  readonly PersonDbContext _dbContext;
-    private  readonly IPrIntegrationEventService _personsIntegrationEventService;
+    private  readonly IPersonIntegrationEventService _personsIntegrationEventService;
 
     public TransactionBehaviour(PersonDbContext dbContext,
-        IPrIntegrationEventService orderingIntegrationEventService,
+        IPersonIntegrationEventService orderingIntegrationEventService,
         ILogger<TransactionBehaviour<TRequest, TResponse>> logger)
     {
         _dbContext = dbContext ?? throw new ArgumentException(nameof(PersonDbContext));

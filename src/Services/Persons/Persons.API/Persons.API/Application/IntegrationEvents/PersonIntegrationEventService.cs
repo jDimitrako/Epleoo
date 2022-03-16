@@ -11,19 +11,19 @@ using Persons.Infrastructure;
 
 namespace Persons.API.Application.IntegrationEvents;
 
-public class PrIntegrationEventService : IPrIntegrationEventService
+public class PersonIntegrationEventService : IPersonIntegrationEventService
 {
     private  readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
     private  readonly IEventBus _eventBus;
     private  readonly PersonDbContext _personsDbContext;
     private  readonly IIntegrationEventLogService _eventLogService;
-    private  readonly ILogger<PrIntegrationEventService> _logger;
+    private  readonly ILogger<PersonIntegrationEventService> _logger;
 
-    public PrIntegrationEventService(IEventBus eventBus,
+    public PersonIntegrationEventService(IEventBus eventBus,
         PersonDbContext orderingDbContext,
         IntegrationEventLogContext eventLogContext,
         Func<DbConnection, IIntegrationEventLogService> integrationEventLogServiceFactory,
-        ILogger<PrIntegrationEventService> logger)
+        ILogger<PersonIntegrationEventService> logger)
     {
         _personsDbContext = orderingDbContext ?? throw new ArgumentNullException(nameof(orderingDbContext));
         _integrationEventLogServiceFactory = integrationEventLogServiceFactory ?? throw new ArgumentNullException(nameof(integrationEventLogServiceFactory));

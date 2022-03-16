@@ -4,9 +4,9 @@ using Persons.API.Application.Commands.Persons;
 
 namespace Persons.API.Application.Validations;
 
-public class CreatePersonRequestValidator : AbstractValidator<CreatePersonRequestCommand>
+public class CreatePersonValidator : AbstractValidator<CreatePersonCommand>
 {
-	public CreatePersonRequestValidator(ILogger<CreatePersonRequestValidator> logger)
+	public CreatePersonValidator(ILogger<CreatePersonValidator> logger)
 	{
 		RuleFor(createPerson => createPerson.IdentityGuid).NotEmpty().WithMessage("No IdentityGuid found");
 		RuleFor(createPerson => createPerson.Username).NotEmpty().WithMessage("No Username found");

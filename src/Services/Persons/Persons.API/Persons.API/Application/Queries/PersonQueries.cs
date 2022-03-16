@@ -6,11 +6,11 @@ using Microsoft.Data.SqlClient;
 
 namespace Persons.API.Application.Queries;
 
-public class FriendRequestQueries : IFriendRequestsQueries
+public class PersonQueries : IPersonsQueries
 {
 	private  readonly string _connectionString;
 
-	public FriendRequestQueries(string connectionString)
+	public PersonQueries(string connectionString)
 	{
 		_connectionString = !string.IsNullOrEmpty(connectionString)
 			? connectionString
