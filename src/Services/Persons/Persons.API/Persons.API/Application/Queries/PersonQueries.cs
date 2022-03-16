@@ -17,7 +17,7 @@ public class PersonQueries : IPersonsQueries
 			: throw new ArgumentNullException(nameof(connectionString));
 	}
 
-	public async Task<IEnumerable<FriendRequestViewModel.FriendRequestSummary>> GetSentFriendRequestAsync(int personId)
+	public async Task<IEnumerable<PersonViewModel.Person>> GetPersons()
 	{
 		try
 		{
@@ -26,12 +26,8 @@ public class PersonQueries : IPersonsQueries
 				connection.Open();
 
 				var result =
-					await connection.QueryAsync<FriendRequestViewModel.FriendRequestSummary>(
-						@"select fr.id, fr.SenderPersonId, fr.ReceiverPersonId, fr.createddate, 
-       						fr.modifier, fr.modifieddate, fr.friendrequeststatusid, frs.Name FriendRequestStatus 
-						  	from FriendRequests fr, FriendRequestStatus frs
-						 	where fr.FriendRequestStatusId = frs.Id 
-						       and fr.Id = @userid", new { userId = personId });
+					await connection.QueryAsync<PersonViewModel.Person>(
+						@"select id, identityguid, username, firstname, lastname from persons");
 
 				return result;
 			}

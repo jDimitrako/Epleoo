@@ -2,34 +2,16 @@
 
 namespace Persons.API.Application.Queries;
 
-public class FriendRequestViewModel
+public class PersonViewModel
 {
-	public record FriendRequest
+	public record Person
 	{
-		public string SenderPersonId { get; init; }
-		public string ReceiverPersonId { get; init; }
-		public string CreatedDate { get; init; }
-		public string Modifier { get; init; }
-		public string ModifiedDate { get; init; }
-		public int FriendRequestStatusId { get; set; }
-		public string FriendRequestStatus { get; set; }
-	}
-
-	public record FriendRequestSummary
-	{
-		public int Id { get; init; }
-		public int SenderPersonId { get; init; }
-		public int ReceiverPersonId { get; init; }
-		public DateTimeOffset CreatedDate { get; init; }
-		public string Modifier { get; init; }
-		public DateTimeOffset ModifiedDate { get; init; }
-		public int FriendRequestStatusId { get; set; }
-		public string FriendRequestStatus { get; set; }
-	}
-
-	public record FriendRequestStatus
-	{
-		public int Id { get; init; }
-		public string Name { get; init; }
-	}
+		public int Id { get; set; }
+		public string IdentityGuid { get; set; }
+		public string Username { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string KnownAs { get; set; }
+		public string Bio { get; set; }
+	} 
 }

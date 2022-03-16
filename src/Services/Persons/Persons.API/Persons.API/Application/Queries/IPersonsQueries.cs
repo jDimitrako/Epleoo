@@ -6,5 +6,5 @@ namespace Persons.API.Application.Queries;
 
 public interface IPersonsQueries
 {
-	Task<IEnumerable<FriendRequestViewModel.FriendRequestSummary>> GetSentFriendRequestAsync(int personId);
+	Task<IEnumerable<PersonViewModel.Person>> GetPersons();
 }
