@@ -7,13 +7,12 @@ namespace Persons.Infrastructure.Repositories;
 public class PersonRepository : IPersonRepository
 {
 	private readonly PersonDbContext _context;
-
+	public IUnitOfWork UnitOfWork => _context;
 	public PersonRepository(PersonDbContext context)
 	{
 		_context = context;
 	}
 	
-	public IUnitOfWork UnitOfWork { get; }
 	public Person Add(Person person)
 	{
 		if (person.IsTransient())

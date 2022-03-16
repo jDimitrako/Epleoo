@@ -27,11 +27,26 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, b
 
 	public async Task<bool> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
 	{
-		var person = new Person(request.IdentityGuid, request.Username, request.FirstName, request.LastName,
-			request.KnownAs, request.Bio);
+		try
+		{
+			var person = new Person(request.IdentityGuid, request.Username, request.FirstName, request.LastName,
+				request.KnownAs, request.Bio);
 		
-		_logger.LogInformation("----- Creating Person: {@Person}", person);
+			if (string.IsNullOrEmpty(request.IdentityGuid))
+				person.SetIdentityGuid(Guid.NewGuid().ToString());
 
-		return await _personRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+			_logger.LogInformation("----- Creating Person: {@Person}", person);
+
+			_personRepository.Add(person);
+
+			return await _personRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+		}
+		catch (Exception e)
+		{
+			_logger.LogError(e, nameof(CreatePersonCommandHandler));
+			Console.WriteLine(e);
+			throw;
+		}
+		
 	}
 }

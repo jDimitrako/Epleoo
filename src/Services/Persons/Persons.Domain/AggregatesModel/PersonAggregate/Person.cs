@@ -10,7 +10,7 @@ public class Person : Entity, IAggregateRoot
 	}
 
 	private int _id;
-	public string IdentityGuid { get; }
+	public string IdentityGuid { get; private set; }
 	public string Username { get; }
 	public string FirstName { get; }
 	public string LastName { get; }
@@ -23,13 +23,16 @@ public class Person : Entity, IAggregateRoot
 
 	public Person(string identityGuid, string username, string firstName, string lastName, string knownAs, string bio) : this()
 	{
-		IdentityGuid = !string.IsNullOrEmpty(identityGuid)
-			? identityGuid
-			: throw new ArgumentNullException(nameof(identityGuid));
+		IdentityGuid = identityGuid;
 		Username = !string.IsNullOrEmpty(username) ? username : throw new ArgumentNullException(nameof(username));
 		FirstName = !string.IsNullOrEmpty(firstName) ? firstName : throw new ArgumentNullException(nameof(firstName));
 		LastName = !string.IsNullOrEmpty(lastName) ? lastName : throw new ArgumentNullException(nameof(lastName));
 		KnownAs = knownAs;
 		Bio = bio;
+	}
+	
+	public void SetIdentityGuid(string newIdentityGuid)
+	{
+		IdentityGuid = newIdentityGuid;
 	}
 }
