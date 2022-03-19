@@ -281,6 +281,8 @@ static class CustomExtensionsMethods
 
 		//services.AddScoped<IFriendshipRepository, FriendshipRepository>();
 
+		services.AddTransient<IPersonIntegrationEventService, PersonIntegrationEventService>();
+		
 		services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
 		{
 			var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();

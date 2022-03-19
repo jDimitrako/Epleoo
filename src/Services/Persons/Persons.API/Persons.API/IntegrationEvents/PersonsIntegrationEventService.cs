@@ -5,6 +5,7 @@ using EventBus.Abstractions;
 using EventBus.Events;
 using IntegrationEventLogEF;
 using IntegrationEventLogEF.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Persons.Infrastructure;
 
@@ -14,32 +15,36 @@ public class PersonsIntegrationEventService : IPersonsIntegrationEventService
 {
 	private readonly IEventBus _eventBus;
 	private readonly PersonDbContext _context;
-	private readonly IntegrationEventLogContext _integrationEventLogContext;
+	private readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;
 	private readonly IIntegrationEventLogService _eventLogService;
 	private readonly ILogger<PersonsIntegrationEventService> _logger;
 
 	public PersonsIntegrationEventService(
-		IEventBus eventBus, 
+		IEventBus eventBus,
 		PersonDbContext context,
-		IntegrationEventLogContext integrationEventLogContext,
-		Func<DbConnection, IIntegrationEventLogService> eventLogService,
+		IIntegrationEventLogService eventLogService,
+		Func<DbConnection, IIntegrationEventLogService> integrationEventLogServiceFactory,
 		ILogger<PersonsIntegrationEventService> logger
-		)
+	)
 	{
-		_eventBus = eventBus;
-		_context = context;
-		_integrationEventLogContext = integrationEventLogContext;
-		_eventLogService = _;
-		_logger = logger;
+		_eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+		_context = context ?? throw new ArgumentNullException(nameof(context));
+		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
+		_integrationEventLogServiceFactory = integrationEventLogServiceFactory ??
+		                                     throw new ArgumentNullException(nameof(integrationEventLogServiceFactory));
+		_eventLogService = _integrationEventLogServiceFactory(_context.Database.GetDbConnection());
+		;
 	}
-	
-	public Task PublishEventsThroughEventBusAsync(Guid transactionId)
+
+	public async Task PublishEventsThroughEventBusAsync(Guid transactionId)
 	{
 		var pendingLogEvents = await _eventLogService.RetrieveEventLogsPendingToPublishAsync(transactionId);
 
 		foreach (var logEvt in pendingLogEvents)
 		{
-			_logger.LogInformation("----- Publishing integration event: {IntegrationEventId} from {AppName} - ({@IntegrationEvent})", logEvt.EventId, Program.AppName, logEvt.IntegrationEvent);
+			_logger.LogInformation(
+				"----- Publishing integration event: {IntegrationEventId} from {AppName} - ({@IntegrationEvent})",
+				logEvt.EventId, Program.AppName, logEvt.IntegrationEvent);
 
 			try
 			{
@@ -49,14 +54,19 @@ public class PersonsIntegrationEventService : IPersonsIntegrationEventService
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError(ex, "ERROR publishing integration event: {IntegrationEventId} from {AppName}", logEvt.EventId, Program.AppName);
+				_logger.LogError(ex, "ERROR publishing integration event: {IntegrationEventId} from {AppName}",
+					logEvt.EventId, Program.AppName);
 
 				await _eventLogService.MarkEventAsFailedAsync(logEvt.EventId);
 			}
-		}	}
+		}
+	}
 
-	public Task AddAndSaveEventAsync(IntegrationEvent evt)
+	public async Task AddAndSaveEventAsync(IntegrationEvent evt)
 	{
-		throw new NotImplementedException();
+		_logger.LogInformation(
+			"----- Enqueuing integration event {IntegrationEventId} to repository ({@IntegrationEvent})", evt.Id, evt);
+
+		await _eventLogService.SaveEventAsync(evt, _context.GetCurrentTransaction());
 	}
 }
