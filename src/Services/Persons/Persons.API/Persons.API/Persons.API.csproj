@@ -50,6 +50,7 @@
 
     <ItemGroup>
       <Folder Include="Application\DomainEventHandlers" />
+      <Folder Include="IntegrationEvents\Events" />
     </ItemGroup>
 
 </Project>
