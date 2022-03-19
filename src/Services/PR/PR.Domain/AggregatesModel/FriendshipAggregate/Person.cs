@@ -12,9 +12,6 @@ public class Person : Entity, IAggregateRoot
 
 	private int _id;
 	public string IdentityGuid { get; }
-	public string Username { get; }
-	public string FirstName { get; }
-	public string LastName { get; }
 
 	private readonly List<Friendship> _friendshipsSent;
 	private readonly List<Friendship> _friendshipsReceived;
@@ -28,15 +25,12 @@ public class Person : Entity, IAggregateRoot
 		_friendshipsSent = new List<Friendship>();
 	}
 
-	public Person(int id, string identityGuid, string username, string firstName, string lastName) : this()
+	public Person(int id, string identityGuid) : this()
 	{
 		_id = id;
 		IdentityGuid = !string.IsNullOrEmpty(identityGuid)
 			? identityGuid
 			: throw new ArgumentNullException(nameof(identityGuid));
-		Username = !string.IsNullOrEmpty(username) ? username : throw new ArgumentNullException(nameof(username));
-		FirstName = !string.IsNullOrEmpty(firstName) ? firstName : throw new ArgumentNullException(nameof(firstName));
-		LastName = !string.IsNullOrEmpty(lastName) ? lastName : throw new ArgumentNullException(nameof(lastName));
 	}
 
 	public void AddFriendship(int senderGuid, int receiverGuid)

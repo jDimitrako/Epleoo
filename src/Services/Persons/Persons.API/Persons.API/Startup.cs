@@ -24,6 +24,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Persons.API.Application.IntegrationEvents;
+using Persons.API.Application.IntegrationEvents.Events;
 using Persons.API.Controllers;
 using Persons.API.Infrastructure.AutofacModules;
 using Persons.API.Infrastructure.Filters;
@@ -134,7 +135,7 @@ public class Startup
 	private  void ConfigureEventBus(IApplicationBuilder app)
 	{
 		var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
-
+		eventBus.Subscribe<PersonCreatedIntegrationEvent, IIntegrationEventHandler<PersonCreatedIntegrationEvent>>();
 		/*eventBus.Subscribe<UserCheckoutAcceptedIntegrationEvent, IIntegrationEventHandler<UserCheckoutAcceptedIntegrationEvent>>();
 		eventBus.Subscribe<GracePeriodConfirmedIntegrationEvent, IIntegrationEventHandler<GracePeriodConfirmedIntegrationEvent>>();
 		eventBus.Subscribe<OrderStockConfirmedIntegrationEvent, IIntegrationEventHandler<OrderStockConfirmedIntegrationEvent>>();

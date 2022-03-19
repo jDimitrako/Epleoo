@@ -36,7 +36,7 @@ public class ApplicationModule
             .As<IRequestManager>()
             .InstancePerLifetimeScope();
 
-        builder.RegisterAssemblyTypes(typeof(CreatePersonCommand).GetTypeInfo().Assembly)
+        builder.RegisterAssemblyTypes(typeof(CreatePersonCommandHandler).GetTypeInfo().Assembly)
             .AsClosedTypesOf(typeof(IIntegrationEventHandler<>));
 
     }

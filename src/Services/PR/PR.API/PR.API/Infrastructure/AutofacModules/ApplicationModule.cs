@@ -11,38 +11,34 @@ using PR.Infrastructure.Repositories;
 namespace PR.API.Infrastructure.AutofacModules;
 
 public class ApplicationModule
-    : Autofac.Module
+	: Autofac.Module
 {
+	public string QueriesConnectionString { get; }
 
-    public string QueriesConnectionString { get; }
+	public ApplicationModule(string qconstr)
+	{
+		QueriesConnectionString = qconstr;
+	}
 
-    public ApplicationModule(string qconstr)
-    {
-        QueriesConnectionString = qconstr;
+	protected override void Load(ContainerBuilder builder)
+	{
+		builder.Register(c => new FriendRequestQueries(QueriesConnectionString))
+			.As<IFriendRequestsQueries>()
+			.InstancePerLifetimeScope();
 
-    }
+		builder.RegisterType<FriendRequestRepository>()
+			.As<IFriendRequestRepository>()
+			.InstancePerLifetimeScope();
 
-    protected override void Load(ContainerBuilder builder)
-    {
+		builder.RegisterType<PersonRepository>()
+			.As<IPersonRepository>()
+			.InstancePerLifetimeScope();
 
-        builder.Register(c => new FriendRequestQueries(QueriesConnectionString))
-            .As<IFriendRequestsQueries>()
-            .InstancePerLifetimeScope();
+		builder.RegisterType<RequestManager>()
+			.As<IRequestManager>()
+			.InstancePerLifetimeScope();
 
-        builder.RegisterType<FriendRequestRepository>()
-            .As<IFriendRequestRepository>()
-            .InstancePerLifetimeScope();
-
-        builder.RegisterType<PersonRepository>()
-            .As<IPersonRepository>()
-            .InstancePerLifetimeScope();
-        
-        builder.RegisterType<RequestManager>()
-            .As<IRequestManager>()
-            .InstancePerLifetimeScope();
-
-        builder.RegisterAssemblyTypes(typeof(CreateFriendRequestCommand).GetTypeInfo().Assembly)
-            .AsClosedTypesOf(typeof(IIntegrationEventHandler<>));
-
-    }
+		builder.RegisterAssemblyTypes(typeof(CreateFriendRequestCommand).GetTypeInfo().Assembly)
+			.AsClosedTypesOf(typeof(IIntegrationEventHandler<>));
+	}
 }

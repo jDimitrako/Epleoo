@@ -24,10 +24,6 @@ public class PersonEntityTypeConfiguration : IEntityTypeConfiguration<Person>
 		builder.HasIndex("IdentityGuid")
 			.IsUnique();
 
-		builder.Property(p => p.FirstName);
-		builder.Property(p => p.LastName);
-		builder.Property(p => p.Username);
-
 
 		//var navigation = builder.Metadata.FindNavigation(nameof(Person.FriendRequests));
 

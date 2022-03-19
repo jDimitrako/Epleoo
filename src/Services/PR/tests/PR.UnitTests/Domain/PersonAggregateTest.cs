@@ -18,15 +18,12 @@ public class PersonAggregateTest
 		var username = "Adven";
 
 		//Act
-		var fakePerson = new Person(id, identityGuid, username, firstName, lastName);
+		var fakePerson = new Person(id, identityGuid);
 
 		//Assert
 		fakePerson.Should().NotBeNull();
 		fakePerson.Should().Be(id);
 		fakePerson.IdentityGuid.Should().Be(identityGuid);
-		fakePerson.FirstName.Should().Be(firstName);
-		fakePerson.LastName.Should().Be(lastName);
-		fakePerson.Username.Should().Be(username);
 	}
 
 	[Fact]
@@ -42,7 +39,7 @@ public class PersonAggregateTest
 		//Act
 		var act = () =>
 		{
-			var unused = new Person(id, identityGuid, username, firstName, lastName);
+			var unused = new Person(id, identityGuid);
 		};
 
 		//Assert
@@ -63,7 +60,7 @@ public class PersonAggregateTest
 		//Act
 		Action act = () =>
 		{
-			var unused = new Person(1, identityGuid, username, firstName, lastName);
+			var unused = new Person(1, identityGuid);
 		};
 
 		//Assert
@@ -84,7 +81,7 @@ public class PersonAggregateTest
 		//Act
 		Action act = () =>
 		{
-			var unused = new Person(id, identityGuid, username, firstName, lastName);
+			var unused = new Person(id, identityGuid);
 		};
 
 		//Assert
@@ -105,7 +102,7 @@ public class PersonAggregateTest
 		//Act
 		Action act = () =>
 		{
-			var unused = new Person(id, identityGuid, username, firstName, lastName);
+			var unused = new Person(id, identityGuid);
 		};
 
 		//Assert

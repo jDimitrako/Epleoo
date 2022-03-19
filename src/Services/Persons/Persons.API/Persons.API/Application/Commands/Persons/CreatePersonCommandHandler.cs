@@ -13,19 +13,16 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, b
 {
 	private readonly IPersonRepository _personRepository;
 	private readonly ILogger<CreatePersonCommandHandler> _logger;
-	private readonly IMediator _mediator;
-	private readonly PersonIntegrationEventService _personIntegrationEventService;
+	private readonly IPersonIntegrationEventService _personIntegrationEventService;
 
 	public CreatePersonCommandHandler(
 		IPersonRepository personRepository,
 		ILogger<CreatePersonCommandHandler> logger,
-		IMediator mediator,
-		PersonIntegrationEventService personIntegrationEventService
+		IPersonIntegrationEventService personIntegrationEventService
 		)
 	{
 		_personRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
 		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
-		_mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 		_personIntegrationEventService = personIntegrationEventService;
 	}
 	
