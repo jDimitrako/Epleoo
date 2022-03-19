@@ -18,12 +18,12 @@ public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
     private  readonly IPersonIntegrationEventService _personsIntegrationEventService;
 
     public TransactionBehaviour(PersonDbContext dbContext,
-        IPersonIntegrationEventService orderingIntegrationEventService,
+        IPersonIntegrationEventService personsIntegrationEventService,
         ILogger<TransactionBehaviour<TRequest, TResponse>> logger)
     {
-        _dbContext = dbContext ?? throw new ArgumentException(nameof(PersonDbContext));
-        _personsIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentException(nameof(_personsIntegrationEventService));
-        _logger = logger ?? throw new ArgumentException(nameof(ILogger));
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        _personsIntegrationEventService = personsIntegrationEventService ?? throw new ArgumentNullException(nameof(personsIntegrationEventService));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     //TODO: Check this -- maybe add serilog

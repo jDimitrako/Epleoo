@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Persons.API.Application.IntegrationEvents;
+using Persons.API.Application.IntegrationEvents.Events;
 using Persons.Domain.AggregatesModel.PersonAggregate;
 
 namespace Persons.API.Application.Commands.Persons;
@@ -12,16 +14,19 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, b
 	private readonly IPersonRepository _personRepository;
 	private readonly ILogger<CreatePersonCommandHandler> _logger;
 	private readonly IMediator _mediator;
+	private readonly PersonIntegrationEventService _personIntegrationEventService;
 
 	public CreatePersonCommandHandler(
 		IPersonRepository personRepository,
 		ILogger<CreatePersonCommandHandler> logger,
-		IMediator mediator
+		IMediator mediator,
+		PersonIntegrationEventService personIntegrationEventService
 		)
 	{
 		_personRepository = personRepository ?? throw new ArgumentNullException(nameof(personRepository));
 		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
-		_mediator = mediator;
+		_mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+		_personIntegrationEventService = personIntegrationEventService;
 	}
 	
 
@@ -39,7 +44,14 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, b
 
 			_personRepository.Add(person);
 
-			return await _personRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+			var result = await _personRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+
+			if (!result) return false;
+			
+			var personCreatedIntegrationEvent = new PersonCreatedIntegrationEvent(person.IdentityGuid);
+			await _personIntegrationEventService.AddAndSaveEventAsync(personCreatedIntegrationEvent);
+				
+			return true;
 		}
 		catch (Exception e)
 		{
