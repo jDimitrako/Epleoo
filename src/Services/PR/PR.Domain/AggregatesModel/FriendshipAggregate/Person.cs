@@ -25,9 +25,8 @@ public class Person : Entity, IAggregateRoot
 		_friendshipsSent = new List<Friendship>();
 	}
 
-	public Person(int id, string identityGuid) : this()
+	public Person(string identityGuid) : this()
 	{
-		_id = id;
 		IdentityGuid = !string.IsNullOrEmpty(identityGuid)
 			? identityGuid
 			: throw new ArgumentNullException(nameof(identityGuid));

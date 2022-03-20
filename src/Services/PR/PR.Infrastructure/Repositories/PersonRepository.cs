@@ -13,7 +13,7 @@ public class PersonRepository : IPersonRepository
 		_context = context;
 	}
 	
-	public IUnitOfWork UnitOfWork { get; }
+	public IUnitOfWork UnitOfWork => _context;
 	public Person Add(Person person)
 	{
 		if (person.IsTransient())

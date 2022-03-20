@@ -25,9 +25,10 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, b
 	{
 		try
 		{
-			var person = new Domain.AggregatesModel.FriendshipAggregate.Person(0, request.PersonId);
+			var person = new Domain.AggregatesModel.FriendshipAggregate.Person(request.PersonId);
 			var result = _personRepository.Add(person);
-			return await _personRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0;
+			var result1 = await _personRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+			return result1;
 		}
 		catch (Exception e)
 		{
