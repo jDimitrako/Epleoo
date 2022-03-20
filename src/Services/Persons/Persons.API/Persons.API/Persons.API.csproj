@@ -51,6 +51,14 @@
     <ItemGroup>
       <Folder Include="Application\DomainEventHandlers" />
       <Folder Include="IntegrationEvents\Events" />
+      <Folder Include="src\Services\Persons\Persons.API\Persons.API\Infrastructure\IntegrationEventMigrations" />
+      <Folder Include="src\Services\Persons\Persons\API\Persons\API\Infrastructure\IntegrationEventMigrations" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="src\Services\Persons\Persons.API\Persons.API\Infrastructure\IntegrationEventMigrations\20220320001249_initial.Designer.cs" />
+      <Compile Remove="Infrastructure\Migrations\20220319232242_Persons3.cs" />
+      <Compile Remove="Infrastructure\Migrations\20220319232242_Persons3.Designer.cs" />
     </ItemGroup>
 
 </Project>

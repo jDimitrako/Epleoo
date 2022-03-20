@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -22,8 +23,17 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, b
 
 	public async Task<bool> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
 	{
-		var person = new Domain.AggregatesModel.FriendshipAggregate.Person(0, request.PersonId);
-		var result = _personRepository.Add(person);
-		return await _personRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0;
+		try
+		{
+			var person = new Domain.AggregatesModel.FriendshipAggregate.Person(0, request.PersonId);
+			var result = _personRepository.Add(person);
+			return await _personRepository.UnitOfWork.SaveChangesAsync(cancellationToken) > 0;
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			throw;
+		}
+
 	}
 }
