@@ -1,6 +1,7 @@
 using System;
 using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -26,6 +27,7 @@ using Microsoft.OpenApi.Models;
 using Persons.API.Application.IntegrationEvents;
 using Persons.API.Application.IntegrationEvents.Events;
 using Persons.API.Controllers;
+using Persons.API.Grpc;
 using Persons.API.Infrastructure.AutofacModules;
 using Persons.API.Infrastructure.Filters;
 using Persons.API.Middlewares;
@@ -101,23 +103,23 @@ public class Startup
 
 		app.UseEndpoints(endpoints =>
 		{
-			//endpoints.MapGrpcService<PersonsServic>();
+			endpoints.MapGrpcService<PersonService>();
 			endpoints.MapDefaultControllerRoute();
 			endpoints.MapControllers();
-			/*endpoints.MapGet("/_personsoto/", async ctx =>
+			endpoints.MapGet("/_proto/", async ctx =>
 			{
 				ctx.Response.ContentType = "text/plain";
-				using var fs = new FileStream(Path.Combine(env.ContentRootPath, "Proto", "basket.personsoto"), FileMode.Open, FileAccess.Read);
+				using var fs = new FileStream(Path.Combine(env.ContentRootPath, "Proto", "persons.proto"), FileMode.Open, FileAccess.Read);
 				using var sr = new StreamReader(fs);
 				while (!sr.EndOfStream)
 				{
 					var line = await sr.ReadLineAsync();
-					if (line != "/* >>" || line != "<< #1#")
+					if (line != "/* >>" || line != "<< */")
 					{
 						await ctx.Response.WriteAsync(line);
 					}
 				}
-			});*/
+			});
 			endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
 			{
 				Predicate = _ => true,

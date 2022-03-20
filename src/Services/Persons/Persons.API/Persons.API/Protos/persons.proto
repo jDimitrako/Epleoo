@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcPersons";
+
+package PersonsApi;
+
+service PersonsGrpc {
+  rpc CreatePerson(CreatePersonCommand) returns (CreatedPersonDto) {}
+}
+
+message CreatePersonCommand {
+  string IdentityGuid = 1;
+  string Username = 2;
+  string FirstName = 3;
+  string LastName = 4;
+  string KnownAs = 5;
+  string Bio = 6;
+}
+
+message CreatedPersonDto {
+  string IdentityGuid = 1;
+  string Username = 2;
+  string FirstName = 3;
+  string LastName = 4;
+  string KnownAs = 5;
+  string Bio = 6;
+}
