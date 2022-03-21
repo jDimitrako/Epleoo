@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -59,6 +60,10 @@
       <Compile Remove="src\Services\Persons\Persons.API\Persons.API\Infrastructure\IntegrationEventMigrations\20220320001249_initial.Designer.cs" />
       <Compile Remove="Infrastructure\Migrations\20220319232242_Persons3.cs" />
       <Compile Remove="Infrastructure\Migrations\20220319232242_Persons3.Designer.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Protos\persons.proto" GrpcServices="Server" />
     </ItemGroup>
 
 </Project>

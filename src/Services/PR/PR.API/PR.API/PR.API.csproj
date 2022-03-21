@@ -48,4 +48,8 @@
       <ProjectReference Include="..\..\PR.Infrastructure\PR.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Grpc" />
+    </ItemGroup>
+
 </Project>
