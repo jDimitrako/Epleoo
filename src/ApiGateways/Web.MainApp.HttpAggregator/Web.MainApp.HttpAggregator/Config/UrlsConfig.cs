@@ -4,7 +4,7 @@ public class UrlsConfig
 {
     public class PersonsOperations
     {
-        public static string GetPersons() => "/api/v1/persons/";
+        public static string CreatePerson() => "/api/v1/persons/";
     }
 
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GrpcPersons;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -52,7 +53,8 @@ public class Startup
 
 		app.UseSwagger().UseSwaggerUI(c =>
 		{
-			c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "Purchase BFF V1");
+			c.SwaggerEndpoint($"{(!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty)}/swagger/v1/swagger.json",
+				"Purchase BFF V1");
 
 			c.OAuthClientId("mobileshoppingaggswaggerui");
 			c.OAuthClientSecret(string.Empty);
@@ -83,86 +85,84 @@ public class Startup
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddOptions();
-        services.Configure<UrlsConfig>(configuration.GetSection("urls"));
+	public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration)
+	{
+		services.AddOptions();
+		services.Configure<UrlsConfig>(configuration.GetSection("urls"));
 
-        services.AddControllers()
-                .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
+		services.AddControllers()
+			.AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
 
-        services.AddSwaggerGen(options =>
-        {
-            options.DescribeAllEnumsAsStrings();
-            options.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Title = "Epleoo Aggregator for Web Clients",
-                Version = "v1",
-                Description = "Epleoo Aggregator for Mobile Clients"
-            });
-            options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-            {
-                /*Type = SecuritySchemeType.OAuth2,
-                Flows = new OpenApiOAuthFlows()
-                {
-                    Implicit = new OpenApiOAuthFlow()
-                    {
-                        AuthorizationUrl = new Uri($"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/authorize"),
-                        TokenUrl = new Uri($"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/token"),
+		services.AddSwaggerGen(options =>
+		{
+			options.DescribeAllEnumsAsStrings();
+			options.SwaggerDoc("v1", new OpenApiInfo
+			{
+				Title = "Epleoo Aggregator for Web Clients",
+				Version = "v1",
+				Description = "Epleoo Aggregator for Mobile Clients"
+			});
+			/*options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+			{
+			    /*Type = SecuritySchemeType.OAuth2,
+			    Flows = new OpenApiOAuthFlows()
+			    {
+			        Implicit = new OpenApiOAuthFlow()
+			        {
+			            AuthorizationUrl = new Uri($"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/authorize"),
+			            TokenUrl = new Uri($"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/token"),
 
-                        Scopes = new Dictionary<string, string>()
-                        {
-                            { "mobileshoppingagg", "Shopping Aggregator for Mobile Clients" }
-                        }
-                    }
-                }*/
-            });
+			            Scopes = new Dictionary<string, string>()
+			            {
+			                { "mobileshoppingagg", "Shopping Aggregator for Mobile Clients" }
+			            }
+			        }
+			    }#1#
+			});*/
 
-            //options.OperationFilter<AuthorizeCheckOperationFilter>();
-        });
+			//options.OperationFilter<AuthorizeCheckOperationFilter>();
+		});
 
-        services.AddCors(options =>
-        {
-            options.AddPolicy("CorsPolicy",
-                builder => builder
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .SetIsOriginAllowed((host) => true)
-                .AllowCredentials());
-        });
+		services.AddCors(options =>
+		{
+			options.AddPolicy("CorsPolicy",
+				builder => builder
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.SetIsOriginAllowed((host) => true)
+					.AllowCredentials());
+		});
 
-        return services;
-    }
+		return services;
+	}
 
-    public static IServiceCollection AddHttpServices(this IServiceCollection services)
-    {
-        //register delegating handlers
-        //services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
-        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+	public static IServiceCollection AddHttpServices(this IServiceCollection services)
+	{
+		//register delegating handlers
+		//services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
+		services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-        //register http services
+		//register http services
 
-        services.AddHttpClient<IPersonApiClient, PersonApiClient>();
+		services.AddHttpClient<IPersonApiClient, PersonApiClient>();
 
-        return services;
-    }
+		return services;
+	}
 
-    public static IServiceCollection AddGrpcServices(this IServiceCollection services)
-    {
-        services.AddTransient<GrpcExceptionInterceptor>();
+	public static IServiceCollection AddGrpcServices(this IServiceCollection services)
+	{
+		services.AddTransient<GrpcExceptionInterceptor>();
 
-        services.AddScoped<IPersonsService, PersonsService>();
+		services.AddScoped<IPersonsService, PersonsService>();
+		AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+		AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
+		services.AddGrpcClient<PersonsGrpc.PersonsGrpcClient>((services, options) =>
+		{
+			var grpcPersons = services.GetRequiredService<IOptions<UrlsConfig>>().Value.GrpcPersons;
+			options.Address = new Uri(grpcPersons);
+		}).AddInterceptor<GrpcExceptionInterceptor>();
 
-        /*
-        services.AddGrpcClient<Basket.BasketClient>((services, options) =>
-        {
-            var basketApi = services.GetRequiredService<IOptions<UrlsConfig>>().Value.GrpcBasket;
-            options.Address = new Uri(basketApi);
-        }).AddInterceptor<GrpcExceptionInterceptor>();
-        */
 
-
-        return services;
-    }
-
+		return services;
+	}
 }
