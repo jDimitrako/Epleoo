@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using Web.MainApp.HttpAggregator;
 
-await ﻿BuildWebHost(args).RunAsync();
+await BuildWebHost(args).RunAsync();
 IWebHost BuildWebHost(string[] args) =>
 	WebHost
 		.CreateDefaultBuilder(args)
