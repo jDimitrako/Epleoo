@@ -114,8 +114,8 @@ IConfiguration GetConfiguration()
 
 (int httpPort, int grpcPort) GetDefinedPorts(IConfiguration config)
 {
-    var grpcPort = config.GetValue("GRPC_PORT", 5001);
-    var port = config.GetValue("PORT", 80);
+    var grpcPort = config.GetValue("GRPC_PORT", 55105);
+    var port = config.GetValue("PORT", 55106);
     return (port, grpcPort);
 }
 

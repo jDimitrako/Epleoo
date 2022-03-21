@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GrpcPersons;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -153,13 +154,11 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IPersonsService, PersonsService>();
 
-        /*
-        services.AddGrpcClient<Basket.BasketClient>((services, options) =>
+        services.AddGrpcClient<PersonsGrpc.PersonsGrpcClient>((services, options) =>
         {
-            var basketApi = services.GetRequiredService<IOptions<UrlsConfig>>().Value.GrpcBasket;
-            options.Address = new Uri(basketApi);
+            var grpcPersons = services.GetRequiredService<IOptions<UrlsConfig>>().Value.GrpcPersons;
+            options.Address = new Uri(grpcPersons);
         }).AddInterceptor<GrpcExceptionInterceptor>();
-        */
 
 
         return services;
