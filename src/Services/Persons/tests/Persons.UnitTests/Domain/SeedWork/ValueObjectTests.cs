@@ -33,7 +33,7 @@ public class ValueObjectTests
         Assert.False(result, reason);
     }
 
-    personsivate static readonly ValueObject APrettyValueObject = new ValueObjectA(1, "2", Guid.Parse("97ea43f0-6fef-4fb7-8c67-9114a7ff6ec0"), new ComplexObject(2, "3"));
+    private static readonly ValueObject APrettyValueObject = new ValueObjectA(1, "2", Guid.Parse("97ea43f0-6fef-4fb7-8c67-9114a7ff6ec0"), new ComplexObject(2, "3"));
 
     public static readonly TheoryData<ValueObject, ValueObject, string> EqualValueObjects = new TheoryData<ValueObject, ValueObject, string>
     {
@@ -104,7 +104,7 @@ public class ValueObjectTests
 
     };
 
-    personsivate class ValueObjectA : ValueObject
+    private class ValueObjectA : ValueObject
     {
         public ValueObjectA(int a, string b, Guid c, ComplexObject d, string notAnEqualityComponent = null)
         {
@@ -121,7 +121,7 @@ public class ValueObjectTests
         public ComplexObject D { get; }
         public string NotAnEqualityComponent { get; }
 
-        personsotected override IEnumerable<object> GetEqualityComponents()
+        protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return A;
             yield return B;
@@ -130,7 +130,7 @@ public class ValueObjectTests
         }
     }
 
-    personsivate class ValueObjectB : ValueObject
+    private class ValueObjectB : ValueObject
     {
         public ValueObjectB(int a, string b, params int[] c)
         {
@@ -144,7 +144,7 @@ public class ValueObjectTests
 
         public List<int> C { get; }
 
-        personsotected override IEnumerable<object> GetEqualityComponents()
+        protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return A;
             yield return B;
@@ -156,7 +156,7 @@ public class ValueObjectTests
         }
     }
 
-    personsivate class ComplexObject : IEquatable<ComplexObject>
+    private class ComplexObject : IEquatable<ComplexObject>
     {
         public ComplexObject(int a, string b)
         {

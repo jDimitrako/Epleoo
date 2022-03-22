@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Microsoft.Extensions.Logging;
@@ -34,7 +35,7 @@ public class GrpcExceptionInterceptor : Interceptor
         catch (RpcException e)
         {
             _logger.LogError("Error calling via grpc: {Status} - {Message}", e.Status, e.Message);
-            return default;
+            throw new Exception(e.Message);
         }
     }
 }
