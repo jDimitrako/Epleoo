@@ -33,36 +33,36 @@ public class FriendRequestTest
 	public void Create_FriendRequest_SenderGuid_Failure()
 	{
 		//Arrange
-		var senderIdentityGuid = 0;
-		var receiverIdentityGuid = 1;
+		var senderIdentityId = 0;
+		var receiverIdentityId = 1;
 		var friendRequestStatusId = FriendRequestStatus.AwaitingConfirmation.Id;
 		//Act
 		Action act = () =>
 		{
-			var unused = new FriendRequest(senderIdentityGuid, receiverIdentityGuid, friendRequestStatusId);
+			var unused = new FriendRequest(senderIdentityId, receiverIdentityId, friendRequestStatusId);
 		}; 
 		
 		//Assert
 		act.Should().Throw<PRDomainException>()
-			.WithMessage(nameof(senderIdentityGuid));
+			.WithMessage(nameof(senderIdentityId));
 	}
 	
 	[Fact]
 	public void Create_FriendRequest_ReceiverGuid_Failure()
 	{
 		//Arrange
-		var senderIdentityGuid = 1;
-		var receiverIdentityGuid = 0;
+		var senderIdentityId = 1;
+		var receiverIdentityId = 0;
 		var friendRequestStatusId = FriendRequestStatus.AwaitingConfirmation.Id;
 		
 		//Act
 		Action act = () =>
 		{
-			var unused = new FriendRequest(senderIdentityGuid, receiverIdentityGuid, friendRequestStatusId);
+			var unused = new FriendRequest(senderIdentityId, receiverIdentityId, friendRequestStatusId);
 		}; 
 		
 		//Assert
 		act.Should().Throw<PRDomainException>()
-			.WithMessage(nameof(receiverIdentityGuid));
+			.WithMessage(nameof(receiverIdentityId));
 	}
 }
