@@ -307,6 +307,8 @@ static class CustomExtensionsMethods
 				factory.Password = configuration["EventBusPassword"];
 			}
 
+			factory.Port = 5672;
+			
 			var retryCount = 5;
 			if (!string.IsNullOrEmpty(configuration["EventBusRetryCount"]))
 			{
