@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CSharpFunctionalExtensions;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Persons.API.Application.IntegrationEvents;
@@ -9,7 +10,7 @@ using Persons.Domain.AggregatesModel.PersonAggregate;
 
 namespace Persons.API.Application.Commands.Persons;
 
-public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, bool>
+public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, Result<string>>
 {
 	private readonly IPersonRepository _personRepository;
 	private readonly ILogger<CreatePersonCommandHandler> _logger;
@@ -27,7 +28,7 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, b
 	}
 	
 
-	public async Task<bool> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
+	public async Task<Result<string>> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
 	{
 		try
 		{
@@ -43,12 +44,12 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, b
 
 			var result = await _personRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
-			if (!result) return false;
+			if (!result) return Result.Failure<string>(string.Empty);
 			
 			var personCreatedIntegrationEvent = new PersonCreatedIntegrationEvent(person.IdentityGuid);
 			await _personIntegrationEventService.AddAndSaveEventAsync(personCreatedIntegrationEvent);
 				
-			return true;
+			return Result.Success(person.IdentityGuid);
 		}
 		catch (Exception e)
 		{

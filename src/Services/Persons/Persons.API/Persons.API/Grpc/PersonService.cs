@@ -36,11 +36,15 @@ public class PersonService : PersonsGrpc.PersonsGrpcBase
 
 		var result = await _mediator.Send(command);
 		
-		if (!result)
+		if (result.IsFailure)
 			context.Status = new Status(StatusCode.Aborted, $"Bad request for command{command}");
 
 		context.Status = new Status(StatusCode.OK, $"Successful command {command}");
 
-		return new CreatedPersonDto();
+		var dtoToReturn = new CreatedPersonDto();
+		dtoToReturn.IdentityGuid = result.Value;
+
+		return dtoToReturn;
+
 	}
 }

@@ -40,8 +40,8 @@ public class PersonsController : ControllerBase
 			createPersonCommand);
 
 		var result = await _mediator.Send(createPersonCommand);
-		if (result)
-			return Ok();
+		if (result.IsSuccess)
+			return Ok(result.Value);
 
 		return BadRequest();
 	}

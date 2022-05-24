@@ -24,6 +24,6 @@ public class PersonsController : ControllerBase
 	{
 		var response = await _personsService.CreatePersonAsync(person);
 
-		return Ok();
+		return Ok(response);
 	}
 }
