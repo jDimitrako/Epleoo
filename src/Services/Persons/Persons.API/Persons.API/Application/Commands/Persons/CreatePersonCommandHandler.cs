@@ -9,7 +9,9 @@ using Persons.API.Application.IntegrationEvents.Events;
 using Persons.Domain.AggregatesModel.PersonAggregate;
 
 namespace Persons.API.Application.Commands.Persons;
-
+/// <summary>
+/// Create person command handler
+/// </summary>
 public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, Result<string>>
 {
 	private readonly IPersonRepository _personRepository;

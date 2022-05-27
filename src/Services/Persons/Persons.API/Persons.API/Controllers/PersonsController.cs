@@ -10,8 +10,10 @@ using Persons.API.Application.Queries;
 
 namespace Persons.API.Controllers;
 
+/// <summary>
+/// Persons Controller for internal API  
+/// </summary>
 [Route("api/v1/[controller]")]
-//[Authorize]
 [ApiController]
 public class PersonsController : ControllerBase
 {

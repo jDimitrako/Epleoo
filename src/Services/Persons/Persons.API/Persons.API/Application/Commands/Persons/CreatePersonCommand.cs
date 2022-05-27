@@ -4,7 +4,9 @@ using CSharpFunctionalExtensions;
 using MediatR;
 
 namespace Persons.API.Application.Commands.Persons;
-
+/// <summary>
+/// Create person command
+/// </summary>
 public class CreatePersonCommand : IRequest<Result<string>>
 {
 	[DataMember] public string IdentityGuid { get; }
