@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Web.MainApp.HttpAggregator.Config;
 using Web.MainApp.HttpAggregator.Infrastructure;
+using Web.MainApp.HttpAggregator.MappingProfiles;
 using Web.MainApp.HttpAggregator.Services;
 
 namespace Web.MainApp.HttpAggregator;
@@ -30,6 +31,8 @@ public class Startup
 	// This method gets called by the runtime. Use this method to add services to the container.
 	public void ConfigureServices(IServiceCollection services)
 	{
+		services.AddAutoMapper(typeof(CreatePersonResponseProfile));
+		
 		services.AddCustomMvc(Configuration)
 			.AddHttpServices()
 			.AddGrpcServices();
