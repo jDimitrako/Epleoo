@@ -19,7 +19,7 @@ public class PersonQueries : IPersonsQueries
 			: throw new ArgumentNullException(nameof(connectionString));
 	}
 
-	public async Task<IEnumerable<PersonViewModel.Person>> GetPersons()
+	public async Task<IEnumerable<PersonViewModel.Person>> GetPersonsAsync()
 	{
 		try
 		{

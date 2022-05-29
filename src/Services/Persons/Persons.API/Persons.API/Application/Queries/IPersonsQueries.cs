@@ -8,5 +8,5 @@ namespace Persons.API.Application.Queries;
 /// </summary>
 public interface IPersonsQueries
 {
-	Task<IEnumerable<PersonViewModel.Person>> GetPersons();
+	Task<IEnumerable<PersonViewModel.Person>> GetPersonsAsync();
 }
