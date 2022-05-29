@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using CSharpFunctionalExtensions;
 using MediatR;
 
 namespace Persons.API.Application.Commands.Persons;
-
-public class CreatePersonCommand : IRequest<bool>
+/// <summary>
+/// Create person command
+/// </summary>
+public class CreatePersonCommand : IRequest<Result<string>>
 {
 	[DataMember] public string IdentityGuid { get; }
 	[DataMember] public string Username { get; }

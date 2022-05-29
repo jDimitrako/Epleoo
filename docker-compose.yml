@@ -1,0 +1,41 @@
+version: "3.4"
+
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "yourStrong(!)Password"
+      ACCEPT_EULA: "Y"
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - "rabbitmq_data:/data"
+  persons.service:
+    restart: on-failure:5
+    image: "jamesd19/persons.service"
+    ports:
+      - "1655:80"
+    build:
+      context: .
+      dockerfile: persons.Dockerfile
+    depends_on:
+      - rabbitmq
+      - db
+  pr.service:
+    restart: on-failure:5
+    image: "jamesd19/pr.service"
+    ports:
+      - "1656:80"
+    build:
+      context: .
+      dockerfile: pr.Dockerfile
+    depends_on:
+      - rabbitmq
+      - db
+volumes:
+  rabbitmq_data:

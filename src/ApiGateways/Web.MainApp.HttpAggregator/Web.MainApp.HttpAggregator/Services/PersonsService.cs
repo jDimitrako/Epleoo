@@ -21,9 +21,13 @@ public class PersonsService : IPersonsService
 	{
 		_logger.LogDebug("Grpc creating person {@PersonData}", personData);
 		var createPersonCommand = MapToCreatePersonCommand(personData);
-		var response = await _personsGrpcClient.CreatePersonAsync(createPersonCommand);
-		_logger.LogDebug("Grpc create person request {@Response}", response);
-		return new PersonData();
+		var createdPersonDto = await _personsGrpcClient.CreatePersonAsync(createPersonCommand);
+		_logger.LogDebug("Grpc create person request {@Response}", createdPersonDto);
+		var response = new PersonData
+		{
+			IdentityGuid = createdPersonDto.IdentityGuid
+		};
+		return response;
 	}
 
 	private CreatePersonCommand MapToCreatePersonCommand(PersonData personData)

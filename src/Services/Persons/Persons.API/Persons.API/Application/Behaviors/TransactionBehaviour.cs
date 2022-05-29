@@ -11,6 +11,11 @@ using Serilog.Context;
 
 namespace Persons.API.Application.Behaviors;
 
+/// <summary>
+/// Transaction's behavior
+/// </summary>
+/// <typeparam name="TRequest"></typeparam>
+/// <typeparam name="TResponse"></typeparam>
 public class TransactionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
     private  readonly ILogger<TransactionBehaviour<TRequest, TResponse>> _logger;

@@ -10,8 +10,10 @@ using Persons.API.Application.Queries;
 
 namespace Persons.API.Controllers;
 
+/// <summary>
+/// Persons Controller for internal API  
+/// </summary>
 [Route("api/v1/[controller]")]
-//[Authorize]
 [ApiController]
 public class PersonsController : ControllerBase
 {
@@ -40,8 +42,8 @@ public class PersonsController : ControllerBase
 			createPersonCommand);
 
 		var result = await _mediator.Send(createPersonCommand);
-		if (result)
-			return Ok();
+		if (result.IsSuccess)
+			return Ok(result.Value);
 
 		return BadRequest();
 	}

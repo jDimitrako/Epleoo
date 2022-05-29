@@ -10,7 +10,9 @@ using Microsoft.Extensions.Logging;
 using Persons.Infrastructure;
 
 namespace Persons.API.Application.IntegrationEvents;
-
+/// <summary>
+/// Implementation of Person integration event service
+/// </summary>
 public class PersonIntegrationEventService : IPersonIntegrationEventService
 {
     private  readonly Func<DbConnection, IIntegrationEventLogService> _integrationEventLogServiceFactory;

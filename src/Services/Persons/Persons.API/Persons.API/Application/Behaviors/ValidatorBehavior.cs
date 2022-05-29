@@ -8,7 +8,11 @@ using Microsoft.Extensions.Logging;
 using Persons.Domain.Exceptions;
 
 namespace Persons.API.Application.Behaviors;
-
+/// <summary>
+/// Validates Mediator's commands
+/// </summary>
+/// <typeparam name="TRequest"></typeparam>
+/// <typeparam name="TResponse"></typeparam>
 public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
     private  readonly ILogger<ValidatorBehavior<TRequest, TResponse>> _logger;

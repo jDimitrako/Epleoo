@@ -6,12 +6,14 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Persons.API.Grpc;
-
+/// <summary>
+/// Responsible for grpc calls between gateway and persons service
+/// </summary>
 public class PersonService : PersonsGrpc.PersonsGrpcBase
 {
 	private readonly IMediator _mediator;
 	private readonly ILogger<PersonService> _logger;
-
+	
 	public PersonService(
 		IMediator mediator,
 		ILogger<PersonService> logger)
@@ -20,6 +22,12 @@ public class PersonService : PersonsGrpc.PersonsGrpcBase
 		_logger = logger;
 	}
 
+	/// <summary>
+	/// Create Person Grpc request
+	/// </summary>
+	/// <param name="createPersonCommand"></param>
+	/// <param name="context"></param>
+	/// <returns></returns>
 	public override async Task<CreatedPersonDto> CreatePerson(CreatePersonCommand createPersonCommand, ServerCallContext context)
 	{
 		_logger.LogInformation("Begin grpc call form method {Method} for create person {CreatePersonCommand}", context.Method, createPersonCommand);
@@ -36,11 +44,15 @@ public class PersonService : PersonsGrpc.PersonsGrpcBase
 
 		var result = await _mediator.Send(command);
 		
-		if (!result)
+		if (result.IsFailure)
 			context.Status = new Status(StatusCode.Aborted, $"Bad request for command{command}");
 
 		context.Status = new Status(StatusCode.OK, $"Successful command {command}");
 
-		return new CreatedPersonDto();
+		var dtoToReturn = new CreatedPersonDto();
+		dtoToReturn.IdentityGuid = result.Value;
+
+		return dtoToReturn;
+
 	}
 }

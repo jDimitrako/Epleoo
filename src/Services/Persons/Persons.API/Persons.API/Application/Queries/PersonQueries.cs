@@ -5,7 +5,9 @@ using Dapper;
 using Microsoft.Data.SqlClient;
 
 namespace Persons.API.Application.Queries;
-
+/// <summary>
+/// Implementation of People queries
+/// </summary>
 public class PersonQueries : IPersonsQueries
 {
 	private  readonly string _connectionString;
