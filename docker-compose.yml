@@ -16,6 +16,7 @@ services:
     volumes:
       - "rabbitmq_data:/data"
   persons.service:
+    restart: on-failure:5
     image: "jamesd19/persons.service"
     ports:
       - "1655:80"
@@ -26,6 +27,7 @@ services:
       - rabbitmq
       - db
   pr.service:
+    restart: on-failure:5
     image: "jamesd19/pr.service"
     ports:
       - "1656:80"
