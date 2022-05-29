@@ -31,6 +31,7 @@ using Persons.API.Grpc;
 using Persons.API.Infrastructure.AutofacModules;
 using Persons.API.Infrastructure.Filters;
 using Persons.API.Middlewares;
+using Persons.API.Profilers;
 using Persons.Infrastructure;
 using RabbitMQ.Client;
 
@@ -48,6 +49,9 @@ public class Startup
 	// This method gets called by the runtime. Use this method to add services to the container.
 	public virtual IServiceProvider ConfigureServices(IServiceCollection services)
 	{
+		
+		services.AddAutoMapper(typeof(CreatePersonDtoProfiler));
+
 		services
 			.AddGrpc(options => { options.EnableDetailedErrors = true; })
 			.Services

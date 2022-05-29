@@ -33,4 +33,14 @@ public class PersonsController : ControllerBase
 		
 		return Ok(_mapper.Map<CreatePersonResponse>(response));
 	}
+	
+	[HttpGet]
+	[ProducesResponseType((int)HttpStatusCode.BadRequest)]
+	[ProducesResponseType(typeof(PersonData), (int)HttpStatusCode.OK)]
+	public async Task<ActionResult<PersonData>> GetPersons()
+	{
+		var response = await _personsService.GetPersonsAsync();
+
+		return Ok(_mapper.Map<CreatePersonResponse>(response));
+	}
 }

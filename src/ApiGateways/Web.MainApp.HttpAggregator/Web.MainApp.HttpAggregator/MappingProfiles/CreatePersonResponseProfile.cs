@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GrpcPersons;
 using Web.MainApp.HttpAggregator.Models;
 using Web.MainApp.HttpAggregator.Responses;
 
@@ -9,5 +10,6 @@ public class CreatePersonResponseProfile : Profile
 	public CreatePersonResponseProfile()
 	{
 		CreateMap<PersonData, CreatePersonResponse>();
+		CreateMap<PersonData, GetPersonsResponse>();
 	}
 }
