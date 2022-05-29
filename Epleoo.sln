@@ -47,10 +47,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web.MainApp.HttpAggregator", "src\ApiGateways\Web.MainApp.HttpAggregator\Web.MainApp.HttpAggregator\Web.MainApp.HttpAggregator.csproj", "{D8E3779E-1BA6-4C24-9947-843C64118781}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persons", "Persons", "{990C6FB9-B138-4991-BA4B-3E7237306AA8}"
-	ProjectSection(SolutionItems) = preProject
-		Dockerfile = Dockerfile
-		.dockerignore = .dockerignore
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persons.API", "src\Services\Persons\Persons.API\Persons.API\Persons.API.csproj", "{FE379C1E-E5B4-4CE5-AEE7-13B70DC985F9}"
 EndProject
