@@ -15,5 +15,25 @@ services:
       - "15672:15672"
     volumes:
       - "rabbitmq_data:/data"
+  persons.service:
+    image: "jamesd19/persons.service"
+    ports:
+      - "1655:80"
+    build:
+      context: .
+      dockerfile: persons.Dockerfile
+    depends_on:
+      - rabbitmq
+      - db
+  pr.service:
+    image: "jamesd19/pr.service"
+    ports:
+      - "1656:80"
+    build:
+      context: .
+      dockerfile: pr.Dockerfile
+    depends_on:
+      - rabbitmq
+      - db
 volumes:
   rabbitmq_data:
