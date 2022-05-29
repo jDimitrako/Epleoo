@@ -6,6 +6,7 @@ package PersonsApi;
 
 service PersonsGrpc {
   rpc CreatePerson(CreatePersonCommand) returns (CreatedPersonDto) {}
+  rpc GetPersons(GetPersonsCommand) returns (GetPersonsResponse) {}
 }
 
 message CreatePersonCommand {
@@ -24,4 +25,12 @@ message CreatedPersonDto {
   string LastName = 4;
   string KnownAs = 5;
   string Bio = 6;
+}
+
+message GetPersonsCommand {
+  string test = 1;
+}
+
+message GetPersonsResponse {
+  repeated CreatedPersonDto items = 1;
 }

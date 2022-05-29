@@ -54,7 +54,7 @@ public class PersonsController : ControllerBase
 	[ProducesResponseType(typeof(IEnumerable<PersonViewModel.Person>), (int)HttpStatusCode.OK)]
 	public async Task<IActionResult> GetPersons()
 	{
-		var persons = await _queries.GetPersons();
+		var persons = await _queries.GetPersonsAsync();
 
 		return Ok(persons);
 	}

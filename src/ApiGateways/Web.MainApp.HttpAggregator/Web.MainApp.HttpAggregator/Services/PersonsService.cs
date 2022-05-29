@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using GrpcPersons;
 using Microsoft.Extensions.Logging;
 using Web.MainApp.HttpAggregator.Models;
@@ -28,6 +29,13 @@ public class PersonsService : IPersonsService
 			IdentityGuid = createdPersonDto.IdentityGuid
 		};
 		return response;
+	}
+
+	public async Task<List<PersonData>> GetPersonsAsync()
+	{
+		_logger.LogDebug("Grpc get persons");
+		var persons =  await _personsGrpcClient.GetPersonsAsync(new GetPersonsCommand());
+		return new List<PersonData>();
 	}
 
 	private CreatePersonCommand MapToCreatePersonCommand(PersonData personData)
