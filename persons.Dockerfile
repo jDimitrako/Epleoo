@@ -17,10 +17,10 @@ COPY ["src/Services/Persons/Persons.Infrastructure/Persons.Infrastructure.csproj
 RUN dotnet restore "src/Services/Persons/Persons.API/Persons.API/Persons.API.csproj"
 COPY . .
 
-RUN dotnet build "src/Services/Persons/Persons.API/Persons.API/Persons.API.csproj" -c Release -o /app/build
+RUN dotnet build "src/Services/Persons/Persons.API/Persons.API/Persons.API.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "src/Services/Persons/Persons.API/Persons.API/Persons.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/Services/Persons/Persons.API/Persons.API/Persons.API.csproj" -c Debug -o /app/publish
 
 FROM base AS final
 WORKDIR /app
