@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  persons.service:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Server=tcp:db;Database=Epleoo.PR;User Id=sa;Password=yourStrong(!)Password;
+    ports:
+      - "5005:80"
+    networks:
+      - backend
+  pr.service:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Server=tcp:db;Database=Epleoo.Persons;User Id=sa;Password=yourStrong(!)Password;
+    ports:
+      - "5001:80"
+    networks:
+      - backend
+
+
