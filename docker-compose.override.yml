@@ -1,22 +1,23 @@
 version: '3.4'
 
 services:
+  db:
+    environment:
+      SA_PASSWORD: 'd1f1cultP@ssw0rd'
+      ACCEPT_EULA: "Y"
+      
   persons.service:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - Server=db,1433;Database=Epleoo.Persons;User Id=SA;Password=d1f1cultP@ssw0rd;
     ports:
       - "5005:80"
-    networks:
-      - backend
-
   pr.service:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - Server=db,1433;Database=Epleoo.Persons;User Id=SA;Password=d1f1cultP@ssw0rd;
     ports:
       - "5001:80"
-    networks:
-      - backend
+
 
 
