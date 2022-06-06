@@ -19,10 +19,12 @@ services:
     restart: on-failure:10
     image: "jamesd19/persons.service"
     environment:
-      - ConnectionString=Server=db,1433;Database==Epleoo.Persons;User Id=sa;Password=d1f1cultP@ssw0rd;
+      - ConnectionString=Server=db,1433;Database=Persons;User Id=SA;Password=d1f1cultP@ssw0rd;
       - EventBusConnection=rabbitmq
+      - GRPC_PORT=81
     ports:
-      - "1655:80"
+      - "1650:80"
+      - "1651:81"
     build:
       context: .
       dockerfile: persons.Dockerfile
@@ -33,10 +35,12 @@ services:
     restart: on-failure:10
     image: "jamesd19/pr.service"
     environment:
-      - ConnectionString=Server=db,1433;Database==Epleoo.Persons;User Id=sa;Password=d1f1cultP@ssw0rd;
+      - ConnectionString=Server=db,1433;Database=PR;User Id=SA;Password=d1f1cultP@ssw0rd;
       - EventBusConnection=rabbitmq
+      - GRPC_PORT=82
     ports:
       - "1656:80"
+      - "1657:82"
     build:
       context: .
       dockerfile: pr.Dockerfile

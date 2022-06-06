@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using Grpc.Net.Client;
 using GrpcPersons;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
@@ -161,8 +163,13 @@ public static class ServiceCollectionExtensions
 		AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
 		services.AddGrpcClient<PersonsGrpc.PersonsGrpcClient>((services, options) =>
 		{
+			var httpHandler = new HttpClientHandler();
+// Return `true` to allow certificates that are untrusted/invalid
+			httpHandler.ServerCertificateCustomValidationCallback = 
+				HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
 			var grpcPersons = services.GetRequiredService<IOptions<UrlsConfig>>().Value.GrpcPersons;
 			options.Address = new Uri(grpcPersons);
+			options.ChannelOptionsActions =  new GrpcChannelOptions { HttpHandler = httpHandler });
 		}).AddInterceptor<GrpcExceptionInterceptor>();
 
 

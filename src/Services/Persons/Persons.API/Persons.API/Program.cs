@@ -56,7 +56,7 @@ finally
 IWebHost BuildWebHost(IConfiguration configuration, string[] args) => 
     Microsoft.AspNetCore.WebHost.CreateDefaultBuilder(args)
         .CaptureStartupErrors(false)
-        /*.ConfigureKestrel(options =>
+        .ConfigureKestrel(options =>
         {
             var ports = GetDefinedPorts(configuration);
             options.Listen(IPAddress.Any, ports.httpPort, listenOptions =>
@@ -68,8 +68,7 @@ IWebHost BuildWebHost(IConfiguration configuration, string[] args) =>
             {
                 listenOptions.Protocols = HttpProtocols.Http2;
             });
-
-        })*/
+        })
         .ConfigureAppConfiguration(x => x.AddConfiguration(configuration))
         .UseStartup<Startup>()
         .UseContentRoot(Directory.GetCurrentDirectory())
@@ -116,8 +115,8 @@ IConfiguration GetConfiguration()
 
 (int httpPort, int grpcPort) GetDefinedPorts(IConfiguration config)
 {
-    var grpcPort = config.GetValue("GRPC_PORT", 55103);
-    var port = config.GetValue("PORT", 55102);
+    var grpcPort = config.GetValue("GRPC_PORT", 55201);
+    var port = config.GetValue("PORT", 55103);
     return (port, grpcPort);
 }
 
