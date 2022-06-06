@@ -17,10 +17,10 @@ COPY ["src/Services/PR/PR.Infrastructure/PR.Infrastructure.csproj", "src/Service
 RUN dotnet restore "src/Services/PR/PR.API/PR.API/PR.API.csproj"
 COPY . .
 
-RUN dotnet build "src/Services/PR/PR.API/PR.API/PR.API.csproj" -c Release -o /app/build
+RUN dotnet build "src/Services/PR/PR.API/PR.API/PR.API.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "src/Services/PR/PR.API/PR.API/PR.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/Services/PR/PR.API/PR.API/PR.API.csproj" -c Debug -o /app/publish
 
 FROM base AS final
 WORKDIR /app

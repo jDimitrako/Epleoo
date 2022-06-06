@@ -5,8 +5,8 @@ services:
     image: "mcr.microsoft.com/mssql/server"
     ports:
       - "1433:1433"
-    environment:
-      SA_PASSWORD: "yourStrong(!)Password"
+    environment: 
+      SA_PASSWORD: 'd1f1cultP@ssw0rd'
       ACCEPT_EULA: "Y"
   rabbitmq:
     image: "rabbitmq:3-management"
@@ -16,8 +16,11 @@ services:
     volumes:
       - "rabbitmq_data:/data"
   persons.service:
-    restart: on-failure:5
+    restart: on-failure:10
     image: "jamesd19/persons.service"
+    environment:
+      - ConnectionString=Server=db,1433;Database==Epleoo.Persons;User Id=sa;Password=d1f1cultP@ssw0rd;
+      - EventBusConnection=rabbitmq
     ports:
       - "1655:80"
     build:
@@ -27,8 +30,11 @@ services:
       - rabbitmq
       - db
   pr.service:
-    restart: on-failure:5
+    restart: on-failure:10
     image: "jamesd19/pr.service"
+    environment:
+      - ConnectionString=Server=db,1433;Database==Epleoo.Persons;User Id=sa;Password=d1f1cultP@ssw0rd;
+      - EventBusConnection=rabbitmq
     ports:
       - "1656:80"
     build:
@@ -39,3 +45,4 @@ services:
       - db
 volumes:
   rabbitmq_data:
+  db:
