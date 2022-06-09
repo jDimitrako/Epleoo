@@ -2,9 +2,9 @@
 
 public class UrlsConfig
 {
-    public class PersonsOperations
+    public static class PersonsOperations
     {
-        public static string CreatePerson() => "api/v1/persons/";
+        public static string PersonBase() => "api/v1/persons/";
     }
 
 

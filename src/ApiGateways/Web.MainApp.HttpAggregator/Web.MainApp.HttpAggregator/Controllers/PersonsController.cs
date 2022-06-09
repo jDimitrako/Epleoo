@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Web.MainApp.HttpAggregator.Dto;
-using Web.MainApp.HttpAggregator.Responses;
 using Web.MainApp.HttpAggregator.Services;
 
 namespace Web.MainApp.HttpAggregator.Controllers;
@@ -16,6 +15,16 @@ public class PersonsController : ControllerBase
 	public PersonsController(IPersonApiClient client)
 	{
 		_client = client;
+	}
+	
+	[HttpGet]
+	[ProducesResponseType((int)HttpStatusCode.BadRequest)]
+	[ProducesResponseType((int)HttpStatusCode.OK)]
+	public async Task<IActionResult> GetPersons()
+	{
+		var response = await _client.GetPersons();
+		
+		return Ok(response);
 	}
 	
 	[HttpPost]

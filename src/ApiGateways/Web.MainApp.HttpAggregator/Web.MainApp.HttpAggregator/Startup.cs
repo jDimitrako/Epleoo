@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Net.Mime;
+using System.Text.Json;
 using GrpcPersons;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -93,7 +94,11 @@ public static class ServiceCollectionExtensions
 		services.Configure<UrlsConfig>(configuration.GetSection("urls"));
 
 		services.AddControllers()
-			.AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
+			.AddJsonOptions(options =>
+			{
+				options.JsonSerializerOptions.WriteIndented = true;
+				options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+			});
 
 		services.AddSwaggerGen(options =>
 		{

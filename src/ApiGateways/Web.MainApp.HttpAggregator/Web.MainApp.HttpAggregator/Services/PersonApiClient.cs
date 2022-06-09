@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
@@ -13,27 +14,26 @@ namespace Web.MainApp.HttpAggregator.Services;
 
 public class PersonApiClient : IPersonApiClient
 {
-	private readonly IHttpClientFactory _httpClientFactory;
 	private readonly IMapper _mapper;
+	private readonly HttpClient _httpClient;
 
 	public PersonApiClient(IHttpClientFactory httpClientFactory, IMapper mapper)
 	{
-		_httpClientFactory = httpClientFactory;
 		_mapper = mapper;
+		_httpClient = httpClientFactory.CreateClient("Persons");
 	}
 
 	public async Task<Result> CreatePersonAsync(CreatePersonRequest request)
 	{
 		try
 		{
-			var client = _httpClientFactory.CreateClient("Persons");
 			var internalRequest = _mapper.Map<CreatePersonApiRequest>(request);
 			internalRequest.IdentityGuid = string.Empty;
 			var jsonBody = JsonSerializer.Serialize(internalRequest);
 			var internalRequestBody = new StringContent(jsonBody,
 				Encoding.UTF8, MediaTypeNames.Application.Json);
 
-			var result = await client.PostAsync(UrlsConfig.PersonsOperations.CreatePerson(), internalRequestBody);
+			var result = await _httpClient.PostAsync(UrlsConfig.PersonsOperations.PersonBase(), internalRequestBody);
 
 			if (!result.IsSuccessStatusCode)
 				return Result.Failure("Error Creating Person");
@@ -45,6 +45,20 @@ public class PersonApiClient : IPersonApiClient
 			Console.WriteLine(e);
 			throw;
 		}
+	}
+
+	public async Task<IList<PersonData>> GetPersons()
+	{
+		var getPersonsResponseMessage = await _httpClient.GetAsync(UrlsConfig.PersonsOperations.PersonBase());
+
+		if (!getPersonsResponseMessage.IsSuccessStatusCode)
+			return new List<PersonData>();
+
+		await using var contentStream =
+			await getPersonsResponseMessage.Content.ReadAsStreamAsync();
+
+		var persons = await JsonSerializer.DeserializeAsync<IList<PersonData>>(contentStream);
+		return persons;
 	}
 
 	public Task<PersonData> GetPersonAsync(PersonData personData)
