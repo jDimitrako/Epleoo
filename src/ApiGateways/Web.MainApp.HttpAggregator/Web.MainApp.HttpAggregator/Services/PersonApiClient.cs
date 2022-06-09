@@ -14,55 +14,51 @@ namespace Web.MainApp.HttpAggregator.Services;
 
 public class PersonApiClient : IPersonApiClient
 {
-	private readonly IMapper _mapper;
-	private readonly HttpClient _httpClient;
+    private readonly IMapper _mapper;
+    private readonly HttpClient _httpClient;
 
-	public PersonApiClient(IHttpClientFactory httpClientFactory, IMapper mapper)
-	{
-		_mapper = mapper;
-		_httpClient = httpClientFactory.CreateClient("Persons");
-	}
+    public PersonApiClient(IHttpClientFactory httpClientFactory, IMapper mapper)
+    {
+        _mapper = mapper;
+        _httpClient = httpClientFactory.CreateClient("Persons");
+    }
 
-	public async Task<Result> CreatePersonAsync(CreatePersonRequest request)
-	{
-		try
-		{
-			var internalRequest = _mapper.Map<CreatePersonApiRequest>(request);
-			internalRequest.IdentityGuid = string.Empty;
-			var jsonBody = JsonSerializer.Serialize(internalRequest);
-			var internalRequestBody = new StringContent(jsonBody,
-				Encoding.UTF8, MediaTypeNames.Application.Json);
+    public async Task<Result> CreatePersonAsync(CreatePersonRequest request)
+    {
+        try
+        {
+            var internalRequest = _mapper.Map<CreatePersonApiRequest>(request);
+            var jsonBody = JsonSerializer.Serialize(internalRequest);
+            var internalRequestBody = new StringContent(jsonBody,
+                Encoding.UTF8, MediaTypeNames.Application.Json);
 
-			var result = await _httpClient.PostAsync(UrlsConfig.PersonsOperations.PersonBase(), internalRequestBody);
+            var result = await _httpClient.PostAsync(UrlsConfig.PersonsOperations.Base, internalRequestBody);
 
-			if (!result.IsSuccessStatusCode)
-				return Result.Failure("Error Creating Person");
+            return !result.IsSuccessStatusCode ? Result.Failure("Error Creating Person") : Result.Success();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 
-			return Result.Success();
-		}
-		catch (Exception e)
-		{
-			Console.WriteLine(e);
-			throw;
-		}
-	}
+    public async Task<IList<PersonData>> GetPersons()
+    {
+        var getPersonsResponseMessage = await _httpClient.GetAsync(UrlsConfig.PersonsOperations.Base);
 
-	public async Task<IList<PersonData>> GetPersons()
-	{
-		var getPersonsResponseMessage = await _httpClient.GetAsync(UrlsConfig.PersonsOperations.PersonBase());
+        if (!getPersonsResponseMessage.IsSuccessStatusCode)
+            return new List<PersonData>();
 
-		if (!getPersonsResponseMessage.IsSuccessStatusCode)
-			return new List<PersonData>();
+        await using var contentStream =
+            await getPersonsResponseMessage.Content.ReadAsStreamAsync();
 
-		await using var contentStream =
-			await getPersonsResponseMessage.Content.ReadAsStreamAsync();
+        var persons = await JsonSerializer.DeserializeAsync<IList<PersonData>>(contentStream);
+        return persons;
+    }
 
-		var persons = await JsonSerializer.DeserializeAsync<IList<PersonData>>(contentStream);
-		return persons;
-	}
-
-	public Task<PersonData> GetPersonAsync(PersonData personData)
-	{
-		throw new System.NotImplementedException();
-	}
+    public Task<PersonData> GetPersonAsync(PersonData personData)
+    {
+        throw new System.NotImplementedException();
+    }
 }

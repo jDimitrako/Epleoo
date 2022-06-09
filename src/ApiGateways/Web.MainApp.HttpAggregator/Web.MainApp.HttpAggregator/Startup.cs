@@ -130,18 +130,26 @@ public static class ServiceCollectionExtensions
 	{
 		var urls = configuration.GetSection("urls");
 		var personsUrl = urls.GetSection("persons").Value;
+		var prUrl = urls.GetSection("pr").Value;
 		//Configure http services
 		services.AddHttpClient("Persons", client =>
 		{
 			client.BaseAddress = new Uri(personsUrl);
 			client.DefaultRequestHeaders.Add("Accept", MediaTypeNames.Application.Json);
 		});
+		services.AddHttpClient("Pr", client =>
+		{
+			client.BaseAddress = new Uri(prUrl);
+			client.DefaultRequestHeaders.Add("Accept", MediaTypeNames.Application.Json);
+		});
+		
 		//register delegating handlers
 		//services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 		services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 		//register http services
 		services.AddScoped<IPersonApiClient, PersonApiClient>();
+		services.AddScoped<IPrApiClient, PrApiClient>();
 
 		return services;
 	}
