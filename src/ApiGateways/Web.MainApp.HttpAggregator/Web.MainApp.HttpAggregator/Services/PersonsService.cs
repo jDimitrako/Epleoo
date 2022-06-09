@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using GrpcPersons;
 using Microsoft.Extensions.Logging;
-using Web.MainApp.HttpAggregator.Models;
+using Web.MainApp.HttpAggregator.Dto;
 
 namespace Web.MainApp.HttpAggregator.Services;
 

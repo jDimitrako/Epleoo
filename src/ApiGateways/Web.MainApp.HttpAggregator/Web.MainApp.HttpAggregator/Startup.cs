@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using Grpc.Net.Client;
+using System.Net.Mime;
 using GrpcPersons;
-using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -15,8 +12,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Web.MainApp.HttpAggregator.Config;
+using Web.MainApp.HttpAggregator.Dto.MappingProfiles;
 using Web.MainApp.HttpAggregator.Infrastructure;
-using Web.MainApp.HttpAggregator.MappingProfiles;
 using Web.MainApp.HttpAggregator.Services;
 
 namespace Web.MainApp.HttpAggregator;
@@ -36,7 +33,7 @@ public class Startup
 		services.AddAutoMapper(typeof(CreatePersonResponseProfile));
 		
 		services.AddCustomMvc(Configuration)
-			.AddHttpServices()
+			.AddHttpServices(Configuration)
 			.AddGrpcServices();
 	}
 
@@ -107,24 +104,7 @@ public static class ServiceCollectionExtensions
 				Version = "v1",
 				Description = "Epleoo Aggregator for Mobile Clients"
 			});
-			/*options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-			{
-			    /*Type = SecuritySchemeType.OAuth2,
-			    Flows = new OpenApiOAuthFlows()
-			    {
-			        Implicit = new OpenApiOAuthFlow()
-			        {
-			            AuthorizationUrl = new Uri($"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/authorize"),
-			            TokenUrl = new Uri($"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/token"),
-
-			            Scopes = new Dictionary<string, string>()
-			            {
-			                { "mobileshoppingagg", "Shopping Aggregator for Mobile Clients" }
-			            }
-			        }
-			    }#1#
-			});*/
-
+	
 			//options.OperationFilter<AuthorizeCheckOperationFilter>();
 		});
 
@@ -141,15 +121,22 @@ public static class ServiceCollectionExtensions
 		return services;
 	}
 
-	public static IServiceCollection AddHttpServices(this IServiceCollection services)
+	public static IServiceCollection AddHttpServices(this IServiceCollection services, IConfiguration configuration)
 	{
+		var urls = configuration.GetSection("urls");
+		var personsUrl = urls.GetSection("persons").Value;
+		//Configure http services
+		services.AddHttpClient("Persons", client =>
+		{
+			client.BaseAddress = new Uri(personsUrl);
+			client.DefaultRequestHeaders.Add("Accept", MediaTypeNames.Application.Json);
+		});
 		//register delegating handlers
 		//services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
 		services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 		//register http services
-
-		services.AddHttpClient<IPersonApiClient, PersonApiClient>();
+		services.AddScoped<IPersonApiClient, PersonApiClient>();
 
 		return services;
 	}
@@ -169,7 +156,6 @@ public static class ServiceCollectionExtensions
 				HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
 			var grpcPersons = services.GetRequiredService<IOptions<UrlsConfig>>().Value.GrpcPersons;
 			options.Address = new Uri(grpcPersons);
-			options.ChannelOptionsActions =  new GrpcChannelOptions { HttpHandler = httpHandler });
 		}).AddInterceptor<GrpcExceptionInterceptor>();
 
 

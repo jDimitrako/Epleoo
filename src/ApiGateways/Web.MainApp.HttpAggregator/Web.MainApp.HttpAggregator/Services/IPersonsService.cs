@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Web.MainApp.HttpAggregator.Models;
+using Web.MainApp.HttpAggregator.Dto;
 
 namespace Web.MainApp.HttpAggregator.Services;
 
