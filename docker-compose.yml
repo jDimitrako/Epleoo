@@ -23,8 +23,8 @@ services:
       - EventBusConnection=rabbitmq
       - GRPC_PORT=81
     ports:
-      - "1650:80"
-      - "1651:81"
+      - "1560:55103"
+      - "1561:81"
     build:
       context: .
       dockerfile: persons.Dockerfile
