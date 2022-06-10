@@ -168,7 +168,6 @@ static class CustomExtensionsMethods
 		// Add framework services.
 		services.AddControllers(options => { options.Filters.Add(typeof(HttpGlobalExceptionFilter)); })
 			// Added for functional tests
-			.AddApplicationPart(typeof(PersonsController).Assembly)
 			.AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true)
 			.SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 

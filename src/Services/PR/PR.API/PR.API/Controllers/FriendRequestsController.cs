@@ -67,12 +67,13 @@ public class FriendRequestsController : ControllerBase
 		return BadRequest();
 	}
 
-	[HttpGet("sent/{senderPersonId}")]
+	[HttpGet()]
 	[ProducesResponseType(typeof(IEnumerable<FriendRequestViewModel.FriendRequestSummary>), (int)HttpStatusCode.OK)]
-	public async Task<ActionResult<IEnumerable<FriendRequest>>> GetOrdersAsync(int senderPersonId)
+	public async Task<ActionResult<IEnumerable<FriendRequest>>> GetOrdersAsync(int senderPersonId, int receiverPersonId)
 	{
-		var friendRequests = await _queries.GetSentFriendRequestAsync(senderPersonId);
+		var friendRequests = await _queries.GetFriendRequests(senderPersonId, receiverPersonId);
 
 		return Ok(friendRequests);
 	}
+	
 }
