@@ -7,5 +7,6 @@ public interface IPersonRepository : IRepository<Person>
 	Person Add(Person person);
 	Person Update(Person person);
 	Task<Person?> FindAsync(string personIdentityGuid);
+	Task<Person?> FindWithFriendShipsNoTrackingAsync(string personIdentityGuid);
 	Task<Person?> FindByIdAsync(int id);
 }

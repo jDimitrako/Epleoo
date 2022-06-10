@@ -26,9 +26,9 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, b
 		try
 		{
 			var person = new Domain.AggregatesModel.PersonAggregate.Person(request.PersonId);
-			var result = _personRepository.Add(person);
-			var result1 = await _personRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-			return result1;
+			_personRepository.Add(person);
+			var result = await _personRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+			return result;
 		}
 		catch (Exception e)
 		{

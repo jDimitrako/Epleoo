@@ -43,6 +43,24 @@ public class PersonRepository : IPersonRepository
 			throw;
 		}
 	}
+	
+	public async Task<Person?> FindWithFriendShipsNoTrackingAsync(string personIdentityGuid)
+	{
+		try
+		{
+			var person = await _context.Persons.Where(p => p.IdentityGuid == personIdentityGuid)
+				.Include(p => p.FriendshipsReceived)
+				.Include(p => p.FriendshipsSent)
+				.AsSplitQuery()
+				.FirstOrDefaultAsync();
+			return person;
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			throw;
+		}
+	}
 
 	public async Task<Person?> FindByIdAsync(int id)
 	{

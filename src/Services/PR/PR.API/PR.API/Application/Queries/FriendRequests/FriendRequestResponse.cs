@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace PR.API.Application.Queries;
+namespace PR.API.Application.Queries.FriendRequests;
 
-public class FriendRequestViewModel
+public class FriendRequestResponse
 {
 	public record FriendRequest
 	{

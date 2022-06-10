@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PR.API.Application.Commands.FriendRequest;
 using PR.API.Application.Queries;
+using PR.API.Application.Queries.FriendRequests;
 using PR.Domain.AggregatesModel.FriendRequestAggregate;
 
 namespace PR.API.Controllers;
@@ -68,7 +69,7 @@ public class FriendRequestsController : ControllerBase
 	}
 
 	[HttpGet("FriendRequests")]
-	[ProducesResponseType(typeof(IEnumerable<FriendRequestViewModel.FriendRequestSummary>), (int)HttpStatusCode.OK)]
+	[ProducesResponseType(typeof(IEnumerable<FriendRequestResponse.FriendRequestSummary>), (int)HttpStatusCode.OK)]
 	public async Task<ActionResult<IEnumerable<FriendRequest>>> GetFriendRequests(string senderPersonId, string receiverPersonId)
 	{
 		var friendRequests = await _queries.GetFriendRequests(senderPersonId, receiverPersonId);

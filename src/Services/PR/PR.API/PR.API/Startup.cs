@@ -25,7 +25,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PR.API.Application.IntegrationEvents;
 using PR.API.Application.IntegrationEvents.Events;
-using PR.API.Controllers;
 using PR.API.Infrastructure.AutofacModules;
 using PR.API.Infrastructure.Filters;
 using PR.API.Middlewares;

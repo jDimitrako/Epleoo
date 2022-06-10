@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.SqlClient;
 
-namespace PR.API.Application.Queries;
+namespace PR.API.Application.Queries.FriendRequests;
 
 public class FriendRequestQueries : IFriendRequestsQueries
 {
@@ -17,7 +17,7 @@ public class FriendRequestQueries : IFriendRequestsQueries
 			: throw new ArgumentNullException(nameof(connectionString));
 	}
 
-	public async Task<IEnumerable<FriendRequestViewModel.FriendRequestSummary>> GetFriendRequests(
+	public async Task<IEnumerable<FriendRequestResponse.FriendRequestSummary>> GetFriendRequests(
 		string senderPersonId, string receiverPersonId)
 	{
 		try
@@ -38,7 +38,7 @@ public class FriendRequestQueries : IFriendRequestsQueries
 					sqlCommand += "and psender.IdentityGuid = @receiverId";
 
 				var result =
-					await connection.QueryAsync<FriendRequestViewModel.FriendRequestSummary>(
+					await connection.QueryAsync<FriendRequestResponse.FriendRequestSummary>(
 						sqlCommand,
 						new { senderId = senderPersonId, receiverId = receiverPersonId });
 
