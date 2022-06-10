@@ -37,12 +37,12 @@ public class FriendRequestRepository : IFriendRequestRepository
 		return friendship;
 	}
 
-	public Task<bool> Exists(int senderPersonId, int receiverPersonId)
+	public async Task<bool> Exists(int senderPersonId, int receiverPersonId)
 	{
 		try
 		{
-			return Task.FromResult(_context.FriendRequests.Any(f =>
-				f.ReceiverPersonId == receiverPersonId && f.SenderPersonId == senderPersonId));
+			return await _context.FriendRequests.AnyAsync(f =>
+				f.ReceiverPersonId == receiverPersonId && f.SenderPersonId == senderPersonId);
 		}
 		catch (Exception e)
 		{

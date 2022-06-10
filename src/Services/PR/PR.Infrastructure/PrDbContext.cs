@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using PR.Domain.AggregatesModel.FriendRequestAggregate;
-using PR.Domain.AggregatesModel.FriendshipAggregate;
+using PR.Domain.AggregatesModel.PersonAggregate;
 using PR.Domain.SeedWork;
 using PR.Infrastructure.EntityConfigurations;
 

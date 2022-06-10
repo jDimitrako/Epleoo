@@ -35,8 +35,8 @@ public class FriendRequestsController : ControllerBase
 		_logger.LogInformation(
 			"----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
 			createFriendRequestCommand.GetGenericTypeName(),
-			nameof(createFriendRequestCommand.ReceiverPersonId),
-			createFriendRequestCommand.SenderPersonId,
+			nameof(createFriendRequestCommand.ReceiverPersonIdentityGuid),
+			createFriendRequestCommand.SenderPersonIdentityGuid,
 			createFriendRequestCommand);
 
 		var result = await _mediator.Send(createFriendRequestCommand);
@@ -67,9 +67,9 @@ public class FriendRequestsController : ControllerBase
 		return BadRequest();
 	}
 
-	[HttpGet()]
+	[HttpGet("FriendRequests")]
 	[ProducesResponseType(typeof(IEnumerable<FriendRequestViewModel.FriendRequestSummary>), (int)HttpStatusCode.OK)]
-	public async Task<ActionResult<IEnumerable<FriendRequest>>> GetOrdersAsync(int senderPersonId, int receiverPersonId)
+	public async Task<ActionResult<IEnumerable<FriendRequest>>> GetFriendRequests(string senderPersonId, string receiverPersonId)
 	{
 		var friendRequests = await _queries.GetFriendRequests(senderPersonId, receiverPersonId);
 
