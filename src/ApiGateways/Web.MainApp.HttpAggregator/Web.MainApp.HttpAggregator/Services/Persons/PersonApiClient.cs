@@ -9,17 +9,20 @@ using AutoMapper;
 using CSharpFunctionalExtensions;
 using Web.MainApp.HttpAggregator.Config;
 using Web.MainApp.HttpAggregator.Dto.Persons;
+using Web.MainApp.HttpAggregator.Services.PR;
 
 namespace Web.MainApp.HttpAggregator.Services.Persons;
 
 public class PersonApiClient : IPersonApiClient
 {
     private readonly IMapper _mapper;
+    private readonly IPrApiClient _prApiClient;
     private readonly HttpClient _httpClient;
 
-    public PersonApiClient(IHttpClientFactory httpClientFactory, IMapper mapper)
+    public PersonApiClient(IHttpClientFactory httpClientFactory, IMapper mapper, IPrApiClient prApiClient)
     {
         _mapper = mapper;
+        _prApiClient = prApiClient;
         _httpClient = httpClientFactory.CreateClient("Persons");
     }
 
@@ -54,6 +57,13 @@ public class PersonApiClient : IPersonApiClient
             await getPersonsResponseMessage.Content.ReadAsStreamAsync();
 
         var persons = await JsonSerializer.DeserializeAsync<IList<PersonData>>(contentStream);
+        if (persons == null)
+            return new List<PersonData>();
+        foreach (var person in persons)
+        {
+            person.Friends = await _prApiClient.GetFriendshipsAsync(person.IdentityGuid);
+        }
+        
         return persons;
     }
 

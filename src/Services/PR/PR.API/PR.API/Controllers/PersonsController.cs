@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PR.API.Application.Queries.Persons;
-using PR.Domain.AggregatesModel.PersonAggregate;
 
 namespace PR.API.Controllers;
 
+[Route("api/v1/[controller]")]
+[ApiController]
 public class PersonsController : ControllerBase
 {
 	private readonly IPersonsQueries _personsQueries;
@@ -16,7 +16,7 @@ public class PersonsController : ControllerBase
 		_personsQueries = personsQueries;
 	}
 	
-	[HttpGet("Person/{personIdentityGuid}")]
+	[HttpGet("{personIdentityGuid}")]
 	[ProducesResponseType(typeof(PersonRequestResponse), (int)HttpStatusCode.OK)]
 	public async Task<IActionResult> GetFriendRequests(string personIdentityGuid)
 	{

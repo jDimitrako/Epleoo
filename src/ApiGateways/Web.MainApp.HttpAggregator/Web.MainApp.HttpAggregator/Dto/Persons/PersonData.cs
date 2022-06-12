@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using Web.MainApp.HttpAggregator.Dto.PR;
 
 namespace Web.MainApp.HttpAggregator.Dto.Persons;
 
@@ -18,4 +20,6 @@ public class PersonData
 	public string KnownAs { get; set; }
 	[JsonPropertyName("bio")]
 	public string Bio { get; set; }
+
+	public FriendsResponse Friends { get; set; }
 }

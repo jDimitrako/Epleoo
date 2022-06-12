@@ -11,4 +11,5 @@ public interface IPrApiClient
     Task<Result> CreateFriendRequest(CreateFriendRequest createFriendRequest);
     Task<IList<FriendRequestDto>> GetFriendRequests();
     Task<Result> AcceptFriendRequest(int friendRequestId);
+    Task<FriendsResponse> GetFriendshipsAsync(string personIdentityGuid);
 }

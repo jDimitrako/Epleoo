@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using CSharpFunctionalExtensions;
 using Web.MainApp.HttpAggregator.Config;
 using Web.MainApp.HttpAggregator.Dto.Persons;
 using Web.MainApp.HttpAggregator.Dto.PR;
+using static System.Text.Json.JsonSerializer;
 
 namespace Web.MainApp.HttpAggregator.Services.PR;
 
@@ -28,7 +28,7 @@ public class PrApiClient : IPrApiClient
 	{
 		try
 		{
-			var jsonBody = JsonSerializer.Serialize(createFriendRequest);
+			var jsonBody = Serialize(createFriendRequest);
 			var internalRequestBody = new StringContent(jsonBody, Encoding.UTF8, MediaTypeNames.Application.Json);
 
 			var result = await _httpClient.PostAsync(UrlsConfig.PrOperations.Base, internalRequestBody);
@@ -46,7 +46,7 @@ public class PrApiClient : IPrApiClient
 	{
 		try
 		{
-			var getFriendRequestsResponse = await _httpClient.GetAsync(UrlsConfig.PrOperations.Base );
+			var getFriendRequestsResponse = await _httpClient.GetAsync(UrlsConfig.PrOperations.Base);
 
 			if (!getFriendRequestsResponse.IsSuccessStatusCode)
 				return new List<FriendRequestDto>();
@@ -54,7 +54,7 @@ public class PrApiClient : IPrApiClient
 			await using var contentStream =
 				await getFriendRequestsResponse.Content.ReadAsStreamAsync();
 
-			var friendRequestDtos = await JsonSerializer.DeserializeAsync<IList<FriendRequestDto>>(contentStream);
+			var friendRequestDtos = await DeserializeAsync<IList<FriendRequestDto>>(contentStream);
 			return friendRequestDtos;
 		}
 		catch (Exception e)
@@ -62,15 +62,39 @@ public class PrApiClient : IPrApiClient
 			Console.WriteLine(e);
 			throw;
 		}
-		
 	}
 
 	public async Task<Result> AcceptFriendRequest(int friendRequestId)
 	{
 		var endpoint = string.Format(UrlsConfig.PrOperations.AcceptFriendRequest, friendRequestId);
-		
+
 		var result = await _httpClient.PutAsync(endpoint, null);
 
 		return !result.IsSuccessStatusCode ? Result.Failure("Error creating friendship request") : Result.Success();
+	}
+
+	public async Task<FriendsResponse> GetFriendshipsAsync(string personIdentityGuid)
+	{
+		try
+		{
+			var endpoint = string.Format(UrlsConfig.PrOperations.GetFriends, personIdentityGuid);
+
+			var getFriendRequestsResponse = await _httpClient.GetAsync(endpoint);
+
+			if (!getFriendRequestsResponse.IsSuccessStatusCode)
+				return new FriendsResponse();
+
+			await using var contentStream =
+				await getFriendRequestsResponse.Content.ReadAsStreamAsync();
+
+			var friendRequestDtos = await DeserializeAsync<FriendsResponse>(contentStream);
+			
+			return friendRequestDtos;
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e);
+			throw;
+		}
 	}
 }
