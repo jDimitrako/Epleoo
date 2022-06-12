@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using Web.MainApp.HttpAggregator.Dto;
+using Web.MainApp.HttpAggregator.Dto.Persons;
 
-namespace Web.MainApp.HttpAggregator.Services;
+namespace Web.MainApp.HttpAggregator.Services.Persons;
 
 public interface IPersonApiClient
 {

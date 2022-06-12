@@ -24,5 +24,9 @@
     <ItemGroup>
         <Protobuf Include="..\..\..\Services\Persons\Persons.API\Persons.API\Protos\persons.proto" GrpcServices="Client" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Dto\PR\MappingProfiles" />
+    </ItemGroup>
 
 </Project>

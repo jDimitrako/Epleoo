@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Web.MainApp.HttpAggregator.Dto;
+namespace Web.MainApp.HttpAggregator.Dto.Persons;
 
 public class PersonData
 {

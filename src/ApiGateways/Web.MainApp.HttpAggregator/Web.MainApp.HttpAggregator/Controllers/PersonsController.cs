@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Web.MainApp.HttpAggregator.Dto;
-using Web.MainApp.HttpAggregator.Services;
+using Web.MainApp.HttpAggregator.Dto.Persons;
+using Web.MainApp.HttpAggregator.Services.Persons;
 
 namespace Web.MainApp.HttpAggregator.Controllers;
 

@@ -5,12 +5,13 @@ public class UrlsConfig
     public static class PersonsOperations
     {
         public static string Base => "api/v1/persons/";
-        public static string AcceptFriendRequest => "api/v1/friendrequests/{0}/accept";
     }
 
     public static class PrOperations
     {
-        public static string Base => "api/v1/friendrequests/";
+        public static string Base => "api/v1/friendrequests";
+        public static string AcceptFriendRequest => Base + "/{0}/accept";
+
     }
     public string Persons { get; set; }
     public string Pr { get; set; }

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CSharpFunctionalExtensions;
 using Web.MainApp.HttpAggregator.Config;
-using Web.MainApp.HttpAggregator.Dto;
+using Web.MainApp.HttpAggregator.Dto.Persons;
 
-namespace Web.MainApp.HttpAggregator.Services;
+namespace Web.MainApp.HttpAggregator.Services.Persons;
 
 public class PersonApiClient : IPersonApiClient
 {

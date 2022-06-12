@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Web.MainApp.HttpAggregator.Responses;
 
-namespace Web.MainApp.HttpAggregator.Dto.MappingProfiles;
+namespace Web.MainApp.HttpAggregator.Dto.Persons.MappingProfiles;
 
 public class CreatePersonResponseProfile : Profile
 {

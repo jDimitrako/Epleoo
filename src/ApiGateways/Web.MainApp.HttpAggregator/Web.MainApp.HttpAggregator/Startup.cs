@@ -13,9 +13,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Web.MainApp.HttpAggregator.Config;
-using Web.MainApp.HttpAggregator.Dto.MappingProfiles;
+using Web.MainApp.HttpAggregator.Dto.Persons.MappingProfiles;
 using Web.MainApp.HttpAggregator.Infrastructure;
-using Web.MainApp.HttpAggregator.Services;
+using Web.MainApp.HttpAggregator.Services.Persons;
+using Web.MainApp.HttpAggregator.Services.PR;
 
 namespace Web.MainApp.HttpAggregator;
 

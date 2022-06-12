@@ -1,4 +1,4 @@
-﻿namespace Web.MainApp.HttpAggregator.Dto;
+﻿namespace Web.MainApp.HttpAggregator.Dto.Persons;
 
 public class CreatePersonApiRequest
 {
