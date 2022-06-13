@@ -1,22 +1,27 @@
-﻿using MediatR;
+﻿using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using PR.API.Application.Queries.Persons;
 
 namespace PR.API.Controllers;
 
 [Route("api/v1/[controller]")]
-//[Authorize]
 [ApiController]
 public class PersonsController : ControllerBase
 {
-	private readonly IMediator _mediator;
-	private readonly ILogger<PersonsController> _logger;
-	public PersonsController(IMediator mediator, ILogger<PersonsController> logger)
+	private readonly IPersonsQueries _personsQueries;
+
+	public PersonsController(IPersonsQueries personsQueries)
 	{
-		_mediator = mediator;
-		_logger = logger;
+		_personsQueries = personsQueries;
 	}
-
 	
+	[HttpGet("{personIdentityGuid}")]
+	[ProducesResponseType(typeof(PersonRequestResponse), (int)HttpStatusCode.OK)]
+	public async Task<IActionResult> GetFriendRequests(string personIdentityGuid)
+	{
+		var friendRequests = await _personsQueries.GetPerson(personIdentityGuid);
 
+		return Ok(friendRequests);
+	}
 }

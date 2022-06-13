@@ -5,7 +5,7 @@ services:
     environment:
       SA_PASSWORD: 'd1f1cultP@ssw0rd'
       ACCEPT_EULA: "Y"
-      
+  
   persons.service:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -22,6 +22,13 @@ services:
     ports:
       - "1656:80"
       - "1657:82"
-
-
+  gateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Server=db,1433;Database=Gateway;User Id=SA;Password=d1f1cultP@ssw0rd;
+      - EventBusConnection=rabbitmq
+      - personsUrl=http://persons.service:55103
+      - prUrl=http://pr.service:80
+    ports:
+      - "1600:80"
 

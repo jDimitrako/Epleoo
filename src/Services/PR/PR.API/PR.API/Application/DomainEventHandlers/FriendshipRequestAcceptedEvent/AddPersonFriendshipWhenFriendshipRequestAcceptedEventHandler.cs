@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using PR.Domain.AggregatesModel.FriendshipAggregate;
+using PR.Domain.AggregatesModel.PersonAggregate;
 using PR.Domain.Events;
 
 namespace PR.API.Application.DomainEventHandlers.FriendshipRequestAcceptedEvent;
@@ -24,7 +24,7 @@ public class AddPersonFriendshipWhenFriendshipRequestAcceptedEventHandler : INot
 	
 	public async Task Handle(FriendRequestAcceptedDomainEvent notification, CancellationToken cancellationToken)
 	{
-		var sender = await _personRepository.FindAsync(notification.FriendRequest.SenderPersonId);
+		var sender = await _personRepository.FindByIdAsync(notification.FriendRequest.SenderPersonId);
 		if (sender == null) throw new ArgumentNullException(nameof(notification));
 		
 		sender.AddFriendship(notification.FriendRequest.SenderPersonId, notification.FriendRequest.ReceiverPersonId);

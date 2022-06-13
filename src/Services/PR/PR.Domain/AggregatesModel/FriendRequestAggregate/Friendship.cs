@@ -1,6 +1,7 @@
-﻿using PR.Domain.SeedWork;
+﻿using PR.Domain.AggregatesModel.PersonAggregate;
+using PR.Domain.SeedWork;
 
-namespace PR.Domain.AggregatesModel.FriendshipAggregate;
+namespace PR.Domain.AggregatesModel.FriendRequestAggregate;
 
 public class Friendship : Entity
 {

@@ -25,7 +25,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PR.API.Application.IntegrationEvents;
 using PR.API.Application.IntegrationEvents.Events;
-using PR.API.Controllers;
 using PR.API.Infrastructure.AutofacModules;
 using PR.API.Infrastructure.Filters;
 using PR.API.Middlewares;
@@ -168,7 +167,6 @@ static class CustomExtensionsMethods
 		// Add framework services.
 		services.AddControllers(options => { options.Filters.Add(typeof(HttpGlobalExceptionFilter)); })
 			// Added for functional tests
-			.AddApplicationPart(typeof(PersonsController).Assembly)
 			.AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true)
 			.SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 

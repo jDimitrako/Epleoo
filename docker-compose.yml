@@ -47,6 +47,23 @@ services:
     depends_on:
       - rabbitmq
       - db
+  gateway:
+    restart: on-failure:10
+    image: "jamesd19/epleoo-gateway"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Server=db,1433;Database=Gateway;User Id=SA;Password=d1f1cultP@ssw0rd;
+      - EventBusConnection=rabbitmq
+      - personsUrl=http://persons.service:55103
+      - prUrl=http://pr.service:80
+    ports:
+      - "1600:80"
+    build:
+      context: .
+      dockerfile: gateway.Dockerfile
+    depends_on:
+      - pr.service
+      - persons.service
 volumes:
   rabbitmq_data:
   db:

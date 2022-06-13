@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using GrpcPersons;
 using Microsoft.Extensions.Logging;
-using Web.MainApp.HttpAggregator.Models;
+using Web.MainApp.HttpAggregator.Dto.Persons;
 
-namespace Web.MainApp.HttpAggregator.Services;
+namespace Web.MainApp.HttpAggregator.Services.Persons;
 
 public class PersonsService : IPersonsService
 {

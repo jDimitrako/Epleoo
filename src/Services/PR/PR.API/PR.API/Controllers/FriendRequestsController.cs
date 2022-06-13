@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PR.API.Application.Commands.FriendRequest;
 using PR.API.Application.Queries;
+using PR.API.Application.Queries.FriendRequests;
 using PR.Domain.AggregatesModel.FriendRequestAggregate;
 
 namespace PR.API.Controllers;
 
+[Route("api/v1/[controller]")]
+[ApiController]
 public class FriendRequestsController : ControllerBase
 {
 	private readonly IMediator _mediator;
@@ -25,7 +28,6 @@ public class FriendRequestsController : ControllerBase
 		_queries = queries;
 	}
 
-	[Route("FriendRequests")]
 	[HttpPost]
 	[ProducesResponseType((int)HttpStatusCode.OK)]
 	[ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -35,8 +37,8 @@ public class FriendRequestsController : ControllerBase
 		_logger.LogInformation(
 			"----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
 			createFriendRequestCommand.GetGenericTypeName(),
-			nameof(createFriendRequestCommand.ReceiverPersonId),
-			createFriendRequestCommand.SenderPersonId,
+			nameof(createFriendRequestCommand.ReceiverPersonIdentityGuid),
+			createFriendRequestCommand.SenderPersonIdentityGuid,
 			createFriendRequestCommand);
 
 		var result = await _mediator.Send(createFriendRequestCommand);
@@ -46,14 +48,14 @@ public class FriendRequestsController : ControllerBase
 		return BadRequest();
 	}
 
-	[Route("FriendRequests/{friendRequestId}/accept")]
+	[Route("{friendRequestId}/accept")]
 	[HttpPut]
 	[ProducesResponseType((int)HttpStatusCode.OK)]
 	[ProducesResponseType((int)HttpStatusCode.BadRequest)]
 	public async Task<IActionResult> AcceptFriendRequestAsync(int friendRequestId)
 	{
 		var acceptFriendRequestCommand = new AcceptFriendRequestCommand(friendRequestId);
-		
+
 		_logger.LogInformation(
 			"----- Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
 			acceptFriendRequestCommand.GetGenericTypeName(),
@@ -67,11 +69,12 @@ public class FriendRequestsController : ControllerBase
 		return BadRequest();
 	}
 
-	[HttpGet("sent/{senderPersonId}")]
-	[ProducesResponseType(typeof(IEnumerable<FriendRequestViewModel.FriendRequestSummary>), (int)HttpStatusCode.OK)]
-	public async Task<ActionResult<IEnumerable<FriendRequest>>> GetOrdersAsync(int senderPersonId)
+	[HttpGet]
+	[ProducesResponseType(typeof(IEnumerable<FriendRequestResponse.FriendRequestSummary>), (int)HttpStatusCode.OK)]
+	public async Task<ActionResult<IEnumerable<FriendRequest>>> GetFriendRequests(string senderPersonId,
+		string receiverPersonId)
 	{
-		var friendRequests = await _queries.GetSentFriendRequestAsync(senderPersonId);
+		var friendRequests = await _queries.GetFriendRequests(senderPersonId, receiverPersonId);
 
 		return Ok(friendRequests);
 	}

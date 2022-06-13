@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using PR.Domain.AggregatesModel.FriendshipAggregate;
+using PR.Domain.AggregatesModel.PersonAggregate;
 
 namespace PR.API.Application.Commands.Person;
 
@@ -25,10 +25,10 @@ public class CreatePersonCommandHandler : IRequestHandler<CreatePersonCommand, b
 	{
 		try
 		{
-			var person = new Domain.AggregatesModel.FriendshipAggregate.Person(request.PersonId);
-			var result = _personRepository.Add(person);
-			var result1 = await _personRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-			return result1;
+			var person = new Domain.AggregatesModel.PersonAggregate.Person(request.PersonId);
+			_personRepository.Add(person);
+			var result = await _personRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
+			return result;
 		}
 		catch (Exception e)
 		{

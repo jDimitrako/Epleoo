@@ -5,16 +5,16 @@ namespace PR.API.Application.Commands.FriendRequest;
 
 public class CreateFriendRequestCommand : IRequest<bool>
 {
-	[DataMember] public int SenderPersonId { get; set; }
-	[DataMember] public int ReceiverPersonId { get; set; }
+	[DataMember] public string SenderPersonIdentityGuid { get; set; }
+	[DataMember] public string ReceiverPersonIdentityGuid { get; set; }
 
 	public CreateFriendRequestCommand()
 	{
 	}
 
-	public CreateFriendRequestCommand(int senderPersonId, int receiverPersonId)
+	public CreateFriendRequestCommand(string senderPersonId, string receiverPersonId)
 	{
-		SenderPersonId = senderPersonId;
-		ReceiverPersonId = receiverPersonId;
+		SenderPersonIdentityGuid = senderPersonId;
+		ReceiverPersonIdentityGuid = receiverPersonId;
 	}
 }
