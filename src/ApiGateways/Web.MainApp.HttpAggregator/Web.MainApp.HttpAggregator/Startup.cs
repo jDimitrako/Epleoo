@@ -129,9 +129,8 @@ public static class ServiceCollectionExtensions
 
 	public static IServiceCollection AddHttpServices(this IServiceCollection services, IConfiguration configuration)
 	{
-		var urls = configuration.GetSection("urls");
-		var personsUrl = urls.GetSection("persons").Value;
-		var prUrl = urls.GetSection("pr").Value;
+		var personsUrl = configuration["personsUrl"];
+		var prUrl = configuration["prUrl"];
 		//Configure http services
 		services.AddHttpClient("Persons", client =>
 		{
