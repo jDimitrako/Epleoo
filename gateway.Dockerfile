@@ -8,11 +8,10 @@ WORKDIR /src
 COPY ["src/ApiGateways/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator.csproj", "src/ApiGateways/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator.csproj"]
 RUN dotnet restore "src/ApiGateways/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator.csproj"
 COPY . .
-WORKDIR "/src/Web.MainApp.HttpAggregator"
-RUN dotnet build "src/ApiGateways/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator.csproj" -c Release -o /app/build
+RUN dotnet build "src/ApiGateways/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "src/ApiGateways/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/ApiGateways/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator/Web.MainApp.HttpAggregator.csproj" -c Debug -o /app/publish
 
 FROM base AS final
 WORKDIR /app
