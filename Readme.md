@@ -22,3 +22,6 @@
   ----PR.API -> Presentation lever(Controllers) and Application Layer
   ----PR.Domain -> People Relation aggregates models
   ----PR.Infrastructure -> Infrastructure and Persistence Layers 
+```
+## Miro board with flows diagrams
+https://miro.com/app/board/uXjVOBNRNPs=/
