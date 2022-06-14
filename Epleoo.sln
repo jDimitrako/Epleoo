@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0650A3CC-4C5B-4576-B951-ACE3229E85F5}"
 	ProjectSection(SolutionItems) = preProject
 		src\.gitignore = src\.gitignore
+		src\Readme.md = src\Readme.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{A6D72F44-70B4-4047-BFD4-D27B66CB6580}"
